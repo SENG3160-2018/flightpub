@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true"/>
+    <constant name="struts.convention.result.path" value="/" />
+
+    <package name = "base" extends = "struts-default">
+        <action name="search"
+                class="com.flightpub.queryFlights.actions.SearchAction">
+            <result>/WEB-INF/jsp/query_flights/search_${userType}.jsp</result>
+        </action>
+        <action name="results"
+                class="com.flightpub.flightSelection.actions.ResultsAction">
+            <result>/WEB-INF/jsp/flight_selection/results_${userType}.jsp</result>
+        </action>
+        <action name="reviewsite"
+                class="com.flightpub.userReviews.actions.ReviewSiteAction"
+                method="execute">
+            <result>/WEB-INF/jsp/user_reviews/site.jsp</result>
+        </action>
+    </package>
+    <package name="recommendations" extends="struts-default">
+        <action name="surprise"
+                class="com.flightpub.recommendations.actions.SurpriseMeAction">
+            <result>/WEB-INF/jsp/recommendations/surprise_me.jsp</result>
+        </action>
+    </package>
+    <package name="payment" extends="struts-default">
+        <action name="checkout"
+                class="com.flightpub.checkoutPayment.actions.CheckoutAction">
+            <result>/WEB-INF/jsp/checkout_payment/checkout.jsp</result>
+        </action>
+        <action name="confirmation"
+                class="com.flightpub.checkoutPayment.actions.ConfirmationAction">
+            <result>/WEB-INF/jsp/checkout_payment/confirmation.jsp</result>
+        </action>
+    </package>
+</struts>
