@@ -1,11 +1,14 @@
 package com.flightpub.flightSelection.actions;
 
+import com.flightpub.base.hibernate.dao.FlightsDAO;
+import com.flightpub.base.hibernate.dao.FlightsDAOImpl;
 import com.flightpub.base.model.Flights;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ModelDriven;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
+import org.hibernate.SessionFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -44,7 +47,7 @@ public class ResultsAction implements Action, ModelDriven, ServletContextAware, 
         }
 
         // Setup DB
-        /* Removed DB access as no other work was done on the database by the team
+
 
         SessionFactory sf = (SessionFactory) ctx.getAttribute("SessionFactory");
 
@@ -62,7 +65,6 @@ public class ResultsAction implements Action, ModelDriven, ServletContextAware, 
             FlightsDAO recommendationsDAO = new FlightsDAOImpl(sf);
             recommendations = recommendationsDAO.getFlightRecommendations();
         }
-        */
 
         return SUCCESS;
     }
