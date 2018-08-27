@@ -8,7 +8,7 @@
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost/flight_pub</property>
         <property name="hibernate.connection.username">user</property>
-        <property name="hibernate.connection.password">user</property>
+        <property name="hibernate.connection.password">asdfgh</property>
 
         <!-- Connection Pool Size -->
         <property name="hibernate.connection.pool_size">1</property>
