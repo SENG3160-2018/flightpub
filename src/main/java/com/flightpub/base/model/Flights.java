@@ -1,6 +1,7 @@
 package com.flightpub.base.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -10,7 +11,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "Flights")
-public class Flights {
+public class Flights implements Serializable {
     private int id;
     private String airlineCode;
     private String flightNumber;

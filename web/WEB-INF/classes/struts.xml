@@ -7,10 +7,9 @@
 <struts>
     <constant name="struts.devMode" value="true"/>
 
-    <package name = "default" extends = "struts-default">
-        <default-action-ref name="/" />
-        <action name="/" class="com.flightpub.base.actions.HomeAction">
-            <result name="success">/WEB-INF/jsp/index.jsp</result>
+    <package name = "default" extends = "struts-default" namespace="/">
+        <action name="home" class="com.flightpub.base.actions.HomeAction">
+            <result>/WEB-INF/jsp/index.jsp</result>
         </action>
 
         <action name="search"
@@ -26,14 +25,11 @@
                 method="execute">
             <result>/WEB-INF/jsp/user_reviews/site.jsp</result>
         </action>
-    </package>
-    <package name="recommendations" extends="struts-default">
+
         <action name="surprise"
                 class="com.flightpub.recommendations.actions.SurpriseMeAction">
             <result>/WEB-INF/jsp/recommendations/surprise_me.jsp</result>
         </action>
-    </package>
-    <package name="payment" extends="struts-default">
         <action name="checkout"
                 class="com.flightpub.checkoutPayment.actions.CheckoutAction">
             <result>/WEB-INF/jsp/checkout_payment/checkout.jsp</result>

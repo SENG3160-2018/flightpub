@@ -6,4 +6,4 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<%@ include file="/WEB-INF/jsp/reviews/popup.jsp" %>
+<%@ include file="/WEB-INF/jsp/user_reviews/popup.jsp" %>

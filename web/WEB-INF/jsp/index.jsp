@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-<%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
+<%@ include file="./includes/head.jsp" %>
 
 <div id="home" class="container mt-5">
     <p class="caption">Before we get started, tell us a bit about yourself:</p>
@@ -66,4 +66,4 @@
     </div>
 </div>
 
-<%@ include file="/WEB-INF/jsp/includes/foot.jsp" %>
+<%@ include file="./includes/foot.jsp" %>
