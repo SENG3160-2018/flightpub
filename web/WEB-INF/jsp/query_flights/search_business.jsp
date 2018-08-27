@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
 
 <div class="container">
@@ -18,16 +19,16 @@
 </div>
 <div id="search" class="container mt-5">
     <s:form action="results">
-        <p class="h4">Find your Business flight.</p>
+        <p class="h4">Find your Business flight...</p>
         <div class="row">
             <div class="col">
                 <div class="form-group">
                     <label for="departure">Departure City</label>
                     <select name="departureCity" class="form-control" id="departure" required>
                         <option disabled selected value>-</option>
-                        <option>Sydney</option>
-                        <option>Newcastle</option>
-                        <option>Brisbane</option>
+                        <c:forEach var="destination" items="#request.destinations">
+                            <option>${destination.airport} - ${destination.destinationCode}</option>
+                        </c:forEach>
                     </select>
                 </div>
             </div>

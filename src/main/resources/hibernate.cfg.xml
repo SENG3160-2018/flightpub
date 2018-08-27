@@ -27,7 +27,8 @@
 
         <!-- mapping file, we can use Bean annotations too -->
         <mapping class="com.flightpub.base.model.Airlines"/>
-        <mapping class="com.flightpub.base.model.Destinations"/>
+        <mapping class="com.flightpub.base.model.Country"/>
+        <mapping class="com.flightpub.base.model.Destination"/>
         <mapping class="com.flightpub.base.model.Flights"/>
     </session-factory>
 </hibernate-configuration>

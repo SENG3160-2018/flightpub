@@ -20,6 +20,6 @@
     </filter-mapping>
 
     <listener>
-        <listener-class>com.flightpub.base.hibernate.listener.HibernateServletContextListener</listener-class>
+        <listener-class>com.flightpub.base.hibernate.listener.HibernateListener</listener-class>
     </listener>
 </web-app>

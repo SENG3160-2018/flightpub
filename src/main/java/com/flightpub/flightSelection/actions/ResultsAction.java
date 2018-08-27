@@ -46,10 +46,12 @@ public class ResultsAction implements Action, ModelDriven, ServletContextAware, 
         // Setup DB
         /* Removed DB access as no other work was done on the database by the team
 
-        SessionFactory sf = (SessionFactory) ctx.getAttribute("SessionFactory");
+        SessionFactory sessionFactory =
+                (SessionFactory) ServletActionContext.getServletContext()
+                        .getAttribute(HibernateListener.KEY_NAME);
 
         // Query DB
-        FlightsDAO flightDAO = new FlightsDAOImpl(sf);
+        FlightsDAO flightDAO = new FlightsDAOImpl(sessionFactory);
         flights = flightDAO.getFlights(new ArrayList());
 
         if (flights.isEmpty()) {
@@ -59,7 +61,7 @@ public class ResultsAction implements Action, ModelDriven, ServletContextAware, 
         // Get recommendations
         if (!userType.equals("business")) {
             // Query DB
-            FlightsDAO recommendationsDAO = new FlightsDAOImpl(sf);
+            FlightsDAO recommendationsDAO = new FlightsDAOImpl(sessionFactory);
             recommendations = recommendationsDAO.getFlightRecommendations();
         }
         */

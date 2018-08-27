@@ -1,9 +1,6 @@
 package com.flightpub.base.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Airlines
@@ -11,6 +8,7 @@ import javax.persistence.Id;
  * Entity object mapped to Airlines DB table
  */
 @Entity
+@Table(name = "Airlines")
 public class Airlines {
     private String airlineCode;
     private String airlineName;

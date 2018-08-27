@@ -12,7 +12,7 @@
 
 <div id="home" class="container mt-5">
     <p class="caption">Before we get started, tell us a bit about yourself:</p>
-    <p class="h2 d-block">What is this trip for?</p>
+    <p class="h2 d-block">What's this trip for?</p>
 
     <div class="row justify-content-center">
         <div class="col-4">

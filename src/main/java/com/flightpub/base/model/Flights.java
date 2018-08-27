@@ -10,7 +10,6 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "Flights")
-@IdClass(FlightsPK.class)
 public class Flights {
     private int id;
     private String airlineCode;
@@ -63,7 +62,7 @@ public class Flights {
     }
 
     @Basic
-    @Column(name = "ArrivalTimeStopOver")
+    @Column(name = "ArrivalTimeStopOver1")
     public Timestamp getArrivalTimeStopOver() {
         return arrivalTimeStopOver;
     }
@@ -73,7 +72,7 @@ public class Flights {
     }
 
     @Basic
-    @Column(name = "DepartureTimeStopOver")
+    @Column(name = "DepartureTimeStopOver1")
     public Timestamp getDepartureTimeStopOver() {
         return departureTimeStopOver;
     }

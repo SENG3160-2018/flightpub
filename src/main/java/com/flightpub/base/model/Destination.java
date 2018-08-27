@@ -1,19 +1,21 @@
 package com.flightpub.base.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
- * Destinations
+ * Destination
  *
- * Entity object mapped to Destinations DB table
+ * Entity object mapped to Destination DB table
  */
 @Entity
-public class Destinations {
+@Table(name = "Destinations")
+public class Destination {
     private String destinationCode;
     private String airport;
+
+    @ManyToOne
+    @JoinColumn(name = "countryCode3")
+    private Country country;
 
     @Id
     @Column(name = "DestinationCode")
@@ -35,24 +37,18 @@ public class Destinations {
         this.airport = airport;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Destinations that = (Destinations) o;
+        Destination that = (Destination) o;
 
         if (destinationCode != null ? !destinationCode.equals(that.destinationCode) : that.destinationCode != null)
             return false;
         if (airport != null ? !airport.equals(that.airport) : that.airport != null) return false;
 
         return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = destinationCode != null ? destinationCode.hashCode() : 0;
-        result = 31 * result + (airport != null ? airport.hashCode() : 0);
-        return result;
     }
 }
