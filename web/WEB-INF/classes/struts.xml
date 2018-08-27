@@ -6,9 +6,13 @@
 
 <struts>
     <constant name="struts.devMode" value="true"/>
-    <constant name="struts.convention.result.path" value="/" />
 
-    <package name = "base" extends = "struts-default">
+    <package name = "default" extends = "struts-default">
+        <default-action-ref name="/" />
+        <action name="/" class="com.flightpub.base.actions.HomeAction">
+            <result name="success">/WEB-INF/jsp/index.jsp</result>
+        </action>
+
         <action name="search"
                 class="com.flightpub.queryFlights.actions.SearchAction">
             <result>/WEB-INF/jsp/query_flights/search_${userType}.jsp</result>
