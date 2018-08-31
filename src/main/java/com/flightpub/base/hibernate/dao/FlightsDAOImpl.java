@@ -69,6 +69,8 @@ public class FlightsDAOImpl implements FlightsDAO {
         tx.commit();
         session.close();
 
+
+
         return fltList;
     }
 }

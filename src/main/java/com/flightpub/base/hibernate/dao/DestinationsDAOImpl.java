@@ -34,6 +34,12 @@ public class DestinationsDAOImpl implements DestinationsDAO {
         tx.commit();
         session.close();
 
+        System.out.println("dstList: " + dstList.size());
+
+        for (Destination d : dstList) {
+            System.out.println(d.getAirport());
+        }
+
         return dstList;
     }
 }

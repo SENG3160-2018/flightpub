@@ -26,7 +26,7 @@
                     <label for="departure">Departure City</label>
                     <select name="departureCity" class="form-control" id="departure" required>
                         <option disabled selected value>-</option>
-                        <c:forEach var="destination" items="#request.destinations">
+                        <c:forEach var="destination" items="${requestScope.destinations}">
                             <option>${destination.airport} - ${destination.destinationCode}</option>
                         </c:forEach>
                     </select>
