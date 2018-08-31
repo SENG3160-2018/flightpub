@@ -37,9 +37,9 @@
                     <label for="arrival">Arrival City</label>
                     <select name="arrivalCity" class="form-control" id="arrival" required>
                         <option disabled selected value>-</option>
-                        <option>Sydney</option>
-                        <option>Newcastle</option>
-                        <option>Brisbane</option>
+                        <c:forEach var="destination" items="${requestScope.destinations}">
+                            <option>${destination.airport} - ${destination.destinationCode}</option>
+                        </c:forEach>
                     </select>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                         <option disabled selected value>-</option>
                         <option>Economy</option>
                         <option>Premium</option>
-                        <option>Business</option>
+                        <option selected="selected">Business</option>
                         <option>First Class</option>
                     </select>
                 </div>
@@ -90,7 +90,7 @@
             <div class="col">
                 <div class="form-group">
                     <div class="form-check form-check-inline" style="margin-left: 20px;">
-                        <input name="directFlightsOnly" class="form-check-input" type="checkbox" value="" id="direct_flight">
+                        <input name="directFlightsOnly" class="form-check-input" type="checkbox" value="" id="direct_flight" checked>
                         <label class="form-check-label" for="direct_flight">
                             Direct Flights
                         </label>
