@@ -36,6 +36,17 @@
                     </s:url>">Group</a>
                 </div>
             </div>
+            <div class="cart">
+                <s:if test="%{#session.cart == true || !#session.cart.isEmpty}">
+                    <a class="cart-link" href="<s:url action='checkout'></s:url>">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge"></span>
+                    </a>
+                </s:if>
+                <s:else>
+                    <i class="fas fa-shopping-cart"></i>
+                </s:else>
+            </div>
         </div>
     </nav>
 </header>
