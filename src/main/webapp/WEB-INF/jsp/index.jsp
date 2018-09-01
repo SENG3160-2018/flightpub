@@ -25,34 +25,17 @@
                 </div>
             </a>
         </div>
-    </div>
-    <div class="row justify-content-center">
         <div class="col-4">
             <a href="<s:url action="search" >
                         <s:param name="userType">couple</s:param>
                     </s:url>">
                 <div class="text-center shadow-sm p-3 bg-gradient-light rounded">
-                    <i class="fas fa-heart"></i>
-                    <p class="h5">Couple</p>
+                    <i class="fas fa-user"></i>
+                    <i class="fas fa-user"></i>
+                    <p class="h5 mt-2">Couple</p>
                 </div>
             </a>
         </div>
-        <div class="col-4">
-            <a href="<s:url action="search" >
-                        <s:param name="userType">friends</s:param>
-                    </s:url>">
-                <div class="text-center shadow-sm p-3 bg-gradient-light rounded">
-                    <i class="fas fa-user-friends"></i>
-                    <p class="h5">Friends
-                        <a href="<s:url action='surprise' >
-                            <s:param name='userType'>friends</s:param>
-                        </s:url>" class="badge badge-success">Surprise Me</a>
-                    </p>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="row justify-content-center">
         <div class="col-4">
             <a href="<s:url action="search" >
                         <s:param name="userType">group</s:param>

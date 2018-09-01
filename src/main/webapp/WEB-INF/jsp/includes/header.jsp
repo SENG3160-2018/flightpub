@@ -1,6 +1,5 @@
-
-<header class="container">
-    <nav class="navbar navbar-toggleable-lg navbar-inverse bg-primary">
+<header class="bg-primary shadow">
+    <nav class="container navbar navbar-toggleable-lg navbar-inverse">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

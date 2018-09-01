@@ -11,7 +11,7 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('web/src/js/app.js', 'web/dist/js/app.js');
+mix.js('src/main/webapp/src/js/app.js', 'src/main/webapp/dist/js/app.js');
 
-mix.sass('web/src/sass/bootstrap.scss', 'web/dist/css/bootstrap.css');
-mix.less('web/src/less/styles.less', 'web/dist/css/styles.css');
+mix.sass('src/main/webapp/src/sass/bootstrap.scss', 'src/main/webapp/dist/css/bootstrap.css');
+mix.less('src/main/webapp/src/less/styles.less', 'src/main/webapp/dist/css/styles.css');

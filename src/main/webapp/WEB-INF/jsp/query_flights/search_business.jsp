@@ -26,9 +26,9 @@
                     <label for="departure">Departure City</label>
                     <select name="departureCity" class="form-control" id="departure" required>
                         <option disabled selected value>-</option>
-                        <c:forEach var="destination" items="#request.destinations">
-                            <option>${destination.airport} - ${destination.destinationCode}</option>
-                        </c:forEach>
+                        <s:iterator value="destinations">
+                            <option><s:property value="airport"/> - <s:property value="destinationCode"/></option>
+                        </s:iterator>
                     </select>
                 </div>
             </div>
@@ -37,9 +37,9 @@
                     <label for="arrival">Arrival City</label>
                     <select name="arrivalCity" class="form-control" id="arrival" required>
                         <option disabled selected value>-</option>
-                        <option>Sydney</option>
-                        <option>Newcastle</option>
-                        <option>Brisbane</option>
+                        <s:iterator value="destinations">
+                            <option><s:property value="airport"/> - <s:property value="destinationCode"/></option>
+                        </s:iterator>
                     </select>
                 </div>
             </div>
@@ -48,23 +48,21 @@
             <div class="col">
                 <div class="form-group">
                     <label for="class">Cabin Class</label>
-                    <select name="cabinClass" class="form-control" id="class">
-                        <option disabled selected value>-</option>
-                        <option>Economy</option>
-                        <option>Premium</option>
-                        <option>Business</option>
-                        <option>First Class</option>
+                    <select name="ticketClass" class="form-control" id="class">
+                        <s:iterator value="ticketClasses">
+                            <option ${classCode == 'BUS' ? "selected" : ""}><s:property value="details"/></option>
+                        </s:iterator>
                     </select>
                 </div>
             </div>
-            <div class="col pull-right">
+            <div class="col">
                 <div class="form-group">
-                    <div class="form-check form-check-inline float-right">
-                        <input name="arriveDayBefore" class="form-check-input" type="checkbox" value="" id="arrive_day_before">
-                        <label class="form-check-label" for="arrive_day_before">
-                            Arriving day before meeting
-                        </label>
-                    </div>
+                    <label for="class">Ticket Type</label>
+                    <select name="ticketType" class="form-control" id="class">
+                        <s:iterator value="ticketTypes">
+                            <option ${ticketCode == 'E' ? "selected" : ""}><s:property value="name"/></option>
+                        </s:iterator>
+                    </select>
                 </div>
             </div>
         </div>
@@ -73,7 +71,7 @@
                 <div class="form-group">
                     <label for="departure_time">Departure Time/date</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" id="departure_time" data-toggle="datetimepicker" data-target="#departure_time"/>
+                        <input type="text" class="form-control datetimepicker-input" id="departure_time" data-toggle="datetimepicker" data-target="#departure_time" required/>
                     </div>
                 </div>
             </div>
@@ -81,7 +79,7 @@
                 <div class="form-group">
                     <label for="arrival_time">Arrival Time/date</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" id="arrival_time" data-toggle="datetimepicker" data-target="#arrival_time"/>
+                        <input type="text" class="form-control datetimepicker-input" id="arrival_time" data-toggle="datetimepicker" data-target="#arrival_time" required/>
                     </div>
                 </div>
             </div>
@@ -98,6 +96,18 @@
                 </div>
             </div>
             <div class="col">
+                <div class="form-group">
+                    <div class="form-check form-check-inline float-right">
+                        <input name="arriveDayBefore" class="form-check-input" type="checkbox" value="" id="arrive_day_before">
+                        <label class="form-check-label" for="arrive_day_before">
+                            Arriving day before meeting
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col pull-right">
                 <button type="submit" class="btn btn-primary float-right">Search</button>
             </div>
         </div>

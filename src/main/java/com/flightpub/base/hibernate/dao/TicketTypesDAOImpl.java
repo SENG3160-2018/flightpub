@@ -1,8 +1,7 @@
 package com.flightpub.base.hibernate.dao;
 
-import com.flightpub.base.hibernate.listener.HibernateListener;
 import com.flightpub.base.model.Destination;
-import org.apache.struts2.ServletActionContext;
+import com.flightpub.base.model.TicketType;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,23 +14,23 @@ import java.util.List;
  *
  * DB query mappings for Flights table
  */
-public class DestinationsDAOImpl implements DestinationsDAO {
+public class TicketTypesDAOImpl implements TicketTypesDAO {
 
     private SessionFactory sf;
 
-    public DestinationsDAOImpl(SessionFactory sf) {
+    public TicketTypesDAOImpl(SessionFactory sf) {
         this.sf = sf;
     }
 
     @Override
-    public List<Destination> getDestinations() {
+    public List<TicketType> getTicketTypes() {
         Session session = sf.openSession();
         Transaction tx = session.beginTransaction();
-        Query query = session.createQuery("from Destination ");
+        Query query = session.createQuery("from TicketType ");
 
-        List<Destination> dstList = query.list();
+        List<TicketType> dstList = query.list();
         if (!dstList.isEmpty()) {
-            System.out.println("Destinations Retrieved from DB.");
+            System.out.println("Ticket Types Retrieved from DB.");
         }
         tx.commit();
         session.close();
