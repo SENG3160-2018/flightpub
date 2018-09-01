@@ -51,6 +51,11 @@ public class FlightsDAOImpl implements FlightsDAO {
 
         List<Flights> fltList = query.list();
 
+        // Testing out some stuff with flightList printing out departure time
+        for (Flights f : fltList) {
+            System.out.println(f.getDepartureTime());
+        }
+
         if (!fltList.isEmpty()) {
             System.out.println("Flights Retrieved from DB.");
         }

@@ -32,16 +32,22 @@
         </thead>
         <tbody>
 
-        <c:forEach var="flight" items="${requestScope.flight}">
+        <c:forEach var="flight" items="${flights}">
             <tr>
-                <td scope="row"> Please show up </td>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td class="text-white"> 5
+                <td scope="row"> ${flight.departureTime} </td>
+                <td>${flight.arrivalTime}</td>
+                <td>depCity</td>
+                <td>arrCity</td>
+                <td>Business Class</td>
+                <td class="text-white">
+                    <a href="<s:url action="checkout" />" role="button" class="btn btn-primary btn-sm">Add to Cart</a>
+                    <a href="<s:url action="checkout" />" role="button" class="btn btn-success btn-sm">Express Checkout</a>
                 </td>
             </tr>
+        </c:forEach>
+
+        <c:forEach var="destination" items="${requestScope.destinations}">
+            <option>${destination.airport} - ${destination.destinationCode}</option>
         </c:forEach>
 
         <tr>
@@ -57,7 +63,7 @@
         </tr>
         <tr>
             <td scope="row">11:00 am</td>
-            <td>11:00 am</td>
+            <td>1:00 pm</td>
             <td>Newcastle</td>
             <td>Sydney</td>
             <td>2 Class</td>

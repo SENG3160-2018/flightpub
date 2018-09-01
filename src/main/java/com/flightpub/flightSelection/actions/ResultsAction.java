@@ -5,6 +5,8 @@ import com.flightpub.base.hibernate.dao.FlightsDAOImpl;
 import com.flightpub.base.hibernate.listener.HibernateListener;
 import com.flightpub.base.model.Flights;
 import com.opensymphony.xwork2.Action;
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
@@ -23,7 +25,7 @@ import java.util.Map;
  *
  * Handles all search requests, performs DB queries and returns results listing
  */
-public class ResultsAction implements Action, ModelDriven, ServletContextAware, SessionAware {
+public class ResultsAction extends ActionSupport implements Action, ModelDriven, ServletContextAware, SessionAware {
     private List<Flights> flights = new ArrayList<Flights>();
     private List<Flights> recommendations = new ArrayList<Flights>();
     private ServletContext ctx;
@@ -60,6 +62,9 @@ public class ResultsAction implements Action, ModelDriven, ServletContextAware, 
         if (flights.isEmpty()) {
             return ERROR;
         }
+
+        Map request = (Map) ActionContext.getContext().get("request");
+        request.put("flights", flights);
 //
 //        // Get recommendations
 //        if (!userType.equals("business")) {
