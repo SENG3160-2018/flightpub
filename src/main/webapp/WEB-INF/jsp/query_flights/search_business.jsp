@@ -53,7 +53,7 @@
                         <option>Economy</option>
                         <option>Premium</option>
                         <option selected="selected">Business</option>
-                        <option>First Class</option>
+                        <option>First Class</o  ption>
                     </select>
                 </div>
             </div>

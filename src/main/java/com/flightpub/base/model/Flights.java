@@ -63,7 +63,7 @@ public class Flights implements Serializable {
     }
 
     @Basic
-    @Column(name = "ArrivalTimeStopOver1")
+    @Column(name = "ArrivalTimeStopOver")
     public Timestamp getArrivalTimeStopOver() {
         return arrivalTimeStopOver;
     }
@@ -73,7 +73,7 @@ public class Flights implements Serializable {
     }
 
     @Basic
-    @Column(name = "DepartureTimeStopOver1")
+    @Column(name = "DepartureTimeStopOver")
     public Timestamp getDepartureTimeStopOver() {
         return departureTimeStopOver;
     }

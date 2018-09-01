@@ -42,14 +42,21 @@ public class FlightsDAOImpl implements FlightsDAO {
     public List<Flights> getFlights(List params) {
         Session session = sf.openSession();
         Transaction tx = session.beginTransaction();
-        Query query = session.createQuery("from Flights");
 
+        Query query = session.createQuery("from Flights");
+        query.setFirstResult(0);
+        query.setMaxResults(10);
+
+        System.out.println("Foo");
         List<Flights> fltList = query.list();
+        System.out.println("Bar");
         if (!fltList.isEmpty()) {
             System.out.println("Flights Retrieved from DB.");
         }
         tx.commit();
         session.close();
+
+        System.out.println(fltList.toString());
 
         return fltList;
     }

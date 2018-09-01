@@ -1,11 +1,15 @@
 package com.flightpub.flightSelection.actions;
 
+import com.flightpub.base.hibernate.dao.FlightsDAO;
+import com.flightpub.base.hibernate.dao.FlightsDAOImpl;
+import com.flightpub.base.hibernate.listener.HibernateListener;
 import com.flightpub.base.model.Flights;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ModelDriven;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
+import org.hibernate.SessionFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -44,13 +48,12 @@ public class ResultsAction implements Action, ModelDriven, ServletContextAware, 
         }
 
         // Setup DB
-        /* Removed DB access as no other work was done on the database by the team
-
         SessionFactory sessionFactory =
                 (SessionFactory) ServletActionContext.getServletContext()
                         .getAttribute(HibernateListener.KEY_NAME);
 
-        // Query DB
+
+        // Query DB for flights
         FlightsDAO flightDAO = new FlightsDAOImpl(sessionFactory);
         flights = flightDAO.getFlights(new ArrayList());
 
@@ -58,13 +61,14 @@ public class ResultsAction implements Action, ModelDriven, ServletContextAware, 
             return ERROR;
         }
 
-        // Get recommendations
-        if (!userType.equals("business")) {
-            // Query DB
-            FlightsDAO recommendationsDAO = new FlightsDAOImpl(sessionFactory);
-            recommendations = recommendationsDAO.getFlightRecommendations();
-        }
-        */
+        System.out.println("Flights size: " + flights.size());
+//
+//        // Get recommendations
+//        if (!userType.equals("business")) {
+//            // Query DB
+//            FlightsDAO recommendationsDAO = new FlightsDAOImpl(sessionFactory);
+//            recommendations = recommendationsDAO.getFlightRecommendations();
+//        }
 
         return SUCCESS;
     }

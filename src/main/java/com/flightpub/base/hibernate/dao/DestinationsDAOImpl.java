@@ -28,17 +28,17 @@ public class DestinationsDAOImpl implements DestinationsDAO {
         Query query = session.createQuery("from Destination ");
 
         List<Destination> dstList = query.list();
+        System.out.println(dstList.toString());
         if (!dstList.isEmpty()) {
             System.out.println("Destinations Retrieved from DB.");
         }
         tx.commit();
         session.close();
 
-        System.out.println("dstList: " + dstList.size());
-
-        for (Destination d : dstList) {
-            System.out.println(d.getAirport());
-        }
+//        /* Printing out the destinations in the console */
+//        for (Destination d : dstList) {
+//            System.out.println(d.getAirport());
+//        }
 
         return dstList;
     }
