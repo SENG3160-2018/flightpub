@@ -6,9 +6,15 @@
     <session-factory>
         <!-- Database connection properties - Driver, URL, user, password -->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+<<<<<<< HEAD
         <property name="hibernate.connection.url">jdbc:mysql://localhost/FlightPub</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">nathanebba</property>
+=======
+        <property name="hibernate.connection.url">jdbc:mysql://localhost/flight_pub?serverTimezone=UTC</property>
+        <property name="hibernate.connection.username">user</property>
+        <property name="hibernate.connection.password">asdfgh</property>
+>>>>>>> master
 
         <!-- Connection Pool Size -->
         <property name="hibernate.connection.pool_size">1</property>
@@ -30,5 +36,13 @@
         <mapping class="com.flightpub.base.model.Country"/>
         <mapping class="com.flightpub.base.model.Destination"/>
         <mapping class="com.flightpub.base.model.Flights"/>
+<<<<<<< HEAD
     </session-factory>
 </hibernate-configuration>
+=======
+        <mapping class="com.flightpub.base.model.TicketClass"/>
+        <mapping class="com.flightpub.base.model.TicketType"/>
+        <mapping class="com.flightpub.base.model.Review"/>
+    </session-factory>
+</hibernate-configuration>
+>>>>>>> master

@@ -1,6 +1,7 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
 
-<header class="container">
-    <nav class="navbar navbar-toggleable-lg navbar-inverse bg-primary">
+<header class="bg-primary shadow">
+    <nav class="container navbar navbar-toggleable-lg navbar-inverse">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -36,6 +37,17 @@
                         <s:param name='userType'>group</s:param>
                     </s:url>">Group</a>
                 </div>
+            </div>
+            <div class="cart">
+                <s:if test="%{#session.cart == true || !#session.cart.isEmpty}">
+                    <a class="cart-link" href="<s:url action='checkout'></s:url>">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge"></span>
+                    </a>
+                </s:if>
+                <s:else>
+                    <i class="fas fa-shopping-cart"></i>
+                </s:else>
             </div>
         </div>
     </nav>

@@ -1,16 +1,15 @@
 <%--
   Created by IntelliJ IDEA.
-  User: b8ne
-  Date: 6/5/18
-  Time: 5:47 PM
+  User: joelp
+  Date: 1/09/2018
+  Time: 1:52 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
-
 <div class="container">
-    <div id="progress" class="container p-5"  style="background-image: url('../../assets/clouds.jpeg')">
+    <div id="progress" class="container p-5">
         <p class="h5 text-white">You're almost there...</p>
         <div class="progress" style="height: 20px;">
             <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
@@ -23,23 +22,23 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label for="departure">Departure City</label>
-                    <select name="departureCity" class="form-control" id="departure" required>
+                    <label for="departureCode">Departure City</label>
+                    <select name="departureCode" class="form-control" id="departureCode" required>
                         <option disabled selected value>-</option>
-                        <c:forEach var="destination" items="${destinations}">
-                            <option>${destination.airport} - ${destination.destinationCode}</option>
-                        </c:forEach>
+                        <s:iterator value="destinations">
+                            <option><%--<s:property value="airport"/> - --%><s:property value="destinationCode"/></option>
+                        </s:iterator>
                     </select>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label for="arrival">Arrival City</label>
-                    <select name="arrivalCity" class="form-control" id="arrival" required>
+                    <label for="destinationCode">Arrival City</label>
+                    <select name="destinationCode" class="form-control" id="destinationCode" required>
                         <option disabled selected value>-</option>
-                        <c:forEach var="destination" items="${destinations}">
-                            <option>${destination.airport} - ${destination.destinationCode}</option>
-                        </c:forEach>
+                        <s:iterator value="destinations">
+                            <option><s:property value="airport"/> - <s:property value="destinationCode"/></option>
+                        </s:iterator>
                     </select>
                 </div>
             </div>
@@ -47,41 +46,39 @@
         <div class="row align-items-center">
             <div class="col">
                 <div class="form-group">
-                    <label for="class">Cabin Class</label>
-                    <select name="cabinClass" class="form-control" id="class">
-                        <option disabled selected value>-</option>
-                        <option>Economy</option>
-                        <option>Premium</option>
-                        <option selected="selected">Business</option>
-                        <option>First Class</o  ption>
+                    <label for="details">Cabin Class</label>
+                    <select name="details" class="form-control" id="details">
+                        <s:iterator value="ticketClasses">
+                            <option ${classCode == 'BUS' ? "selected" : ""}><s:property value="details"/></option>
+                        </s:iterator>
                     </select>
                 </div>
             </div>
-            <div class="col pull-right">
+            <div class="col">
                 <div class="form-group">
-                    <div class="form-check form-check-inline float-right">
-                        <input name="arriveDayBefore" class="form-check-input" type="checkbox" value="" id="arrive_day_before">
-                        <label class="form-check-label" for="arrive_day_before">
-                            Arriving day before meeting
-                        </label>
-                    </div>
+                    <label for="name">Ticket Type</label>
+                    <select name="name" class="form-control" id="name">
+                        <s:iterator value="ticketTypes">
+                            <option ${ticketCode == 'E' ? "selected" : ""}><s:property value="name"/></option>
+                        </s:iterator>
+                    </select>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label for="departure_time">Departure Time/date</label>
+                    <label for="departureTime">Departure Time/date</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" id="departure_time" data-toggle="datetimepicker" data-target="#departure_time"/>
+                        <input type="text" class="form-control datetimepicker-input" id="departureTime" data-toggle="datetimepicker" data-target="#departureTime" required/>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label for="arrival_time">Arrival Time/date</label>
+                    <label for="arrivalTime">Arrival Time/date</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" id="arrival_time" data-toggle="datetimepicker" data-target="#arrival_time"/>
+                        <input type="text" class="form-control datetimepicker-input" id="arrivalTime" data-toggle="datetimepicker" data-target="#arrivalTime" required/>
                     </div>
                 </div>
             </div>
@@ -98,10 +95,20 @@
                 </div>
             </div>
             <div class="col">
+                <div class="form-group">
+                    <div class="form-check form-check-inline float-right">
+                        <input name="arriveDayBefore" class="form-check-input" type="checkbox" value="" id="arrive_day_before">
+                        <label class="form-check-label" for="arrive_day_before">
+                            Arriving day before meeting
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col pull-right">
                 <button type="submit" class="btn btn-primary float-right">Search</button>
             </div>
         </div>
     </s:form>
 </div>
-
-<%@ include file="/WEB-INF/jsp/includes/foot.jsp" %>

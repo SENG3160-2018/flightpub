@@ -1,6 +1,6 @@
 package com.flightpub.base.hibernate.dao;
 
-import com.flightpub.base.model.Flights;
+import com.flightpub.base.model.TicketClass;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  *
  * Consumed be FlightsDAOImpl
  */
-public interface FlightsDAO {
+public interface TicketClassesDAO {
 
-    List<Flights> getFlights();
+    List<TicketClass> getTicketClasses();
 }

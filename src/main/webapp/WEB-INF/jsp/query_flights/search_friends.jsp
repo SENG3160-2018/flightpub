@@ -24,22 +24,22 @@
             <div class="col">
                 <div class="form-group">
                     <label for="departure">Departure City</label>
-                    <select class="form-control" id="departure" required>
+                    <select name="departureCity" class="form-control" id="departure" required>
                         <option disabled selected value>-</option>
-                        <option>Sydney</option>
-                        <option>Newcastle</option>
-                        <option>Brisbane</option>
+                        <s:iterator value="destinations">
+                            <option><s:property value="airport"/> - <s:property value="destinationCode"/></option>
+                        </s:iterator>
                     </select>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label for="arrival">Arrival City</label>
-                    <select class="form-control" id="arrival" required>
+                    <select name="arrivalCity" class="form-control" id="arrival" required>
                         <option disabled selected value>-</option>
-                        <option>Sydney</option>
-                        <option>Newcastle</option>
-                        <option>Brisbane</option>
+                        <s:iterator value="destinations">
+                            <option><s:property value="airport"/> - <s:property value="destinationCode"/></option>
+                        </s:iterator>
                     </select>
                 </div>
             </div>
@@ -87,7 +87,7 @@
                 <div class="form-group">
                     <label for="departure_date">Departure date</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" id="departure_date" data-toggle="datetimepicker" data-target="#departure_date"/>
+                        <input type="text" class="form-control datetimepicker-input" id="departure_date" data-toggle="datetimepicker" data-target="#departure_date" required/>
                     </div>
                 </div>
             </div>

@@ -36,19 +36,4 @@ public class Destination {
     public void setAirport(String airport) {
         this.airport = airport;
     }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Destination that = (Destination) o;
-
-        if (destinationCode != null ? !destinationCode.equals(that.destinationCode) : that.destinationCode != null)
-            return false;
-        if (airport != null ? !airport.equals(that.airport) : that.airport != null) return false;
-
-        return true;
-    }
 }

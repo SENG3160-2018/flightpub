@@ -13,6 +13,10 @@ public class Airlines {
     private String airlineCode;
     private String airlineName;
 
+    @ManyToOne
+    @JoinColumn(name = "CountryCode3")
+    private Country country;
+
     @Id
     @Column(name = "AirlineCode")
     public String getAirlineCode() {
@@ -31,27 +35,5 @@ public class Airlines {
 
     public void setAirlineName(String airlineName) {
         this.airlineName = airlineName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Airlines airlines = (Airlines) o;
-
-        if (airlineCode != null ? !airlineCode.equals(airlines.airlineCode) : airlines.airlineCode != null)
-            return false;
-        if (airlineName != null ? !airlineName.equals(airlines.airlineName) : airlines.airlineName != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = airlineCode != null ? airlineCode.hashCode() : 0;
-        result = 31 * result + (airlineName != null ? airlineName.hashCode() : 0);
-        return result;
     }
 }

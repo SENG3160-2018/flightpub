@@ -24,22 +24,22 @@
             <div class="col">
                 <div class="form-group">
                     <label for="departure">Departure City</label>
-                    <select class="form-control" id="departure" required>
+                    <select name="departureCity" class="form-control" id="departure" required>
                         <option disabled selected value>-</option>
-                        <option>Sydney</option>
-                        <option>Newcastle</option>
-                        <option>Brisbane</option>
+                        <s:iterator value="destinations">
+                            <option><s:property value="airport"/> - <s:property value="destinationCode"/></option>
+                        </s:iterator>
                     </select>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label for="arrival">Arrival City</label>
-                    <select class="form-control" id="arrival" required>
+                    <select name="arrivalCity" class="form-control" id="arrival" required>
                         <option disabled selected value>-</option>
-                        <option>Sydney</option>
-                        <option>Newcastle</option>
-                        <option>Brisbane</option>
+                        <s:iterator value="destinations">
+                            <option><s:property value="airport"/> - <s:property value="destinationCode"/></option>
+                        </s:iterator>
                     </select>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                 <div class="form-group">
                     <label for="departure_date">Departure date</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" id="departure_date" data-toggle="datetimepicker" data-target="#departure_date"/>
+                        <input type="text" class="form-control datetimepicker-input" id="departure_date" data-toggle="datetimepicker" data-target="#departure_date" required/>
                     </div>
                 </div>
             </div>
@@ -148,30 +148,37 @@
                 </div>
             </div>
             <div class="col">
-
+                <div class="form-group">
+                    <label for="carrier">Carrier</label>
+                    <select class="form-control" id="carrier">
+                        <option disabled selected value>-</option>
+                        <s:iterator value="airlines">
+                            <option><s:property value="airlineName"/></option>
+                        </s:iterator>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col">
                 <div class="form-group">
                     <label for="class">Cabin Class</label>
-                    <select class="form-control" id="class">
+                    <select name="ticketClass" class="form-control" id="class">
                         <option disabled selected value>-</option>
-                        <option>Economy</option>
-                        <option>Premium</option>
-                        <option>Business</option>
-                        <option>First Class</option>
+                        <s:iterator value="ticketClasses">
+                            <option><s:property value="details"/></option>
+                        </s:iterator>
                     </select>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label for="carrier">Carrier</label>
-                    <select class="form-control" id="carrier">
+                    <label for="class">Ticket Type</label>
+                    <select name="ticketType" class="form-control" id="class">
                         <option disabled selected value>-</option>
-                        <option>Qantas</option>
-                        <option>Jetstar</option>
-                        <option>Virgin</option>
+                        <s:iterator value="ticketTypes">
+                            <option><s:property value="name"/></option>
+                        </s:iterator>
                     </select>
                 </div>
             </div>

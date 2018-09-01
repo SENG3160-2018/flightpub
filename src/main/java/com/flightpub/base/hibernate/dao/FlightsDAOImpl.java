@@ -22,28 +22,15 @@ public class FlightsDAOImpl implements FlightsDAO {
     }
 
     @Override
-    public Flights getFlightById(int id) {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
-        Query query = session.createQuery("from Flights where id=:id");
-        query.setInteger("id", id);
-
-        Flights flight = (Flights) query.uniqueResult();
-        if (flight != null) {
-            System.out.println("Flight Retrieved from DB::" + flight);
-        }
-        tx.commit();
-        session.close();
-
-        return flight;
-    }
-
-    @Override
-    public List<Flights> getFlights(List params) {
+    public List<Flights> getFlights() {
         Session session = sf.openSession();
         Transaction tx = session.beginTransaction();
 
-        Query query = session.createQuery("from Flights");
+        // @TODO: this needs to receive params from the Action and iterate through them to add dynamic queries
+        // https://www.baeldung.com/hibernate-criteria-queries
+        Query query = session.createQuery("from Flights where destinationCode = :destinationCode and departureCode = :departureCode");
+        query.setFirstResult(0);
+        query.setMaxResults(20);
 
         // limiting the output to the first 10 flights in the database
         query.setFirstResult(0);
@@ -65,7 +52,7 @@ public class FlightsDAOImpl implements FlightsDAO {
         return fltList;
     }
 
-    @Override
+    /*@Override
     public List<Flights> getFlightRecommendations() {
         Session session = sf.openSession();
         Transaction tx = session.beginTransaction();
@@ -83,5 +70,5 @@ public class FlightsDAOImpl implements FlightsDAO {
 
 
         return fltList;
-    }
+    }*/
 }
