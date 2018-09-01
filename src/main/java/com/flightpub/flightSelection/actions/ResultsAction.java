@@ -60,8 +60,6 @@ public class ResultsAction implements Action, ModelDriven, ServletContextAware, 
         if (flights.isEmpty()) {
             return ERROR;
         }
-
-        System.out.println("Flights size: " + flights.size());
 //
 //        // Get recommendations
 //        if (!userType.equals("business")) {

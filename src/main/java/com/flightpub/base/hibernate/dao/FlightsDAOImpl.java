@@ -44,19 +44,18 @@ public class FlightsDAOImpl implements FlightsDAO {
         Transaction tx = session.beginTransaction();
 
         Query query = session.createQuery("from Flights");
+
+        // limiting the output to the first 10 flights in the database
         query.setFirstResult(0);
         query.setMaxResults(10);
 
-        System.out.println("Foo");
         List<Flights> fltList = query.list();
-        System.out.println("Bar");
+
         if (!fltList.isEmpty()) {
             System.out.println("Flights Retrieved from DB.");
         }
         tx.commit();
         session.close();
-
-        System.out.println(fltList.toString());
 
         return fltList;
     }

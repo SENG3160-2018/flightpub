@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
 
 <div class="container">
@@ -31,45 +31,36 @@
         </tr>
         </thead>
         <tbody>
+
+        <c:forEach var="flight" items="${requestScope.flight}">
+            <tr>
+                <td scope="row"> Please show up </td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>
+                <td class="text-white"> 5
+                </td>
+            </tr>
+        </c:forEach>
+
         <tr>
             <td scope="row">09:00 am</td>
             <td>11:00 am</td>
             <td>Newcastle</td>
             <td>Sydney</td>
-            <td>Business Class</td>
+            <td>1 Class</td>
             <td class="text-white">
                 <a href="<s:url action="checkout" />" role="button" class="btn btn-primary btn-sm">Add to Cart</a>
                 <a href="<s:url action="checkout" />" role="button" class="btn btn-success btn-sm">Express Checkout</a>
             </td>
         </tr>
         <tr>
-            <td scope="row">09:00 am</td>
+            <td scope="row">11:00 am</td>
             <td>11:00 am</td>
             <td>Newcastle</td>
             <td>Sydney</td>
-            <td>Business Class</td>
-            <td class="text-white">
-                <a href="<s:url action="checkout" />" role="button" class="btn btn-primary btn-sm">Add to Cart</a>
-                <a href="<s:url action="checkout" />" role="button" class="btn btn-success btn-sm">Express Checkout</a>
-            </td>
-        </tr>
-        <tr>
-            <td scope="row">09:00 am</td>
-            <td>11:00 am</td>
-            <td>Newcastle</td>
-            <td>Sydney</td>
-            <td>Business Class</td>
-            <td class="text-white">
-                <a href="<s:url action="checkout" />" role="button" class="btn btn-primary btn-sm">Add to Cart</a>
-                <a href="<s:url action="checkout" />" role="button" class="btn btn-success btn-sm">Express Checkout</a>
-            </td>
-        </tr>
-        <tr>
-            <td scope="row">09:00 am</td>
-            <td>11:00 am</td>
-            <td>Newcastle</td>
-            <td>Sydney</td>
-            <td>Business Class</td>
+            <td>2 Class</td>
             <td class="text-white">
                 <a href="<s:url action="checkout" />" role="button" class="btn btn-primary btn-sm">Add to Cart</a>
                 <a href="<s:url action="checkout" />" role="button" class="btn btn-success btn-sm">Express Checkout</a>
