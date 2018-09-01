@@ -32,6 +32,6 @@
         <mapping class="com.flightpub.base.model.Flights"/>
         <mapping class="com.flightpub.base.model.TicketClass"/>
         <mapping class="com.flightpub.base.model.TicketType"/>
-
+        <mapping class="com.flightpub.base.model.Review"/>
     </session-factory>
 </hibernate-configuration>
