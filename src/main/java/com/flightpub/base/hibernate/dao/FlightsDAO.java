@@ -11,9 +11,5 @@ import java.util.List;
  */
 public interface FlightsDAO {
 
-    Flights getFlightById(int id);
-
-    List<Flights> getFlights(List params);
-
-    List<Flights> getFlightRecommendations();
+    List<Flights> getFlights();
 }

@@ -1,74 +1,65 @@
 package com.flightpub.flightSelection.actions;
 
+import com.flightpub.base.hibernate.dao.FlightsDAO;
+import com.flightpub.base.hibernate.dao.FlightsDAOImpl;
+import com.flightpub.base.hibernate.listener.HibernateListener;
 import com.flightpub.base.model.Flights;
-import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ModelDriven;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
+import org.hibernate.SessionFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-/**
- * ResultsAction
- *
- * Handles all search requests, performs DB queries and returns results listing
- */
-public class ResultsAction implements Action, ModelDriven, ServletContextAware, SessionAware {
+public class ResultsAction implements ModelDriven, ServletContextAware, SessionAware {
     private List<Flights> flights = new ArrayList<Flights>();
-    private List<Flights> recommendations = new ArrayList<Flights>();
     private ServletContext ctx;
-
-    private String departureCity;
-    private String arrivalCity;
-    private String cabinClass;
-    private Boolean arriveDayBefore;
-    private Date departureDateTime;
-    private Date arrivalDateTime;
-    private Boolean directFlightsOnly;
-
     private String userType;
-    private Map<String, Object> userSession ;
+    private Map<String, Object> userSession;
+    private String departureCode;
+    private String destinationCode;
+//    private String details;
+//    private String name;
+//    private Timestamp departureTime;
+//    private Timestamp arrivalTime;
+//    private boolean directFlightsOnly;
+//    private boolean arriveDayBefore;
 
     public String execute() {
-        // Get session and usertype
+
         HttpSession session = ServletActionContext.getRequest().getSession(false);
         if (session != null && session.getAttribute("USER_TYPE") != null) {
             userType = session.getAttribute("USER_TYPE").toString();
             userSession.put("USER_TYPE", userType);
+            userSession.put("DEPARTURE_CODE", departureCode);
+            userSession.put("DESTINATION_CODE", destinationCode);
+//            userSession.put("CLASS", details);
+//            userSession.put("TICKET", name);
+//            userSession.put("D_TIME", departureTime);
+//            userSession.put("A_TIME", arrivalTime);
+//            userSession.put("DIRECT", directFlightsOnly);
+//            userSession.put("ARRIVE", arriveDayBefore);
+            System.out.println(userSession);
         }
-
-        // Setup DB
-        /* Removed DB access as no other work was done on the database by the team
 
         SessionFactory sessionFactory =
                 (SessionFactory) ServletActionContext.getServletContext()
                         .getAttribute(HibernateListener.KEY_NAME);
 
-        // Query DB
         FlightsDAO flightDAO = new FlightsDAOImpl(sessionFactory);
-        flights = flightDAO.getFlights(new ArrayList());
-
+        flights = flightDAO.getFlights();
         if (flights.isEmpty()) {
-            return ERROR;
+            return "error";
         }
-
-        // Get recommendations
-        if (!userType.equals("business")) {
-            // Query DB
-            FlightsDAO recommendationsDAO = new FlightsDAOImpl(sessionFactory);
-            recommendations = recommendationsDAO.getFlightRecommendations();
-        }
-        */
-
-        return SUCCESS;
+        return "success";
     }
-
     @Override
     public Object getModel() {
         return flights;
@@ -86,64 +77,78 @@ public class ResultsAction implements Action, ModelDriven, ServletContextAware, 
     public void setUserType(String userType) {
         this.userType = userType;
     }
-
-    public String getDepartureCity() {
-        return departureCity;
-    }
-
-    public void setDepartureCity(String departureCity) {
-        this.departureCity = departureCity;
-    }
-
-    public String getArrivalCity() {
-        return arrivalCity;
-    }
-
-    public void setArrivalCity(String arrivalCity) {
-        this.arrivalCity = arrivalCity;
-    }
-
-    public String getCabinClass() {
-        return cabinClass;
-    }
-
-    public void setCabinClass(String cabinClass) {
-        this.cabinClass = cabinClass;
-    }
-
-    public Boolean getArriveDayBefore() {
-        return arriveDayBefore;
-    }
-
-    public void setArriveDayBefore(Boolean arriveDayBefore) {
-        this.arriveDayBefore = arriveDayBefore;
-    }
-
-    public Date getDepartureDateTime() {
-        return departureDateTime;
-    }
-
-    public void setDepartureDateTime(Date departureDateTime) {
-        this.departureDateTime = departureDateTime;
-    }
-
-    public Date getArrivalDateTime() {
-        return arrivalDateTime;
-    }
-
-    public void setArrivalDateTime(Date arrivalDateTime) {
-        this.arrivalDateTime = arrivalDateTime;
-    }
-
-    public Boolean getDirectFlightsOnly() {
-        return directFlightsOnly;
-    }
-
-    public void setDirectFlightsOnly(Boolean directFlightsOnly) {
-        this.directFlightsOnly = directFlightsOnly;
-    }
-
     public void setSession(Map<String, Object> session) {
         userSession = session ;
+    }
+
+    public List<Flights> getFlights() {
+        return flights;
+    }
+
+    public String getDepartureCode() {
+        return departureCode;
+    }
+
+    public void setDepartureCode(String departureCode) {
+        this.departureCode = departureCode;
+    }
+
+    public String getDestinationCode() {
+        return destinationCode;
+    }
+
+    public void setDestinationCode(String destinationCode) {
+        this.destinationCode = destinationCode;
+    }
+//    public String getDetails() {
+//        return details;
+//    }
+//
+//    public void setDetails(String details) {
+//        this.details = details;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public Date getDepartureTime() {
+//        return departureTime;
+//    }
+//
+//    public void setDepartureTime(Date departureTime) {
+//        this.departureTime = departureTime;
+//    }
+//
+//    public Date getArrivalTime() {
+//        return arrivalTime;
+//    }
+//
+//    public void setArrivalTime(Date arrivalTime) {
+//        this.arrivalTime = arrivalTime;
+//    }
+//
+//    public boolean isDirectFlightsOnly() {
+//        return directFlightsOnly;
+//    }
+//
+//    public void setDirectFlightsOnly(boolean directFlightsOnly) {
+//        this.directFlightsOnly = directFlightsOnly;
+//    }
+//
+//    public boolean isArriveDayBefore() {
+//        return arriveDayBefore;
+//    }
+//
+//    public void setArriveDayBefore(boolean arriveDayBefore) {
+//        this.arriveDayBefore = arriveDayBefore;
+//    }
+
+    public void setFlights(List<Flights> flights) {
+        this.flights = flights;
     }
 }
