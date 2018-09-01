@@ -20,17 +20,37 @@
 <div id="checkout" class="container mt-5">
     <s:form action="confirmation">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-6">
+            <div class="row">
+                <div class="col-8">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Departure Time</th>
+                                <th scope="col">Arrival Time</th>
+                                <th scope="col">Departure City</th>
+                                <th scope="col">Cabin Class</th>
+                                <th scope="col">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <s:iterator value="%{#session.cart}" var="flight">
+                                <tr>
+                                    <td scope="row"><s:property value="flight.departureTime" /></td>
+                                    <td><s:property value="flight.arrivalTime" /></td>
+                                    <td><s:property value="flight.departureTerminal" /></td>
+                                    <td><s:property value="flight.departureTime" /></td>
+                                </tr>
+                                <option><s:property value="airport"/> - <s:property value="destinationCode"/></option>
+                            </s:iterator>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-4">
                     <h1>Payment Details</h1>
                     <div class="form-group">
                         <label for="card_number">Card Number</label>
                         <input type="text" name="card_number" class="form-control" id="card_number" placeholder="Card Number" required>
                     </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-3">
                     <div class="form-group">
                         <label for="exp_month">Expiry Month</label>
                         <select name="exp_month" class="form-control" id="exp_month" required>
@@ -49,8 +69,6 @@
                             <option>Dec 12</option>
                         </select>
                     </div>
-                </div>
-                <div class="col-3">
                     <div class="form-group">
                         <label for="exp_year">Expiry Year</label>
                         <select name="exp_year" class="form-control" id="exp_year" required>
@@ -62,18 +80,11 @@
                             <option>2022</option>
                         </select>
                     </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-6">
                     <div class="form-group">
                         <label for="ccv">CCV</label>
                         <input type="text" name="ccv" class="form-control" id="ccv" placeholder="CCV" required>
                     </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-6">
+
                     <button type="submit" class="btn btn-primary btn-block">Pay $150</button>
                 </div>
             </div>

@@ -37,7 +37,6 @@ public class Flights implements Serializable {
     public String getAirlineCode() {
         return airlineCode;
     }
-
     public void setAirlineCode(String airlineCode) {
         this.airlineCode = airlineCode;
     }
@@ -47,7 +46,6 @@ public class Flights implements Serializable {
     public String getFlightNumber() {
         return flightNumber;
     }
-
     public void setFlightNumber(String flightNumber) {
         this.flightNumber = flightNumber;
     }
@@ -57,7 +55,6 @@ public class Flights implements Serializable {
     public Timestamp getDepartureTime() {
         return departureTime;
     }
-
     public void setDepartureTime(Timestamp departureTime) {
         this.departureTime = departureTime;
     }
@@ -112,42 +109,15 @@ public class Flights implements Serializable {
         this.durationSecondLeg = durationSecondLeg;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    @ManyToOne
+    @JoinColumn(name = "DepartureCode")
+    private Destination departureTerminal;
 
-        Flights flights = (Flights) o;
+    @ManyToOne
+    @JoinColumn(name = "DestinationCodeCode")
+    private Destination arrivalTerminal;
 
-        if (id != flights.id) return false;
-        if (duration != flights.duration) return false;
-        if (airlineCode != null ? !airlineCode.equals(flights.airlineCode) : flights.airlineCode != null) return false;
-        if (flightNumber != null ? !flightNumber.equals(flights.flightNumber) : flights.flightNumber != null)
-            return false;
-        if (departureTime != null ? !departureTime.equals(flights.departureTime) : flights.departureTime != null)
-            return false;
-        if (arrivalTimeStopOver != null ? !arrivalTimeStopOver.equals(flights.arrivalTimeStopOver) : flights.arrivalTimeStopOver != null)
-            return false;
-        if (departureTimeStopOver != null ? !departureTimeStopOver.equals(flights.departureTimeStopOver) : flights.departureTimeStopOver != null)
-            return false;
-        if (arrivalTime != null ? !arrivalTime.equals(flights.arrivalTime) : flights.arrivalTime != null) return false;
-        if (durationSecondLeg != null ? !durationSecondLeg.equals(flights.durationSecondLeg) : flights.durationSecondLeg != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (airlineCode != null ? airlineCode.hashCode() : 0);
-        result = 31 * result + (flightNumber != null ? flightNumber.hashCode() : 0);
-        result = 31 * result + (departureTime != null ? departureTime.hashCode() : 0);
-        result = 31 * result + (arrivalTimeStopOver != null ? arrivalTimeStopOver.hashCode() : 0);
-        result = 31 * result + (departureTimeStopOver != null ? departureTimeStopOver.hashCode() : 0);
-        result = 31 * result + (arrivalTime != null ? arrivalTime.hashCode() : 0);
-        result = 31 * result + duration;
-        result = 31 * result + (durationSecondLeg != null ? durationSecondLeg.hashCode() : 0);
-        return result;
-    }
+    @ManyToOne
+    @JoinColumn(name = "AirlineCode")
+    private Airlines airline;
 }

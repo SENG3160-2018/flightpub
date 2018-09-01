@@ -22,7 +22,7 @@
         <p class="h4">Booking Successful.</p>
 
         <p class="h6 pt-5">Confirmation ID: <span class="caption">123456789</span></p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque eleifend purus, ac sollicitudin massa ullamcorper sodales. Duis laoreet diam ipsum, a tempus erat scelerisque at. Maecenas facilisis erat fermentum augue ultrices, ut bibendum magna imperdiet. Aliquam luctus dignissim blandit. Nullam id ornare nisi, quis convallis augue. Duis in aliquam enim, sit amet egestas diam. Aenean massa justo, auctor dapibus egestas non, vehicula id diam. In scelerisque sem ac dapibus lacinia.</p>
+        <p>Enter your details below to send this confirmation and ticket information to an email address.</p>
     </div>
     <div class="container mt-5">
         <form>
