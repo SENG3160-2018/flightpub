@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
 
@@ -33,14 +35,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <s:iterator value="%{#session.cart}" var="flight">
+                            <s:iterator value="%{#session.CART}" var="flight">
                                 <tr>
-                                    <td scope="row"><s:property value="flight.departureTime" /></td>
-                                    <td><s:property value="flight.arrivalTime" /></td>
-                                    <td><s:property value="flight.departureTerminal" /></td>
-                                    <td><s:property value="flight.departureTime" /></td>
+                                    <td scope="row">
+                                        <fmt:formatDate value="${departureTime}" pattern="dd/MM/YY HH:mm" />
+                                    </td>
+                                    <td>
+                                        <fmt:formatDate value="${arrivalTime}" pattern="dd/MM/YY HH:mm" />
+                                    </td>
+                                    <td>${flight.departure}</td>
+                                    <td>${price.classCode}</td>
+                                    <td>
+                                        <fmt:formatNumber value="${price.price}" type="currency" currencySymbol="$"/>
+                                    </td>
                                 </tr>
-                                <option><s:property value="airport"/> - <s:property value="destinationCode"/></option>
                             </s:iterator>
                         </tbody>
                     </table>
@@ -85,7 +93,11 @@
                         <input type="text" name="ccv" class="form-control" id="ccv" placeholder="CCV" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-block">Pay $150</button>
+                    <c:set var="total" value="${0}"/>
+                    <s:iterator value="%{#session.CART}" var="flight">
+                        <c:set var="total" value="${total + price.price}" />
+                    </s:iterator>
+                    <button type="submit" class="btn btn-primary btn-block">Pay <fmt:formatNumber value="${total}" type="currency" currencySymbol="$"/></button>
                 </div>
             </div>
         </div>

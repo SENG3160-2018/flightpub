@@ -19,7 +19,6 @@
     </div>
 </div>
 <div id="results" class="container mt-5">
-    <s:form action="checkout">
     <table class="table table-hover">
         <thead>
         <tr>
@@ -33,7 +32,7 @@
         </tr>
         </thead>
         <tbody>
-            <s:iterator value="flights" var="flight">
+        <s:iterator value="flights" var="flight">
             <tr>
                 <td>
                     <fmt:formatDate value="${departureTime}" pattern="dd/MM/YY HH:mm" />
@@ -48,16 +47,21 @@
                     <fmt:formatNumber value="${price.price}" type="currency" currencySymbol="$"/>
                 </td>
                 <td class="text-white">
-                    <a href="<s:url action="addToCart"><s:param name="flightId" value="%{id}" /></s:url>" role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
+                    <a href="<s:url action="addToCart">
+                                <s:param name="flightId" value="%{id}" />
+                                <s:param name="airline" value="%{price.airlineCode}" />
+                                <s:param name="tcktClass" value="%{price.classCode}" />
+                                <s:param name="tcktType" value="%{price.ticketCode}" />
+                                <s:param name="flightNumber" value="%{flightNumber}" />
+                            </s:url>" role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
                 </td>
             </tr>
-            </s:iterator>
+        </s:iterator>
         </tbody>
-        <a role="button" class="btn btn-secondary" href="<s:url action='search' >
+    </table>
+    <a role="button" class="btn btn-secondary" href="<s:url action='search' >
                         <s:param name='userType' value='userType' />
                     </s:url>">Back to Search</a>
-    </table>
-    </s:form>
 </div>
 
 <%@ include file="/WEB-INF/jsp/includes/foot.jsp" %>

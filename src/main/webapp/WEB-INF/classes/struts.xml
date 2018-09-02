@@ -26,18 +26,18 @@
         <action name="addToCart"
                 method="addToCart"
                 class="com.flightpub.checkoutPayment.actions.CheckoutAction">
-            <result name="input">/WEB-INF/jsp/checkout_payment/checkout.jsp</result>
+            <result>/WEB-INF/jsp/checkout_payment/checkout.jsp</result>
         </action>
 
         <action name="reviewsite"
                 class="com.flightpub.userReviews.actions.ReviewSiteAction"
                 method="display">
-            <result name="none">/WEB-INF/jsp/user_reviews/site.jsp</result>
+            <result>/WEB-INF/jsp/user_reviews/site.jsp</result>
         </action>
         <action name="submitreview"
                 class="com.flightpub.userReviews.actions.ReviewSiteAction"
                 method="execute">
-            <result name="success">/WEB-INF/jsp/user_reviews/confirmation.jsp</result>
+            <result>/WEB-INF/jsp/user_reviews/confirmation.jsp</result>
         </action>
 
         <action name="surprise"

@@ -12,7 +12,7 @@
 header .cart .cart-link {
   position: relative;
 }
-header .cart .badge {
+header .cart .cart-badge {
   width: 10px;
   height: 10px;
   color: white;

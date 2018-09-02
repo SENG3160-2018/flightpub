@@ -2,8 +2,11 @@ package com.flightpub.checkoutPayment.actions;
 
 import com.flightpub.base.hibernate.dao.FlightsDAO;
 import com.flightpub.base.hibernate.dao.FlightsDAOImpl;
+import com.flightpub.base.hibernate.dao.PriceDAO;
+import com.flightpub.base.hibernate.dao.PriceDAOImpl;
 import com.flightpub.base.hibernate.listener.HibernateListener;
 import com.flightpub.base.model.Flights;
+import com.flightpub.base.model.Price;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
@@ -20,8 +23,13 @@ import java.util.Map;
  */
 public class CheckoutAction extends ActionSupport implements SessionAware {
     private int flightId;
+    private String airline;
+    private String tcktClass;
+    private String tcktType;
+    private String flightNumber;
+
     private List<Flights> cart;
-    private Map<String, Object> userSession ;
+    private Map<String, Object> userSession;
 
     public String execute() {
 
@@ -33,7 +41,7 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
                 (SessionFactory) ServletActionContext.getServletContext()
                         .getAttribute(HibernateListener.KEY_NAME);
 
-        if (userSession.containsKey("cart")) {
+        if (userSession.containsKey("CART")) {
             cart = (ArrayList<Flights>) userSession.get("CART");
         } else {
             cart = new ArrayList<Flights>();
@@ -42,15 +50,52 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
         FlightsDAO flightsDAO = new FlightsDAOImpl(sessionFactory);
         Flights flight = flightsDAO.getFlight(flightId);
 
+        PriceDAO priceDAO = new PriceDAOImpl(sessionFactory);
+        Price price = priceDAO.getPrice(airline, tcktClass, tcktType, flightNumber);
+
+        flight.setPrice(price);
+
         cart.add(flight);
         userSession.put("CART", cart);
 
-        return INPUT;
+        return SUCCESS;
     }
 
     @Override
     public void setSession(Map<String, Object> session) {
         userSession = session;
+    }
+
+    public String getAirline() {
+        return airline;
+    }
+
+    public void setAirline(String airline) {
+        this.airline = airline;
+    }
+
+    public String getTcktClass() {
+        return tcktClass;
+    }
+
+    public void setTcktClass(String tcktClass) {
+        this.tcktClass = tcktClass;
+    }
+
+    public String getTcktType() {
+        return tcktType;
+    }
+
+    public void setTcktType(String tcktType) {
+        this.tcktType = tcktType;
+    }
+
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public void setFlightNumber(String flightNumber) {
+        this.flightNumber = flightNumber;
     }
 
     public int getFlightId() {

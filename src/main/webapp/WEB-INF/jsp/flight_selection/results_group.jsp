@@ -42,7 +42,13 @@
                             <td>${flight.destination}</td>
                             <td>${price.classCode}</td>
                             <td class="text-white">
-                                <a href="<s:url action="checkout" />" role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
+                                <a href="<s:url action="addToCart">
+                                <s:param name="flightId" value="%{id}" />
+                                <s:param name="airline" value="%{price.airlineCode}" />
+                                <s:param name="tcktClass" value="%{price.classCode}" />
+                                <s:param name="tcktType" value="%{price.ticketCode}" />
+                                <s:param name="flightNumber" value="%{flightNumber}" />
+                            </s:url>" role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
                             </td>
                         </tr>
                     </s:iterator>

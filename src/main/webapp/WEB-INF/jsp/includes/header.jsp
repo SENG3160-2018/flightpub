@@ -36,10 +36,10 @@
                 </div>
             </div>
             <div class="cart">
-                <s:if test="%{#session.CART == true || !#session.CART.isEmpty}">
+                <s:if test="%{!#session.CART.isEmpty}">
                     <a class="cart-link" href="<s:url action='checkout'></s:url>">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="badge"></span>
+                        <span class="cart-badge"></span>
                     </a>
                 </s:if>
                 <s:else>

@@ -45,6 +45,10 @@ public class SearchAction extends ActionSupport implements SessionAware {
     private boolean sameFlight;
     private boolean groupDiscount;
 
+    public SearchAction() {
+        this.stopOvers = -1;
+    }
+
     public String display() {
         userSession.put("USER_TYPE", userType);
 
@@ -85,7 +89,9 @@ public class SearchAction extends ActionSupport implements SessionAware {
         if (arriveDayBefore) {
             params.put("arriveDayBefore", "true");
         }
-        params.put("stopOvers", Integer.toString(stopOvers));
+        if (stopOvers >= 0) {
+            params.put("stopOvers", Integer.toString(stopOvers));
+        }
 
         HashMap<String, Date> dates = new HashMap<String, Date>();
         if (dptTime != null) {
