@@ -33,8 +33,8 @@ public class Flights implements Serializable {
 
     private String destination;
     private String departure;
-    private Destination StopOverCode1;
-    private String StopOverCode2;
+    private Destination stopOverCode1;
+    private String stopOverCode2;
 
     private Integer duration;
     private Integer durationSecondLeg;
@@ -180,18 +180,18 @@ public class Flights implements Serializable {
     @ManyToOne
     @JoinColumn(name = "StopOverCode1")
     public Destination getStopOverCode1() {
-        return StopOverCode1;
+        return stopOverCode1;
     }
-    public void setStopOverCode1(Destination StopOverCode1) {
-        this.StopOverCode1 = StopOverCode1;
+    public void setStopOverCode1(Destination stopOverCode1) {
+        this.stopOverCode1 = stopOverCode1;
     }
 
     @Basic
     @Column(name = "StopOverCode2")
     public String getStopOverCode2() {
-        return StopOverCode2;
+        return stopOverCode2;
     }
     public void setStopOverCode2(String stopOverCode2) {
-        StopOverCode2 = stopOverCode2;
+        this.stopOverCode2 = stopOverCode2;
     }
 }

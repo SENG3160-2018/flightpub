@@ -69,7 +69,7 @@ public class SearchAction extends ActionSupport implements SessionAware {
 
         this.directFlightsOnly = true;
 
-        return INPUT;
+        return SUCCESS;
     }
 
     public String execute() {
@@ -81,10 +81,10 @@ public class SearchAction extends ActionSupport implements SessionAware {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("departureCode", dptCode);
         params.put("arrivalCode", dstCode);
-        if (!tcktClass.equals("")) {
+        if (tcktClass != null) {
             params.put("ticketClass", tcktClass);
         }
-        if (!tcktType.equals("")) {
+        if (tcktType != null) {
             params.put("ticketType", tcktType);
         }
         if (directFlightsOnly) {

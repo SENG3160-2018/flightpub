@@ -15,12 +15,12 @@
         <action name="search"
                 method="display"
                 class="com.flightpub.queryFlights.actions.SearchAction">
-            <result name="input">/WEB-INF/jsp/query_flights/search_${userType}.jsp</result>
+            <result>/WEB-INF/jsp/query_flights/search_${userType}.jsp</result>
         </action>
         <action name="results"
                 method="execute"
                 class="com.flightpub.queryFlights.actions.SearchAction">
-            <result name="success">/WEB-INF/jsp/flight_selection/results_${userType}.jsp</result>
+            <result>/WEB-INF/jsp/flight_selection/results_${userType}.jsp</result>
         </action>
 
         <action name="addToCart"

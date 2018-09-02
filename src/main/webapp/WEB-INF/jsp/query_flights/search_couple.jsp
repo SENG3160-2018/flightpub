@@ -178,7 +178,7 @@
             <div class="col">
                 <div class="form-group">
                     <label for="class">Ticket Type</label>
-                    <select name="tcktType" class="form-control" id="class">
+                    <select name="tcktType" class="form-control" id="type">
                         <option disabled selected value>-</option>
                         <s:iterator value="ticketTypes">
                             <option value="<s:property value="ticketCode"/>"><s:property value="name"/></option>

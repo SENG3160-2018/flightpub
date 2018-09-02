@@ -33,7 +33,7 @@
         </tr>
         </thead>
         <tbody>
-            <s:iterator value="flights">
+            <s:iterator value="flights" var="flight">
             <tr>
                 <td>
                     <fmt:formatDate value="${departureTime}" pattern="dd/MM/YY HH:mm" />
@@ -41,10 +41,10 @@
                 <td>
                     <fmt:formatDate value="${arrivalTime}" pattern="dd/MM/YY HH:mm" />
                 </td>
-                <td><s:property value="departureCode"/></td>
-                <td><s:property value="destinationCode"/></td>
-                <td><s:property value="flightNumber"/></td>
-                <td><s:property value="destinationCode"/></td>
+                <td>${flight.departure}</td>
+                <td>${flight.destination}</td>
+                <td>Business</td>
+                <td>$1500</td>
                 <td class="text-white">
                     <a href="<s:url action="addToCart"><s:param name="flightId" value="%{id}" /></s:url>" role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
                 </td>

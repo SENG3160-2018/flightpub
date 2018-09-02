@@ -28,9 +28,6 @@
                         <s:param name='userType'>business</s:param>
                     </s:url>">Business</a>
                     <a class="dropdown-item" href="<s:url action='search' >
-                        <s:param name='userType'>friends</s:param>
-                    </s:url>">Friends</a>
-                    <a class="dropdown-item" href="<s:url action='search' >
                         <s:param name='userType'>couple</s:param>
                     </s:url>">Couple</a>
                     <a class="dropdown-item" href="<s:url action='search' >

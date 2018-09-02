@@ -1,19 +1,11 @@
 package com.flightpub.base.hibernate.dao;
 
-import com.flightpub.base.model.Destination;
 import com.flightpub.base.model.Flights;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.query.Query;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -45,16 +37,17 @@ public class FlightsDAOImpl implements FlightsDAO {
 
         Criteria cr = session.createCriteria(Flights.class);
 
-
         Iterator it = params.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
 
             if (pair.getKey().equals("directFlightsOnly")) {
-                cr.add(Restrictions.isNull("StopOverCode1"));
-                cr.add(Restrictions.isNull("StopOverCode2"));
-            } else if (pair.getKey().equals("arriveDayBefore")) {
-
+                cr.add(Restrictions.isNull("stopOverCode1"));
+                cr.add(Restrictions.isNull("stopOverCode2"));
+            } else if (pair.getKey().equals("departureCode")) {
+                cr.add(Restrictions.eq("departure", pair.getValue()));
+            } else if (pair.getKey().equals("arrivalCode")) {
+                cr.add(Restrictions.eq("destination", pair.getValue()));
             }
 
             it.remove(); // avoids a ConcurrentModificationException

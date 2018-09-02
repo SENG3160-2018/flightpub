@@ -19,7 +19,7 @@
     </div>
 </div>
 <div id="search" class="container mt-5">
-    <s:form action="results" method="POST">
+    <s:form action="results">
         <p class="h4">Find your Business flight...</p>
         <div class="row">
             <div class="col">
