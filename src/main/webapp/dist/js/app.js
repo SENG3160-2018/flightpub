@@ -16453,7 +16453,9 @@ __webpack_require__(132);
 })();
 
 (function () {
-    $('.datetimepicker-input').datetimepicker();
+    $('.datetimepicker-input').datetimepicker({
+        format: 'DD/MM/YY hh:mm a'
+    });
 })();
 
 /***/ }),

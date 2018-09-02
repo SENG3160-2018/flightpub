@@ -13,12 +13,14 @@
         </action>
 
         <action name="search"
+                method="display"
                 class="com.flightpub.queryFlights.actions.SearchAction">
-            <result>/WEB-INF/jsp/query_flights/search_${userType}.jsp</result>
+            <result name="none">/WEB-INF/jsp/query_flights/search_${userType}.jsp</result>
         </action>
         <action name="results"
-                class="com.flightpub.flightSelection.actions.ResultsAction">
-            <result>/WEB-INF/jsp/flight_selection/results_${userType}.jsp</result>
+                method="execute"
+                class="com.flightpub.queryFlights.actions.SearchAction">
+            <result name="success">/WEB-INF/jsp/flight_selection/results_${userType}.jsp</result>
         </action>
 
         <action name="reviewsite"

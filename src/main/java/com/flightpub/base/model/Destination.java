@@ -22,7 +22,6 @@ public class Destination {
     public String getDestinationCode() {
         return destinationCode;
     }
-
     public void setDestinationCode(String destinationCode) {
         this.destinationCode = destinationCode;
     }
@@ -32,7 +31,6 @@ public class Destination {
     public String getAirport() {
         return airport;
     }
-
     public void setAirport(String airport) {
         this.airport = airport;
     }

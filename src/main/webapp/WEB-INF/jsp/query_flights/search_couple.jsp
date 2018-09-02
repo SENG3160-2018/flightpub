@@ -10,7 +10,7 @@
 <%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
 
 <div class="container">
-    <div id="progress" class="container p-5"  style="background-image: url('../../assets/clouds.jpeg')">
+    <div id="progress" class="container p-5" style="background-image: url('../../assets/clouds.jpeg')">
         <p class="h5 text-white">You're almost there...</p>
         <div class="progress" style="height: 20px;">
             <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>

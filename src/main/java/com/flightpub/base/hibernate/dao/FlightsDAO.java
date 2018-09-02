@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface FlightsDAO {
 
-    List<Flights> getFlights();
+    List<Flights> getFlights(List params);
 }

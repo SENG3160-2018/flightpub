@@ -17,5 +17,7 @@ require('../../lib/bootstrap-4-master/build/js/tempusdominus-bootstrap-4.min');
 })();
 
 (() => {
-    $('.datetimepicker-input').datetimepicker();
+    $('.datetimepicker-input').datetimepicker({
+    format: 'DD/MM/YY hh:mm a'
+});
 })();
