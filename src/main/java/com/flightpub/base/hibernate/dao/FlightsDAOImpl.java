@@ -1,12 +1,20 @@
 package com.flightpub.base.hibernate.dao;
 
+import com.flightpub.base.model.Destination;
 import com.flightpub.base.model.Flights;
-import org.hibernate.Query;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 
-import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * FlightsDAOImpl
@@ -22,22 +30,51 @@ public class FlightsDAOImpl implements FlightsDAO {
     }
 
     @Override
-    public List<Flights> getFlights(List params) {
+    public Flights getFlight(int id) {
         Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
 
-        System.out.println(params);
-        Query query = session.createQuery("from Flights where destinationCode = :destinationCode");
-        query.setFirstResult(0);
-        query.setMaxResults(20);
+        Criteria cr = session.createCriteria(Flights.class);
+        cr.add(Restrictions.eq("id", id));
 
-        List<Flights> fltList = query.list();
-        if (!fltList.isEmpty()) {
-            System.out.println("Flights Retrieved from DB.");
+        return (Flights) cr.uniqueResult();
+    }
+
+    @Override
+    public List<Flights> getFlights(HashMap params, HashMap dates) {
+        Session session = sf.openSession();
+
+        Criteria cr = session.createCriteria(Flights.class);
+
+
+        Iterator it = params.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+
+            if (pair.getKey().equals("directFlightsOnly")) {
+                cr.add(Restrictions.isNull("StopOverCode1"));
+                cr.add(Restrictions.isNull("StopOverCode2"));
+            } else if (pair.getKey().equals("arriveDayBefore")) {
+
+            }
+
+            it.remove(); // avoids a ConcurrentModificationException
         }
-        tx.commit();
-        session.close();
 
-        return fltList;
+        Iterator its = dates.entrySet().iterator();
+        while (its.hasNext()) {
+            Map.Entry pair = (Map.Entry)its.next();
+
+            if (pair.getKey().equals("departureTime")) {
+                cr.add(Restrictions.ge("departureTime", pair.getValue()));
+            } else if (pair.getKey().equals("arrivalTime")) {
+                cr.add(Restrictions.le("arrivalTime", pair.getValue()));
+            }
+
+            its.remove(); // avoids a ConcurrentModificationException
+        }
+
+        cr.setMaxResults(20);
+
+        return cr.list();
     }
 }

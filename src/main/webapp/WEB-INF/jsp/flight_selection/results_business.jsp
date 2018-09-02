@@ -1,4 +1,3 @@
-<%@ taglib prefix="s" uri="/struts-tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: joelp
@@ -8,6 +7,7 @@
 --%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
 
 <div class="container">
@@ -23,27 +23,36 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th/>
             <th scope="col">Departure Time</th>
             <th scope="col">Arrival Time</th>
             <th scope="col">Departure City</th>
             <th scope="col">Arrival City</th>
             <th scope="col">Cabin Class</th>
+            <th scope="col">Price</th>
             <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
             <s:iterator value="flights">
             <tr>
-                <td><s:hidden><s:property value="id"/></s:hidden> </td>
-                <td><s:property value="departureTime"/></td>
-                <td><s:property value="arrivalTime"/></td>
+                <td>
+                    <fmt:formatDate value="${departureTime}" pattern="dd/MM/YY HH:mm" />
+                </td>
+                <td>
+                    <fmt:formatDate value="${arrivalTime}" pattern="dd/MM/YY HH:mm" />
+                </td>
                 <td><s:property value="departureCode"/></td>
                 <td><s:property value="destinationCode"/></td>
-                <td><s:submit name="cart" value="Add to Cart"/></td>
+                <td><s:property value="flightNumber"/></td>
+                <td><s:property value="destinationCode"/></td>
+                <td class="text-white">
+                    <a href="<s:url action="addToCart"><s:param name="flightId" value="%{id}" /></s:url>" role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
+                </td>
             </tr>
             </s:iterator>
         </tbody>
     </table>
     </s:form>
 </div>
+
+<%@ include file="/WEB-INF/jsp/includes/foot.jsp" %>

@@ -2,6 +2,7 @@ package com.flightpub.base.hibernate.dao;
 
 import com.flightpub.base.model.Flights;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -10,6 +11,6 @@ import java.util.List;
  * Consumed be FlightsDAOImpl
  */
 public interface FlightsDAO {
-
-    List<Flights> getFlights(List params);
+    Flights getFlight(int id);
+    List<Flights> getFlights(HashMap params, HashMap dates);
 }

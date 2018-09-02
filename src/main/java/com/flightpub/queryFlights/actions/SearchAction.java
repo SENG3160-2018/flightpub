@@ -8,10 +8,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.SessionFactory;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * SearchAction
@@ -30,14 +27,23 @@ public class SearchAction extends ActionSupport implements SessionAware {
 
     private List<Flights> flights = new ArrayList<Flights>();
 
-    private String departureCode;
-    private String destinationCode;
-    private String ticketClass;
-    private String ticketType;
-    private Date departureTime;
-    private Date arrivalTime;
+    private String dptCode;
+    private String dstCode;
+    private String tcktClass;
+    private String tcktType;
+    private Date dptTime;
+    private Date dstTime;
     private boolean directFlightsOnly;
     private boolean arriveDayBefore;
+    private boolean includeReturn;
+    private boolean multiCity;
+    private boolean surroundingDays;
+    private int minPrice;
+    private int maxPrice;
+    private int stopOvers;
+    private int passengers;
+    private boolean sameFlight;
+    private boolean groupDiscount;
 
     public String display() {
         userSession.put("USER_TYPE", userType);
@@ -63,11 +69,42 @@ public class SearchAction extends ActionSupport implements SessionAware {
 
         this.directFlightsOnly = true;
 
-        return NONE;
+        return INPUT;
     }
 
     public String execute() {
+        SessionFactory sessionFactory =
+                (SessionFactory) ServletActionContext.getServletContext()
+                        .getAttribute(HibernateListener.KEY_NAME);
         userType = userSession.get("USER_TYPE").toString();
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("departureCode", dptCode);
+        params.put("arrivalCode", dstCode);
+        if (!tcktClass.equals("")) {
+            params.put("ticketClass", tcktClass);
+        }
+        if (!tcktType.equals("")) {
+            params.put("ticketType", tcktType);
+        }
+        if (directFlightsOnly) {
+            params.put("directFlightsOnly", "true");
+        }
+        if (arriveDayBefore) {
+            params.put("arriveDayBefore", "true");
+        }
+
+        HashMap<String, Date> dates = new HashMap<String, Date>();
+        if (dptTime != null) {
+            dates.put("departureTime", dptTime);
+        }
+        if (dstTime != null) {
+            dates.put("arrivalTime", dstTime);
+        }
+
+        FlightsDAO flightsDAO = new FlightsDAOImpl(sessionFactory);
+        flights = flightsDAO.getFlights(params, dates);
+
         return SUCCESS;
     }
 
@@ -128,52 +165,60 @@ public class SearchAction extends ActionSupport implements SessionAware {
         this.flights = flights;
     }
 
-    public String getDepartureCode() {
-        return departureCode;
+    public String getDptCode() {
+        return dptCode;
     }
 
-    public void setDepartureCode(String departureCode) {
-        this.departureCode = departureCode;
+    public void setDptCode(String dptCode) {
+        this.dptCode = dptCode;
     }
 
-    public String getDestinationCode() {
-        return destinationCode;
+    public Map<String, Object> getUserSession() {
+        return userSession;
     }
 
-    public void setDestinationCode(String destinationCode) {
-        this.destinationCode = destinationCode;
+    public void setUserSession(Map<String, Object> userSession) {
+        this.userSession = userSession;
     }
 
-    public String getTicketClass() {
-        return ticketClass;
+    public String getDstCode() {
+        return dstCode;
     }
 
-    public void setTicketClass(String ticketClass) {
-        this.ticketClass = ticketClass;
+    public void setDstCode(String dstCode) {
+        this.dstCode = dstCode;
     }
 
-    public String getTicketType() {
-        return ticketType;
+    public String getTcktClass() {
+        return tcktClass;
     }
 
-    public void setTicketType(String ticketType) {
-        this.ticketType = ticketType;
+    public void setTcktClass(String tcktClass) {
+        this.tcktClass = tcktClass;
     }
 
-    public Date getDepartureTime() {
-        return departureTime;
+    public String getTcktType() {
+        return tcktType;
     }
 
-    public void setDepartureTime(Date departureTime) {
-        this.departureTime = departureTime;
+    public void setTcktType(String tcktType) {
+        this.tcktType = tcktType;
     }
 
-    public Date getArrivalTime() {
-        return arrivalTime;
+    public Date getDptTime() {
+        return dptTime;
     }
 
-    public void setArrivalTime(Date arrivalTime) {
-        this.arrivalTime = arrivalTime;
+    public void setDptTime(Date dptTime) {
+        this.dptTime = dptTime;
+    }
+
+    public Date getDstTime() {
+        return dstTime;
+    }
+
+    public void setDstTime(Date dstTime) {
+        this.dstTime = dstTime;
     }
 
     public boolean isDirectFlightsOnly() {
@@ -190,5 +235,77 @@ public class SearchAction extends ActionSupport implements SessionAware {
 
     public void setArriveDayBefore(boolean arriveDayBefore) {
         this.arriveDayBefore = arriveDayBefore;
+    }
+
+    public boolean isIncludeReturn() {
+        return includeReturn;
+    }
+
+    public void setIncludeReturn(boolean includeReturn) {
+        this.includeReturn = includeReturn;
+    }
+
+    public boolean isMultiCity() {
+        return multiCity;
+    }
+
+    public void setMultiCity(boolean multiCity) {
+        this.multiCity = multiCity;
+    }
+
+    public boolean isSurroundingDays() {
+        return surroundingDays;
+    }
+
+    public void setSurroundingDays(boolean surroundingDays) {
+        this.surroundingDays = surroundingDays;
+    }
+
+    public int getMinPrice() {
+        return minPrice;
+    }
+
+    public void setMinPrice(int minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    public int getMaxPrice() {
+        return maxPrice;
+    }
+
+    public void setMaxPrice(int maxPrice) {
+        this.maxPrice = maxPrice;
+    }
+
+    public int getStopOvers() {
+        return stopOvers;
+    }
+
+    public void setStopOvers(int stopOvers) {
+        this.stopOvers = stopOvers;
+    }
+
+    public int getPassengers() {
+        return passengers;
+    }
+
+    public void setPassengers(int passengers) {
+        this.passengers = passengers;
+    }
+
+    public boolean isSameFlight() {
+        return sameFlight;
+    }
+
+    public void setSameFlight(boolean sameFlight) {
+        this.sameFlight = sameFlight;
+    }
+
+    public boolean isGroupDiscount() {
+        return groupDiscount;
+    }
+
+    public void setGroupDiscount(boolean groupDiscount) {
+        this.groupDiscount = groupDiscount;
     }
 }

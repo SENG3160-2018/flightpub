@@ -1,8 +1,11 @@
 package com.flightpub.base.model;
 
+import com.sun.istack.internal.Nullable;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Flights
@@ -12,23 +15,30 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "Flights")
 public class Flights implements Serializable {
+    private static SimpleDateFormat FORMATTER = new SimpleDateFormat("dd-MM-YY HH:mm:ss");
+
     private int id;
     private String airlineCode;
     private String flightNumber;
-    private Timestamp departureTime;
-    private Timestamp arrivalTime;
+    private Date departureTime;
+    private Date arrivalTime;
 
-    private Timestamp arrivalTimeStopOver1;
-    private Timestamp departureTimeStopOver1;
+    private Date arrivalTimeStopOver1;
+    private Date departureTimeStopOver1;
 
-    private Timestamp arrivalTimeStopOver2;
-    private Timestamp departureTimeStopOver2;
+    private Date arrivalTimeStopOver2;
+    private Date departureTimeStopOver2;
 
     private String planeCode;
 
-    private int duration;
-    private int durationSecondLeg;
-    private int durationThirdLeg;
+    private String destination;
+    private String departure;
+    private Destination StopOverCode1;
+    private String StopOverCode2;
+
+    private Integer duration;
+    private Integer durationSecondLeg;
+    private Integer durationThirdLeg;
 
     @Id
     @Column(name = "id")
@@ -57,65 +67,77 @@ public class Flights implements Serializable {
         this.flightNumber = flightNumber;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "DepartureCode")
-    private Destination departure;
+    @Basic
+    @Column(name = "DepartureCode")
+    public String getDeparture() {
+        return departure;
+    }
+    public void setDeparture(String departure) {
+        this.departure = departure;
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "DestinationCode")
-    private Destination destination;
+    @Basic
+    @Column(name = "DestinationCode")
+    public String getDestination() {
+        return destination;
+    }
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
 
     @Basic
     @Column(name = "DepartureTime")
-    public Timestamp getDepartureTime() {
+    public Date getDepartureTime() {
         return departureTime;
     }
-    public void setDepartureTime(Timestamp departureTime) {
+    public void setDepartureTime(Date departureTime) {
         this.departureTime = departureTime;
     }
 
     @Basic
     @Column(name = "ArrivalTime")
-    public Timestamp getArrivalTime() {
+    public Date getArrivalTime() {
         return arrivalTime;
     }
-    public void setArrivalTime(Timestamp arrivalTime) {
+    public void setArrivalTime(Date arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
     @Basic
     @Column(name = "ArrivalTimeStopOver1")
-    public Timestamp getArrivalTimeStopOver1() {
+    public Date getArrivalTimeStopOver1() {
         return arrivalTimeStopOver1;
     }
-    public void setArrivalTimeStopOver1(Timestamp arrivalTimeStopOver1) {
+    public void setArrivalTimeStopOver1(Date arrivalTimeStopOver1) {
         this.arrivalTimeStopOver1 = arrivalTimeStopOver1;
     }
 
     @Basic
     @Column(name = "DepartureTimeStopOver1")
-    public Timestamp getDepartureTimeStopOver1() {
+    public Date getDepartureTimeStopOver1() {
         return departureTimeStopOver1;
     }
-    public void setDepartureTimeStopOver1(Timestamp departureTimeStopOver1) {
+    public void setDepartureTimeStopOver1(Date departureTimeStopOver1) {
         this.departureTimeStopOver1 = departureTimeStopOver1;
     }
 
     @Basic
+    @Nullable
     @Column(name = "ArrivalTimeStopOver2")
-    public Timestamp getArrivalTimeStopOver2() {
+    public Date getArrivalTimeStopOver2() {
         return arrivalTimeStopOver2;
     }
-    public void setArrivalTimeStopOver2(Timestamp arrivalTimeStopOver2) {
+    public void setArrivalTimeStopOver2(Date arrivalTimeStopOver2) {
         this.arrivalTimeStopOver2 = arrivalTimeStopOver2;
     }
 
     @Basic
+    @Nullable
     @Column(name = "DepartureTimeStopOver2")
-    public Timestamp getDepartureTimeStopOver2() {
+    public Date getDepartureTimeStopOver2() {
         return departureTimeStopOver2;
     }
-    public void setDepartureTimeStopOver2(Timestamp departureTimeStopOver2) {
+    public void setDepartureTimeStopOver2(Date departureTimeStopOver2) {
         this.departureTimeStopOver2 = departureTimeStopOver2;
     }
 
@@ -130,10 +152,10 @@ public class Flights implements Serializable {
 
     @Basic
     @Column(name = "Duration")
-    public int getDuration() {
+    public Integer getDuration() {
         return duration;
     }
-    public void setDuration(int duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 
@@ -157,9 +179,19 @@ public class Flights implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "StopOverCode1")
-    private Destination stopOver1;
+    public Destination getStopOverCode1() {
+        return StopOverCode1;
+    }
+    public void setStopOverCode1(Destination StopOverCode1) {
+        this.StopOverCode1 = StopOverCode1;
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "StopOverCode2")
-    private Destination stopOver2;
+    @Basic
+    @Column(name = "StopOverCode2")
+    public String getStopOverCode2() {
+        return StopOverCode2;
+    }
+    public void setStopOverCode2(String stopOverCode2) {
+        StopOverCode2 = stopOverCode2;
+    }
 }

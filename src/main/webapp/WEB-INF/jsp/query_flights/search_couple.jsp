@@ -5,6 +5,7 @@
   Time: 5:47 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
 <%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
@@ -24,10 +25,10 @@
             <div class="col">
                 <div class="form-group">
                     <label for="departure">Departure City</label>
-                    <select name="departureCity" class="form-control" id="departure" required>
+                    <select name="dptCode" class="form-control" id="departure" required>
                         <option disabled selected value>-</option>
                         <s:iterator value="destinations">
-                            <option><s:property value="airport"/> - <s:property value="destinationCode"/></option>
+                            <option value="<s:property value="destinationCode"/>"><s:property value="airport"/> - <s:property value="destinationCode"/></option>
                         </s:iterator>
                     </select>
                 </div>
@@ -35,10 +36,10 @@
             <div class="col">
                 <div class="form-group">
                     <label for="arrival">Arrival City</label>
-                    <select name="arrivalCity" class="form-control" id="arrival" required>
+                    <select name="dstCode" class="form-control" id="arrival" required>
                         <option disabled selected value>-</option>
                         <s:iterator value="destinations">
-                            <option><s:property value="airport"/> - <s:property value="destinationCode"/></option>
+                            <option value="<s:property value="destinationCode"/>"><s:property value="airport"/> - <s:property value="destinationCode"/></option>
                         </s:iterator>
                     </select>
                 </div>
@@ -48,7 +49,7 @@
             <div class="col">
                 <div class="form-group">
                     <label for="price_min">Price Min</label>
-                    <select class="form-control" id="price_min">
+                    <select name="minPrice" class="form-control" id="price_min">
                         <option disabled selected value>-</option>
                         <option value="0">$0</option>
                         <option value="500">$500</option>
@@ -60,7 +61,7 @@
             <div class="col">
                 <div class="form-group">
                     <label for="price_max">Price Max</label>
-                    <select class="form-control" id="price_max">
+                    <select name="maxPrice" class="form-control" id="price_max">
                         <option disabled selected value>-</option>
                         <option value="100">$100</option>
                         <option value="500">$500</option>
@@ -73,9 +74,12 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label for="departure_date">Departure date</label>
+                    <label for="departureTime">Depart After</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" id="departure_date" data-toggle="datetimepicker" data-target="#departure_date" required/>
+                        <input name="dptTime" type="text" class="form-control datetimepicker-input" id="departureTime" data-toggle="datetimepicker" data-target="#departureTime"/>
+                        <span class="input-group-addon">
+                            <span class="fas fa-calendar-alt"></span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -84,28 +88,28 @@
             <div class="col">
                 <div class="form-group">
                     <div class="form-check form-check-inline" style="margin-left: 20px;">
-                        <input class="form-check-input" type="checkbox" value="" id="direct_flight">
-                        <label class="form-check-label" for="direct_flight">
-                            Direct Flights
+                        <s:checkbox name="directFlightsOnly" fieldValue="true" theme="simple" />
+                        <label class="form-check-label">
+                            Direct flights
                         </label>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <div class="form-check form-check-inline" style="margin-left: 20px;">
-                        <input class="form-check-input" type="checkbox" value="" id="include_return">
-                        <label class="form-check-label" for="include_return">
-                            Include return fare
+                    <div class="form-check form-check-inline float-right">
+                        <s:checkbox name="includeReturn" fieldValue="true" theme="simple" />
+                        <label class="form-check-label">
+                            Include return fares
                         </label>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <div class="form-check form-check-inline" style="margin-left: 20px;">
-                        <input class="form-check-input" type="checkbox" value="" id="include_nearby">
-                        <label class="form-check-label" for="include_nearby">
+                    <div class="form-check form-check-inline float-right">
+                        <s:checkbox name="includeNearby" fieldValue="true" theme="simple" />
+                        <label class="form-check-label">
                             Include nearby airports
                         </label>
                     </div>
@@ -115,19 +119,19 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <div class="form-check form-check-inline" style="margin-left: 20px;">
-                        <input class="form-check-input" type="checkbox" value="" id="multi_city">
-                        <label class="form-check-label" for="multi_city">
-                            Multi-city
+                    <div class="form-check form-check-inline float-right">
+                        <s:checkbox name="multiCity" fieldValue="true" theme="simple" />
+                        <label class="form-check-label">
+                            Multi city
                         </label>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <div class="form-check form-check-inline" style="margin-left: 20px;">
-                        <input class="form-check-input" type="checkbox" value="" id="include_surrounding_days">
-                        <label class="form-check-label" for="include_surrounding_days">
+                    <div class="form-check form-check-inline float-right">
+                        <s:checkbox name="surroundingDays" fieldValue="true" theme="simple" />
+                        <label class="form-check-label">
                             Display surrounding days
                         </label>
                     </div>
@@ -139,7 +143,7 @@
             <div class="col">
                 <div class="form-group">
                     <label for="stopovers">Number of stopovers</label>
-                    <select class="form-control" id="stopovers">
+                    <select name="stopOvers" class="form-control" id="stopovers">
                         <option disabled selected value>-</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -153,7 +157,7 @@
                     <select class="form-control" id="carrier">
                         <option disabled selected value>-</option>
                         <s:iterator value="airlines">
-                            <option><s:property value="airlineName"/></option>
+                            <option value="<s:property value="airlineCode"/>"><s:property value="airlineName"/></option>
                         </s:iterator>
                     </select>
                 </div>
@@ -163,10 +167,10 @@
             <div class="col">
                 <div class="form-group">
                     <label for="class">Cabin Class</label>
-                    <select name="ticketClass" class="form-control" id="class">
+                    <select name="tcktClass" class="form-control" id="class">
                         <option disabled selected value>-</option>
                         <s:iterator value="ticketClasses">
-                            <option><s:property value="details"/></option>
+                            <option value="<s:property value="classCode"/>"><s:property value="details"/></option>
                         </s:iterator>
                     </select>
                 </div>
@@ -174,10 +178,10 @@
             <div class="col">
                 <div class="form-group">
                     <label for="class">Ticket Type</label>
-                    <select name="ticketType" class="form-control" id="class">
+                    <select name="tcktType" class="form-control" id="class">
                         <option disabled selected value>-</option>
                         <s:iterator value="ticketTypes">
-                            <option><s:property value="name"/></option>
+                            <option value="<s:property value="ticketCode"/>"><s:property value="name"/></option>
                         </s:iterator>
                     </select>
                 </div>

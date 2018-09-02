@@ -18,7 +18,7 @@
     </div>
 </div>
 <div id="checkout" class="container mt-5">
-    <s:form action="confirmation">
+    <s:form action="confirmation" method="POST" theme="simple">
         <div class="container">
             <div class="row">
                 <div class="col-8">

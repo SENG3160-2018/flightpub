@@ -13,4 +13,5 @@ import java.util.List;
 public interface DestinationsDAO {
 
     List<Destination> getDestinations();
+    Destination getDestination(String code);
 }

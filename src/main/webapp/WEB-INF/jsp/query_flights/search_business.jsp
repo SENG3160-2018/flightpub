@@ -25,10 +25,10 @@
             <div class="col">
                 <div class="form-group">
                     <label for="departureCode">Departure City</label>
-                    <select name="departureCode" class="form-control" id="departureCode" required>
+                    <select name="dptCode" class="form-control" id="departureCode" required>
                         <option disabled selected value>-</option>
                         <s:iterator value="destinations">
-                            <option><s:property value="airport"/> - <s:property value="destinationCode"/></option>
+                            <option value="<s:property value="destinationCode"/>"><s:property value="airport"/> - <s:property value="destinationCode"/></option>
                         </s:iterator>
                     </select>
                 </div>
@@ -36,10 +36,10 @@
             <div class="col">
                 <div class="form-group">
                     <label for="destinationCode">Arrival City</label>
-                    <select name="destinationCode" class="form-control" id="destinationCode" required>
+                    <select name="dstCode" class="form-control" id="destinationCode" required>
                         <option disabled selected value>-</option>
                         <s:iterator value="destinations">
-                            <option><s:property value="airport"/> - <s:property value="destinationCode"/></option>
+                            <option value="<s:property value="destinationCode"/>"><s:property value="airport"/> - <s:property value="destinationCode"/></option>
                         </s:iterator>
                     </select>
                 </div>
@@ -49,7 +49,7 @@
             <div class="col">
                 <div class="form-group">
                     <label for="details">Cabin Class</label>
-                    <select name="ticketClass" class="form-control" id="details">
+                    <select name="tcktClass" class="form-control" id="details">
                         <s:iterator value="ticketClasses">
                             <option value="<s:property value="classCode"/>" ${classCode == 'BUS' ? "selected" : ""}><s:property value="details"/></option>
                         </s:iterator>
@@ -59,7 +59,7 @@
             <div class="col">
                 <div class="form-group">
                     <label for="name">Ticket Type</label>
-                    <select name="ticketType" class="form-control" id="name">
+                    <select name="tcktType" class="form-control" id="name">
                         <s:iterator value="ticketTypes">
                             <option value="<s:property value="ticketCode"/>" ${ticketCode == 'E' ? "selected" : ""}><s:property value="name"/></option>
                         </s:iterator>
@@ -72,7 +72,7 @@
                 <div class="form-group">
                     <label for="departureTime">Depart After</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input name="departureTime" type="text" class="form-control datetimepicker-input" id="departureTime" data-toggle="datetimepicker" data-target="#departureTime"/>
+                        <input name="dptTime" type="text" class="form-control datetimepicker-input" id="departureTime" data-toggle="datetimepicker" data-target="#departureTime"/>
                         <span class="input-group-addon">
                             <span class="fas fa-calendar-alt"></span>
                         </span>
@@ -83,7 +83,7 @@
                 <div class="form-group">
                     <label for="arrivalTime">Arrive Before</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input name="arrivalTime" type="text" class="form-control datetimepicker-input" id="arrivalTime" data-toggle="datetimepicker" data-target="#arrivalTime"/>
+                        <input name="dstTime" type="text" class="form-control datetimepicker-input" id="arrivalTime" data-toggle="datetimepicker" data-target="#arrivalTime"/>
                         <span class="input-group-addon">
                             <span class="fas fa-calendar-alt"></span>
                         </span>

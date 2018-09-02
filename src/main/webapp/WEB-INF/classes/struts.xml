@@ -15,12 +15,18 @@
         <action name="search"
                 method="display"
                 class="com.flightpub.queryFlights.actions.SearchAction">
-            <result name="none">/WEB-INF/jsp/query_flights/search_${userType}.jsp</result>
+            <result name="input">/WEB-INF/jsp/query_flights/search_${userType}.jsp</result>
         </action>
         <action name="results"
                 method="execute"
                 class="com.flightpub.queryFlights.actions.SearchAction">
             <result name="success">/WEB-INF/jsp/flight_selection/results_${userType}.jsp</result>
+        </action>
+
+        <action name="addToCart"
+                method="addToCart"
+                class="com.flightpub.checkoutPayment.actions.CheckoutAction">
+            <result name="input">/WEB-INF/jsp/checkout_payment/checkout.jsp</result>
         </action>
 
         <action name="reviewsite"
@@ -39,6 +45,7 @@
             <result>/WEB-INF/jsp/recommendations/surprise_me.jsp</result>
         </action>
         <action name="checkout"
+                method="execute"
                 class="com.flightpub.checkoutPayment.actions.CheckoutAction">
             <result>/WEB-INF/jsp/checkout_payment/checkout.jsp</result>
         </action>
