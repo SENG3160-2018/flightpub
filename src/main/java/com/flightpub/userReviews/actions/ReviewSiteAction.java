@@ -92,6 +92,6 @@ public class ReviewSiteAction extends ActionSupport {
         return SUCCESS;
     }
     public String display() {
-        return NONE;
+        return SUCCESS;
     }
 }
