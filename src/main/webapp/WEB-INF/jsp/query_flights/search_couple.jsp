@@ -48,6 +48,30 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
+                    <label for="class">Cabin Class</label>
+                    <select name="tcktClass" class="form-control" id="class" required>
+                        <option disabled selected value>-</option>
+                        <s:iterator value="ticketClasses">
+                            <option value="<s:property value="classCode"/>"><s:property value="details"/></option>
+                        </s:iterator>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="class">Ticket Type</label>
+                    <select name="tcktType" class="form-control" id="type" required>
+                        <option disabled selected value>-</option>
+                        <s:iterator value="ticketTypes">
+                            <option value="<s:property value="ticketCode"/>"><s:property value="name"/></option>
+                        </s:iterator>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
                     <label for="price_min">Price Min</label>
                     <select name="minPrice" class="form-control" id="price_min">
                         <option disabled selected value>-</option>
@@ -158,30 +182,6 @@
                         <option disabled selected value>-</option>
                         <s:iterator value="airlines">
                             <option value="<s:property value="airlineCode"/>"><s:property value="airlineName"/></option>
-                        </s:iterator>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="class">Cabin Class</label>
-                    <select name="tcktClass" class="form-control" id="class">
-                        <option disabled selected value>-</option>
-                        <s:iterator value="ticketClasses">
-                            <option value="<s:property value="classCode"/>"><s:property value="details"/></option>
-                        </s:iterator>
-                    </select>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="class">Ticket Type</label>
-                    <select name="tcktType" class="form-control" id="type">
-                        <option disabled selected value>-</option>
-                        <s:iterator value="ticketTypes">
-                            <option value="<s:property value="ticketCode"/>"><s:property value="name"/></option>
                         </s:iterator>
                     </select>
                 </div>

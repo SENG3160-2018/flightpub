@@ -4,7 +4,6 @@ import com.sun.istack.internal.Nullable;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -15,7 +14,6 @@ import java.util.Date;
 @Entity
 @Table(name = "Flights")
 public class Flights implements Serializable {
-    private static SimpleDateFormat FORMATTER = new SimpleDateFormat("dd-MM-YY HH:mm:ss");
 
     private int id;
     private String airlineCode;
@@ -39,6 +37,16 @@ public class Flights implements Serializable {
     private Integer duration;
     private Integer durationSecondLeg;
     private Integer durationThirdLeg;
+
+    private Price price;
+
+    @Transient
+    public Price getPrice() {
+        return price;
+    }
+    public void setPrice(Price price) {
+        this.price = price;
+    }
 
     @Id
     @Column(name = "id")

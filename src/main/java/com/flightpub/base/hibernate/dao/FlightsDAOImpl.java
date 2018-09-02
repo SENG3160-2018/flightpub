@@ -48,6 +48,17 @@ public class FlightsDAOImpl implements FlightsDAO {
                 cr.add(Restrictions.eq("departure", pair.getValue()));
             } else if (pair.getKey().equals("arrivalCode")) {
                 cr.add(Restrictions.eq("destination", pair.getValue()));
+            } else if (pair.getKey().equals("stopOvers")) {
+                Integer so = Integer.parseInt(pair.getValue().toString());
+                if (so == 2) {
+                    cr.add(Restrictions.isNotNull("stopOverCode2"));
+                } else if (so == 1) {
+                    cr.add(Restrictions.isNotNull("stopOverCode1"));
+                    cr.add(Restrictions.isNull("stopOverCode2"));
+                } else {
+                    cr.add(Restrictions.isNull("stopOverCode1"));
+                    cr.add(Restrictions.isNull("stopOverCode2"));
+                }
             }
 
             it.remove(); // avoids a ConcurrentModificationException

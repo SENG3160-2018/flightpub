@@ -67,8 +67,6 @@ public class SearchAction extends ActionSupport implements SessionAware {
         AirlinesDAO airlinesDAO = new AirlinesDAOImpl(sessionFactory);
         this.airlines = airlinesDAO.getAirlines();
 
-        this.directFlightsOnly = true;
-
         return SUCCESS;
     }
 
@@ -81,18 +79,13 @@ public class SearchAction extends ActionSupport implements SessionAware {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("departureCode", dptCode);
         params.put("arrivalCode", dstCode);
-        if (tcktClass != null) {
-            params.put("ticketClass", tcktClass);
-        }
-        if (tcktType != null) {
-            params.put("ticketType", tcktType);
-        }
         if (directFlightsOnly) {
             params.put("directFlightsOnly", "true");
         }
         if (arriveDayBefore) {
             params.put("arriveDayBefore", "true");
         }
+        params.put("stopOvers", Integer.toString(stopOvers));
 
         HashMap<String, Date> dates = new HashMap<String, Date>();
         if (dptTime != null) {
@@ -104,6 +97,26 @@ public class SearchAction extends ActionSupport implements SessionAware {
 
         FlightsDAO flightsDAO = new FlightsDAOImpl(sessionFactory);
         flights = flightsDAO.getFlights(params, dates);
+
+        PriceDAO priceDAO = new PriceDAOImpl(sessionFactory);
+        List<Flights> toRemove = new ArrayList<Flights>();
+        for (Flights f : flights) {
+            Price price = priceDAO.getPrice(f.getAirlineCode(), tcktClass, tcktType, f.getFlightNumber());
+
+            if (minPrice > 0 && price.getPrice() < minPrice) {
+                toRemove.add(f);
+            }
+
+            if (maxPrice > 0 && price.getPrice() > maxPrice) {
+                toRemove.add(f);
+            }
+
+            f.setPrice(price);
+        }
+
+        for (Flights f : toRemove) {
+            flights.remove(f);
+        }
 
         return SUCCESS;
     }

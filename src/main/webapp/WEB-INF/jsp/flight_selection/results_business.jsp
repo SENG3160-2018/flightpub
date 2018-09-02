@@ -43,14 +43,19 @@
                 </td>
                 <td>${flight.departure}</td>
                 <td>${flight.destination}</td>
-                <td>Business</td>
-                <td>$1500</td>
+                <td>${price.classCode}</td>
+                <td>
+                    <fmt:formatNumber value="${price.price}" type="currency" currencySymbol="$"/>
+                </td>
                 <td class="text-white">
                     <a href="<s:url action="addToCart"><s:param name="flightId" value="%{id}" /></s:url>" role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
                 </td>
             </tr>
             </s:iterator>
         </tbody>
+        <a role="button" class="btn btn-secondary" href="<s:url action='search' >
+                        <s:param name='userType' value='userType' />
+                    </s:url>">Back to Search</a>
     </table>
     </s:form>
 </div>

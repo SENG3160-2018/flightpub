@@ -12,5 +12,5 @@ import java.util.List;
 public interface PriceDAO {
 
     List<Price> getPrices();
-    Price getPrice(String airlineCode, String classCode, String ticketCode);
+    Price getPrice(String airlineCode, String classCode, String ticketCode, String flightNumber);
 }

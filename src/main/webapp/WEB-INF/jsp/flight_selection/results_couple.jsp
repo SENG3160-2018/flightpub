@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
 
@@ -32,46 +33,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td scope="row">$150</td>
-                    <td>Newcastle</td>
-                    <td>Sydney</td>
-                    <td>Business Class</td>
-                    <td class="text-white">
-                        <a href="<s:url action="checkout" />" role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
-                        <a href="<s:url action="checkout" />" role="button" class="btn btn-success btn-sm float-right">Express Checkout</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td scope="row">$150</td>
-                    <td>Newcastle</td>
-                    <td>Sydney</td>
-                    <td>Business Class</td>
-                    <td class="text-white">
-                        <a href="<s:url action="checkout" />" role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
-                        <a href="<s:url action="checkout" />" role="button" class="btn btn-success btn-sm float-right">Express Checkout</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td scope="row">$150</td>
-                    <td>Newcastle</td>
-                    <td>Sydney</td>
-                    <td>Business Class</td>
-                    <td class="text-white">
-                        <a href="<s:url action="checkout" />" role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
-                        <a href="<s:url action="checkout" />" role="button" class="btn btn-success btn-sm float-right">Express Checkout</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td scope="row">$150</td>
-                    <td>Newcastle</td>
-                    <td>Sydney</td>
-                    <td>Business Class</td>
-                    <td class="text-white">
-                        <a href="<s:url action="checkout" />" role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
-                        <a href="<s:url action="checkout" />" role="button" class="btn btn-success btn-sm float-right">Express Checkout</a>
-                    </td>
-                </tr>
+                    <s:iterator value="flights" var="flight">
+                        <tr>
+                            <td scope="row">
+                                <fmt:formatNumber value="${price.price}" type="currency" currencySymbol="$"/>
+                            </td>
+                            <td>${flight.departure}</td>
+                            <td>${flight.destination}</td>
+                            <td>${price.classCode}</td>
+                            <td class="text-white">
+                                <a href="<s:url action="checkout" />" role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
+                            </td>
+                        </tr>
+                    </s:iterator>
                 </tbody>
             </table>
             <a role="button" class="btn btn-secondary" href="<s:url action='search' >

@@ -18,22 +18,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td scope="row">$150</td>
-            <td>Business Class</td>
-            <td class="text-white">
-                <a role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
-                <a role="button" class="btn btn-success btn-sm float-right">Express Checkout</a>
-            </td>
-        </tr>
-        <tr>
-            <td scope="row">$150</td>
-            <td>Business Class</td>
-            <td class="text-white">
-                <a role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
-                <a role="button" class="btn btn-success btn-sm float-right">Express Checkout</a>
-            </td>
-        </tr>
+
         </tbody>
     </table>
 </div>

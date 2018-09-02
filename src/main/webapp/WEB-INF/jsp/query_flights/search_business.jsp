@@ -49,7 +49,7 @@
             <div class="col">
                 <div class="form-group">
                     <label for="details">Cabin Class</label>
-                    <select name="tcktClass" class="form-control" id="details">
+                    <select name="tcktClass" class="form-control" id="details" required>
                         <s:iterator value="ticketClasses">
                             <option value="<s:property value="classCode"/>" ${classCode == 'BUS' ? "selected" : ""}><s:property value="details"/></option>
                         </s:iterator>
@@ -59,7 +59,7 @@
             <div class="col">
                 <div class="form-group">
                     <label for="name">Ticket Type</label>
-                    <select name="tcktType" class="form-control" id="name">
+                    <select name="tcktType" class="form-control" id="name" required>
                         <s:iterator value="ticketTypes">
                             <option value="<s:property value="ticketCode"/>" ${ticketCode == 'E' ? "selected" : ""}><s:property value="name"/></option>
                         </s:iterator>
