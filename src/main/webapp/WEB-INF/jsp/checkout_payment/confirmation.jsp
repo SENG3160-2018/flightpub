@@ -18,20 +18,20 @@
     </div>
 </div>
 <div id="confirmation" class="container mt-5">
-    <div class="container">
-        <p class="h4">Booking Successful.</p>
+    <s:form action="receipt">
+        <div class="container">
+            <p class="h4">Booking Successful.</p>
 
-        <p class="h6 pt-5">Confirmation ID: <span class="caption">123456789</span></p>
-        <p>Enter your details below to send this confirmation and ticket information to an email address.</p>
-    </div>
-    <div class="container mt-5">
-        <form>
+            <p class="h6 pt-5">Confirmation ID: <span class="caption">123456789</span></p>
+            <p>Enter your details below to send this confirmation and ticket information to an email address.</p>
+        </div>
+        <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-6">
                     <p class="h6">Email confirmation receipt:</p>
                     <div class="form-group">
                         <label for="name">Recipient Name</label>
-                        <input type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Enter name">
+                        <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" placeholder="Enter name">
                         <small id="nameHelp" class="form-text text-muted">The name of the person receiving this receipt.</small>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="email">Recipient Email</label>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                        <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
                         <small id="emailHelp" class="form-text text-muted">The email address of the person receiving this receipt.</small>
                     </div>
                 </div>
@@ -50,8 +50,8 @@
                     <button type="submit" class="btn btn-primary float-right">Send</button>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </s:form>
 </div>
 
 <%@ include file="/WEB-INF/jsp/includes/foot.jsp" %>

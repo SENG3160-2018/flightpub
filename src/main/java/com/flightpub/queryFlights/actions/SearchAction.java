@@ -81,8 +81,10 @@ public class SearchAction extends ActionSupport implements SessionAware {
         userType = userSession.get("USER_TYPE").toString();
 
         HashMap<String, String> params = new HashMap<String, String>();
+        System.out.println(dptCode); // This is from the FORM
         params.put("departureCode", dptCode);
         params.put("arrivalCode", dstCode);
+
         if (directFlightsOnly) {
             params.put("directFlightsOnly", "true");
         }
