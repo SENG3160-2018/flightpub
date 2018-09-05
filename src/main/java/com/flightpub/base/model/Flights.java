@@ -1,7 +1,5 @@
 package com.flightpub.base.model;
 
-import com.sun.istack.internal.Nullable;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -130,7 +128,6 @@ public class Flights implements Serializable {
     }
 
     @Basic
-    @Nullable
     @Column(name = "ArrivalTimeStopOver2")
     public Date getArrivalTimeStopOver2() {
         return arrivalTimeStopOver2;
@@ -140,7 +137,6 @@ public class Flights implements Serializable {
     }
 
     @Basic
-    @Nullable
     @Column(name = "DepartureTimeStopOver2")
     public Date getDepartureTimeStopOver2() {
         return departureTimeStopOver2;

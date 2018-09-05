@@ -22,6 +22,9 @@
   },
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.6",
+    "datatables.net": "^1.10.19",
+    "datatables.net-bs4": "^1.10.19",
+    "datatables.net-dt": "^1.10.19",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "jquery": "^3.3.1",
     "material-datetime-picker": "^2.4.0",

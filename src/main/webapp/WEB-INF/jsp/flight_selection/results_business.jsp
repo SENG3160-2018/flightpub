@@ -8,6 +8,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
 
 <div class="container">
@@ -19,7 +20,7 @@
     </div>
 </div>
 <div id="results" class="container mt-5">
-    <table class="table table-hover">
+    <table class="table table-hover table-striped">
         <thead>
         <tr>
             <th scope="col">Departure Time</th>

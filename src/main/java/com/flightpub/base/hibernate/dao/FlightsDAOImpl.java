@@ -77,8 +77,6 @@ public class FlightsDAOImpl implements FlightsDAO {
             its.remove(); // avoids a ConcurrentModificationException
         }
 
-        cr.setMaxResults(20);
-
         return cr.list();
     }
 }
