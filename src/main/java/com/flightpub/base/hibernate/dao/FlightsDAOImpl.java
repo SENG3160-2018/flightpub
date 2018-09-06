@@ -53,7 +53,11 @@ public class FlightsDAOImpl implements FlightsDAO {
             } else if (pair.getKey().equals("departureCode")) {
                 predicates.add(builder.equal(root.get(Flights_.departure), pair.getValue()));
             } else if (pair.getKey().equals("arrivalCode")) {
-                predicates.add(builder.equal(root.get(Flights_.destination), pair.getValue()));
+                // Query flights where stopover OR destination is equal to param
+                predicates.add(builder.or(
+                        builder.equal(root.get(Flights_.destination), pair.getValue()),
+                        builder.equal(root.get(Flights_.stopOverCode), pair.getValue())
+                ));
             } else if (pair.getKey().equals("carrier")) {
                 predicates.add(builder.equal(root.get(Flights_.airlineCode), pair.getValue()));
             } else if (pair.getKey().equals("date")) {
