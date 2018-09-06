@@ -1,55 +1,43 @@
 package com.flightpub.base.hibernate.dao;
 
-import com.flightpub.base.hibernate.listener.HibernateListener;
 import com.flightpub.base.model.Destination;
-import com.flightpub.base.model.Flights;
-import org.apache.struts2.ServletActionContext;
-import org.hibernate.*;
-import org.hibernate.criterion.Restrictions;
+import com.flightpub.base.model.Destination_;
 
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
- * FlightsDAOImpl
+ * DestinationsDAOImpl
  *
- * DB query mappings for Flights table
+ * DB query mappings for Destinations table
  */
 public class DestinationsDAOImpl implements DestinationsDAO {
-
-    private SessionFactory sf;
-
-    public DestinationsDAOImpl(SessionFactory sf) {
-        this.sf = sf;
-    }
+    static EntityManager EM = Persistence.createEntityManagerFactory("FlightPub").createEntityManager();
 
     @Override
     public List<Destination> getDestinations() {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
-        Query query = session.createQuery("from Destination ");
+        CriteriaBuilder builder = EM.getCriteriaBuilder();
+        CriteriaQuery<Destination> criteria = builder.createQuery(Destination.class);
+        Root<Destination> root = criteria.from(Destination.class);
+        criteria.select(root);
 
-        List<Destination> dstList = query.list();
-        System.out.println(dstList.toString());
-        if (!dstList.isEmpty()) {
-            System.out.println("Destinations Retrieved from DB.");
-        }
-        tx.commit();
-        session.close();
-
-        return dstList;
+        return EM.createQuery(criteria).getResultList();
     }
 
     @Override
     public Destination getDestination(String code) {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
+        CriteriaBuilder builder = EM.getCriteriaBuilder();
+        CriteriaQuery<Destination> criteria = builder.createQuery(Destination.class);
+        Root<Destination> root = criteria.from(Destination.class);
+        criteria.select(root);
 
-        Criteria cr = session.createCriteria(Destination.class);
-        cr.add(Restrictions.eq("DestinationCode", code));
+        criteria.where(builder.equal(root.get(Destination_.destinationCode), code));
 
-        return (Destination) cr.uniqueResult();
+        Destination destination = EM.createQuery(criteria).getSingleResult();
+
+        return destination;
     }
 }

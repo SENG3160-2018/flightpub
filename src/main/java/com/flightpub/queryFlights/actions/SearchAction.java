@@ -1,12 +1,9 @@
 package com.flightpub.queryFlights.actions;
 
 import com.flightpub.base.hibernate.dao.*;
-import com.flightpub.base.hibernate.listener.HibernateListener;
 import com.flightpub.base.model.*;
 import com.opensymphony.xwork2.ActionSupport;
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
-import org.hibernate.SessionFactory;
 
 import java.util.*;
 
@@ -46,46 +43,32 @@ public class SearchAction extends ActionSupport implements SessionAware {
     private String carrier;
 
     public SearchAction() {
-        if (getUserType().equals("business")) {
-            this.stopOvers = -1;
-            this.passengers = 1;
-        } else if (getUserType().equals("couple")) {
-            this.passengers = 2;
-        } else if (getUserType().equals("group")) {
 
-        }
 
     }
 
     public String display() {
         userSession.put("USER_TYPE", userType);
 
-        SessionFactory sessionFactory =
-                (SessionFactory) ServletActionContext.getServletContext()
-                        .getAttribute(HibernateListener.KEY_NAME);
-
         // Get destinations
-        DestinationsDAO destinationsDAO = new DestinationsDAOImpl(sessionFactory);
+        DestinationsDAO destinationsDAO = new DestinationsDAOImpl();
         this.destinations = destinationsDAO.getDestinations();
 
         // Get cabin classes
-        TicketTypesDAO ticketTypesDAO = new TicketTypesDAOImpl(sessionFactory);
+        TicketTypesDAO ticketTypesDAO = new TicketTypesDAOImpl();
         this.ticketTypes = ticketTypesDAO.getTicketTypes();
 
-        TicketClassesDAO ticketClassesDAO = new TicketClassesDAOImpl(sessionFactory);
+        TicketClassesDAO ticketClassesDAO = new TicketClassesDAOImpl();
         this.ticketClasses = ticketClassesDAO.getTicketClasses();
 
         // Get carriers
-        AirlinesDAO airlinesDAO = new AirlinesDAOImpl(sessionFactory);
+        AirlinesDAO airlinesDAO = new AirlinesDAOImpl();
         this.airlines = airlinesDAO.getAirlines();
 
         return SUCCESS;
     }
 
     public String execute() {
-        SessionFactory sessionFactory =
-                (SessionFactory) ServletActionContext.getServletContext()
-                        .getAttribute(HibernateListener.KEY_NAME);
         userType = userSession.get("USER_TYPE").toString();
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -106,7 +89,7 @@ public class SearchAction extends ActionSupport implements SessionAware {
         }
 
         // For 0 stopovers, simply get flights
-        FlightsDAO flightsDAO = new FlightsDAOImpl(sessionFactory);
+        FlightsDAO flightsDAO = new FlightsDAOImpl();
         if (stopOvers == 0 || directFlightsOnly) {
             params.put("departureCode", dptCode);
             params.put("arrivalCode", dstCode);
@@ -143,9 +126,8 @@ public class SearchAction extends ActionSupport implements SessionAware {
             }
         }
 
-
         // Iterate flights and add pricing and availability
-        PriceDAO priceDAO = new PriceDAOImpl(sessionFactory);
+        PriceDAO priceDAO = new PriceDAOImpl();
         AvailabilityDAO availabilityDAO = new AvailabilityDAOImpl();
         List<Flights> toRemove = new ArrayList<Flights>();
         for (Flights f : flights) {

@@ -1,11 +1,13 @@
 package com.flightpub.base.hibernate.dao;
 
 import com.flightpub.base.model.Flights;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
+import com.flightpub.base.model.Flights_;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.*;
 
 /**
@@ -14,41 +16,39 @@ import java.util.*;
  * DB query mappings for Flights table
  */
 public class FlightsDAOImpl implements FlightsDAO {
-
-    private SessionFactory sf;
-
-    public FlightsDAOImpl(SessionFactory sf) {
-        this.sf = sf;
-    }
+    static EntityManager EM = Persistence.createEntityManagerFactory("FlightPub").createEntityManager();
 
     @Override
     public Flights getFlight(int id) {
-        Session session = sf.openSession();
+        CriteriaBuilder builder = EM.getCriteriaBuilder();
+        CriteriaQuery<Flights> criteria = builder.createQuery(Flights.class);
+        Root<Flights> root = criteria.from(Flights.class);
+        criteria.select(root);
 
-        Criteria cr = session.createCriteria(Flights.class);
-        cr.add(Restrictions.eq("id", id));
+        criteria.where(builder.equal(root.get(Flights_.id), id));
 
-        return (Flights) cr.uniqueResult();
+        return EM.createQuery(criteria).getSingleResult();
     }
 
     @Override
     public List<Flights> getFlights(HashMap params, HashMap dates) {
-        Session session = sf.openSession();
-
-        Criteria cr = session.createCriteria(Flights.class);
+        CriteriaBuilder builder = EM.getCriteriaBuilder();
+        CriteriaQuery<Flights> criteria = builder.createQuery(Flights.class);
+        Root<Flights> root = criteria.from(Flights.class);
+        criteria.select(root);
 
         Iterator it = params.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
 
             if (pair.getKey().equals("directFlightsOnly")) {
-                cr.add(Restrictions.isNull("stopOverCode"));
+                criteria.where(builder.isNull(root.get(Flights_.stopOverCode)));
             } else if (pair.getKey().equals("departureCode")) {
-                cr.add(Restrictions.eq("departure", pair.getValue()));
+                criteria.where(builder.equal(root.get(Flights_.departure), pair.getValue()));
             } else if (pair.getKey().equals("arrivalCode")) {
-                cr.add(Restrictions.eq("destination", pair.getValue()));
+                criteria.where(builder.equal(root.get(Flights_.destination), pair.getValue()));
             } else if (pair.getKey().equals("carrier")) {
-                cr.add(Restrictions.eq("airlineCode", pair.getValue()));
+                criteria.where(builder.equal(root.get(Flights_.airlineCode), pair.getValue()));
             }
 
             it.remove(); // avoids a ConcurrentModificationException
@@ -57,14 +57,13 @@ public class FlightsDAOImpl implements FlightsDAO {
         Iterator its = dates.entrySet().iterator();
         while (its.hasNext()) {
             Map.Entry pair = (Map.Entry)its.next();
-
             if (pair.getKey().equals("date")) {
-                cr.add(Restrictions.eq("departureTime", pair.getValue()));
+                criteria.where(builder.equal(root.get(Flights_.departureTime), pair.getValue()));
             }
 
             its.remove(); // avoids a ConcurrentModificationException
         }
 
-        return cr.list();
+        return EM.createQuery(criteria).getResultList();
     }
 }

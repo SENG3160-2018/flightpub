@@ -83,10 +83,7 @@ public class ReviewSiteAction extends ActionSupport {
     }
 
     public String execute() {
-        SessionFactory sessionFactory =
-                (SessionFactory) ServletActionContext.getServletContext()
-                        .getAttribute(HibernateListener.KEY_NAME);
-        ReviewsDAO reviewsDAO = new ReviewsDAOImpl(sessionFactory);
+        ReviewsDAO reviewsDAO = new ReviewsDAOImpl();
         review.setCreated(new Date());
         reviewsDAO.saveReview(review);
         return SUCCESS;

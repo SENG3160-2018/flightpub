@@ -4,7 +4,7 @@ import com.flightpub.base.model.Availability;
 import com.flightpub.base.model.Availability_;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -17,22 +17,21 @@ import java.util.List;
  * DB query mappings for Availability table
  */
 public class AvailabilityDAOImpl implements AvailabilityDAO {
-    @PersistenceContext
-    private EntityManager em;
+    static EntityManager EM = Persistence.createEntityManagerFactory("FlightPub").createEntityManager();
 
     @Override
     public List<Availability> getAvailabilities() {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaBuilder builder = EM.getCriteriaBuilder();
         CriteriaQuery<Availability> criteria = builder.createQuery(Availability.class);
         Root<Availability> root = criteria.from(Availability.class);
         criteria.select(root);
 
-        return em.createQuery(criteria).getResultList();
+        return EM.createQuery(criteria).getResultList();
     }
 
     @Override
     public Availability getAvailability(String airlineCode, String flightNumber, Date departureTime, String classCode, String ticketType) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaBuilder builder = EM.getCriteriaBuilder();
         CriteriaQuery<Availability> criteria = builder.createQuery(Availability.class);
         Root<Availability> root = criteria.from(Availability.class);
         criteria.select(root);
@@ -43,7 +42,7 @@ public class AvailabilityDAOImpl implements AvailabilityDAO {
         criteria.where(builder.equal(root.get(Availability_.ticketClass), classCode));
         criteria.where(builder.equal(root.get(Availability_.ticketType), ticketType));
 
-        Availability availability = em.createQuery(criteria).getSingleResult();
+        Availability availability = EM.createQuery(criteria).getSingleResult();
 
         return availability;
     }

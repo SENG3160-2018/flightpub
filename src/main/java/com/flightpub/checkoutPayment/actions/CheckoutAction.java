@@ -37,20 +37,16 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
     }
 
     public String addToCart() {
-        SessionFactory sessionFactory =
-                (SessionFactory) ServletActionContext.getServletContext()
-                        .getAttribute(HibernateListener.KEY_NAME);
-
         if (userSession.containsKey("CART")) {
             cart = (ArrayList<Flights>) userSession.get("CART");
         } else {
             cart = new ArrayList<Flights>();
         }
         // Get flight
-        FlightsDAO flightsDAO = new FlightsDAOImpl(sessionFactory);
+        FlightsDAO flightsDAO = new FlightsDAOImpl();
         Flights flight = flightsDAO.getFlight(flightId);
 
-        PriceDAO priceDAO = new PriceDAOImpl(sessionFactory);
+        PriceDAO priceDAO = new PriceDAOImpl();
         Price price = priceDAO.getPrice(airline, tcktClass, tcktType, flightNumber);
 
         flight.setPrice(price);

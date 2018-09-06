@@ -1,12 +1,12 @@
 package com.flightpub.base.hibernate.dao;
 
-import com.flightpub.base.model.Destination;
 import com.flightpub.base.model.TicketType;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
@@ -15,26 +15,15 @@ import java.util.List;
  * DB query mappings for Flights table
  */
 public class TicketTypesDAOImpl implements TicketTypesDAO {
-
-    private SessionFactory sf;
-
-    public TicketTypesDAOImpl(SessionFactory sf) {
-        this.sf = sf;
-    }
+    static EntityManager EM = Persistence.createEntityManagerFactory("FlightPub").createEntityManager();
 
     @Override
     public List<TicketType> getTicketTypes() {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
-        Query query = session.createQuery("from TicketType ");
+        CriteriaBuilder builder = EM.getCriteriaBuilder();
+        CriteriaQuery<TicketType> criteria = builder.createQuery(TicketType.class);
+        Root<TicketType> root = criteria.from(TicketType.class);
+        criteria.select(root);
 
-        List<TicketType> dstList = query.list();
-        if (!dstList.isEmpty()) {
-            System.out.println("Ticket Types Retrieved from DB.");
-        }
-        tx.commit();
-        session.close();
-
-        return dstList;
+        return EM.createQuery(criteria).getResultList();
     }
 }

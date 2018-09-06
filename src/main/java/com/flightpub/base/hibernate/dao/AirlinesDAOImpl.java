@@ -1,12 +1,12 @@
 package com.flightpub.base.hibernate.dao;
 
 import com.flightpub.base.model.Airlines;
-import com.flightpub.base.model.Destination;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
@@ -15,26 +15,15 @@ import java.util.List;
  * DB query mappings for Flights table
  */
 public class AirlinesDAOImpl implements AirlinesDAO {
-
-    private SessionFactory sf;
-
-    public AirlinesDAOImpl(SessionFactory sf) {
-        this.sf = sf;
-    }
+    static EntityManager EM = Persistence.createEntityManagerFactory("FlightPub").createEntityManager();
 
     @Override
     public List<Airlines> getAirlines() {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
-        Query query = session.createQuery("from Airlines ");
+        CriteriaBuilder builder = EM.getCriteriaBuilder();
+        CriteriaQuery<Airlines> criteria = builder.createQuery(Airlines.class);
+        Root<Airlines> root = criteria.from(Airlines.class);
+        criteria.select(root);
 
-        List<Airlines> dstList = query.list();
-        if (!dstList.isEmpty()) {
-            System.out.println("Airlines Retrieved from DB.");
-        }
-        tx.commit();
-        session.close();
-
-        return dstList;
+        return EM.createQuery(criteria).getResultList();
     }
 }
