@@ -11,7 +11,7 @@
         <property name="hibernate.connection.password">asdfgh</property>
 
         <!-- Connection Pool Size -->
-        <property name="hibernate.connection.pool_size">1</property>
+        <property name="hibernate.connection.pool_size">8</property>
 
         <!-- org.hibernate.HibernateException: No CurrentSessionContext configured! -->
         <property name="hibernate.current_session_context_class">thread</property>
@@ -34,6 +34,6 @@
         <mapping class="com.flightpub.base.model.TicketType"/>
         <mapping class="com.flightpub.base.model.Review"/>
         <mapping class="com.flightpub.base.model.Price"/>
-
+        <mapping class="com.flightpub.base.model.Availability"/>
     </session-factory>
 </hibernate-configuration>

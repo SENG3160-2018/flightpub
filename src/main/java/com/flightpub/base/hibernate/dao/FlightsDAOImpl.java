@@ -42,23 +42,13 @@ public class FlightsDAOImpl implements FlightsDAO {
             Map.Entry pair = (Map.Entry)it.next();
 
             if (pair.getKey().equals("directFlightsOnly")) {
-                cr.add(Restrictions.isNull("stopOverCode1"));
-                cr.add(Restrictions.isNull("stopOverCode2"));
+                cr.add(Restrictions.isNull("stopOverCode"));
             } else if (pair.getKey().equals("departureCode")) {
                 cr.add(Restrictions.eq("departure", pair.getValue()));
             } else if (pair.getKey().equals("arrivalCode")) {
                 cr.add(Restrictions.eq("destination", pair.getValue()));
-            } else if (pair.getKey().equals("stopOvers")) {
-                Integer so = Integer.parseInt(pair.getValue().toString());
-                if (so == 2) {
-                    cr.add(Restrictions.isNotNull("stopOverCode2"));
-                } else if (so == 1) {
-                    cr.add(Restrictions.isNotNull("stopOverCode1"));
-                    cr.add(Restrictions.isNull("stopOverCode2"));
-                } else {
-                    cr.add(Restrictions.isNull("stopOverCode1"));
-                    cr.add(Restrictions.isNull("stopOverCode2"));
-                }
+            } else if (pair.getKey().equals("carrier")) {
+                cr.add(Restrictions.eq("airlineCode", pair.getValue()));
             }
 
             it.remove(); // avoids a ConcurrentModificationException
@@ -68,10 +58,8 @@ public class FlightsDAOImpl implements FlightsDAO {
         while (its.hasNext()) {
             Map.Entry pair = (Map.Entry)its.next();
 
-            if (pair.getKey().equals("departureTime")) {
-                cr.add(Restrictions.ge("departureTime", pair.getValue()));
-            } else if (pair.getKey().equals("arrivalTime")) {
-                cr.add(Restrictions.le("arrivalTime", pair.getValue()));
+            if (pair.getKey().equals("date")) {
+                cr.add(Restrictions.eq("departureTime", pair.getValue()));
             }
 
             its.remove(); // avoids a ConcurrentModificationException

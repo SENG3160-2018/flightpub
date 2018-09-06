@@ -40,7 +40,6 @@ public class HibernateListener implements ServletContextListener {
             URL url = HibernateListener.class.getResource(path);
             config = new Configuration().configure(url);
             factory = config.buildSessionFactory();
-
             //save the Hibernate session factory into serlvet context
             event.getServletContext().setAttribute(KEY_NAME, factory);
         } catch (Exception e) {

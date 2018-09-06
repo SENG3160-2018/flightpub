@@ -110,9 +110,9 @@
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label>Departure date</label>
+                    <label>Departure Date</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input name="dptTime" type="text" class="form-control datetimepicker-input" id="departureTime" data-toggle="datetimepicker" data-target="#departureTime"/>
+                        <input name="date" type="text" class="form-control datetimepicker-input" id="departureTime" data-toggle="datetimepicker" data-target="#departureTime"/>
                         <span class="input-group-addon">
                             <span class="fas fa-calendar-alt"></span>
                         </span>

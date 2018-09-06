@@ -12,33 +12,56 @@ import java.util.Date;
 @Entity
 @Table(name = "Flights")
 public class Flights implements Serializable {
-
+    @Id
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "AirlineCode")
     private String airlineCode;
+
+    @Column(name = "FlightNumber")
     private String flightNumber;
+
+    @Column(name = "DepartureTime")
     private Date departureTime;
+
+    @Column(name = "ArrivalTime")
     private Date arrivalTime;
 
-    private Date arrivalTimeStopOver1;
-    private Date departureTimeStopOver1;
+    @Column(name = "ArrivalTimeStopOver")
+    private Date arrivalTimeStopOver;
 
-    private Date arrivalTimeStopOver2;
-    private Date departureTimeStopOver2;
+    @Column(name = "DepartureTimeStopOver")
+    private Date departureTimeStopOver;
 
+    @Column(name = "PlaneCode")
     private String planeCode;
 
-    private String destination;
+    @Column(name = "DepartureCode")
     private String departure;
-    private Destination stopOverCode1;
-    private String stopOverCode2;
 
+    @Column(name = "DestinationCode")
+    private String destination;
+
+    @Column(name = "StopOverCode")
+    private String stopOverCode;
+
+    @Column(name = "Duration")
     private Integer duration;
-    private Integer durationSecondLeg;
-    private Integer durationThirdLeg;
 
+    @Column(name = "DurationSecondLeg")
+    private Integer durationSecondLeg;
+
+    @Transient
     private Price price;
 
     @Transient
+    private Availability availability;
+
+    @Transient
+    private Flights connectingFlight;
+
+
     public Price getPrice() {
         return price;
     }
@@ -46,8 +69,23 @@ public class Flights implements Serializable {
         this.price = price;
     }
 
-    @Id
-    @Column(name = "id")
+    public Availability getAvailability() {
+        return availability;
+    }
+    public void setAvailability(Availability availability) {
+        this.availability = availability;
+    }
+
+    public Flights getConnectingFlight() {
+        return connectingFlight;
+    }
+    public void setConnectingFlight(Flights connectingFlight) {
+        this.connectingFlight = connectingFlight;
+    }
+    public boolean hasConnectingFlight() {
+        return connectingFlight != null;
+    }
+
     public int getId() {
         return id;
     }
@@ -55,8 +93,6 @@ public class Flights implements Serializable {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "AirlineCode")
     public String getAirlineCode() {
         return airlineCode;
     }
@@ -64,8 +100,6 @@ public class Flights implements Serializable {
         this.airlineCode = airlineCode;
     }
 
-    @Basic
-    @Column(name = "FlightNumber")
     public String getFlightNumber() {
         return flightNumber;
     }
@@ -73,8 +107,6 @@ public class Flights implements Serializable {
         this.flightNumber = flightNumber;
     }
 
-    @Basic
-    @Column(name = "DepartureCode")
     public String getDeparture() {
         return departure;
     }
@@ -82,8 +114,6 @@ public class Flights implements Serializable {
         this.departure = departure;
     }
 
-    @Basic
-    @Column(name = "DestinationCode")
     public String getDestination() {
         return destination;
     }
@@ -91,8 +121,6 @@ public class Flights implements Serializable {
         this.destination = destination;
     }
 
-    @Basic
-    @Column(name = "DepartureTime")
     public Date getDepartureTime() {
         return departureTime;
     }
@@ -100,8 +128,6 @@ public class Flights implements Serializable {
         this.departureTime = departureTime;
     }
 
-    @Basic
-    @Column(name = "ArrivalTime")
     public Date getArrivalTime() {
         return arrivalTime;
     }
@@ -109,44 +135,6 @@ public class Flights implements Serializable {
         this.arrivalTime = arrivalTime;
     }
 
-    @Basic
-    @Column(name = "ArrivalTimeStopOver1")
-    public Date getArrivalTimeStopOver1() {
-        return arrivalTimeStopOver1;
-    }
-    public void setArrivalTimeStopOver1(Date arrivalTimeStopOver1) {
-        this.arrivalTimeStopOver1 = arrivalTimeStopOver1;
-    }
-
-    @Basic
-    @Column(name = "DepartureTimeStopOver1")
-    public Date getDepartureTimeStopOver1() {
-        return departureTimeStopOver1;
-    }
-    public void setDepartureTimeStopOver1(Date departureTimeStopOver1) {
-        this.departureTimeStopOver1 = departureTimeStopOver1;
-    }
-
-    @Basic
-    @Column(name = "ArrivalTimeStopOver2")
-    public Date getArrivalTimeStopOver2() {
-        return arrivalTimeStopOver2;
-    }
-    public void setArrivalTimeStopOver2(Date arrivalTimeStopOver2) {
-        this.arrivalTimeStopOver2 = arrivalTimeStopOver2;
-    }
-
-    @Basic
-    @Column(name = "DepartureTimeStopOver2")
-    public Date getDepartureTimeStopOver2() {
-        return departureTimeStopOver2;
-    }
-    public void setDepartureTimeStopOver2(Date departureTimeStopOver2) {
-        this.departureTimeStopOver2 = departureTimeStopOver2;
-    }
-
-    @Basic
-    @Column(name = "PlaneCode")
     public String getPlaneCode() {
         return planeCode;
     }
@@ -154,8 +142,6 @@ public class Flights implements Serializable {
         this.planeCode = planeCode;
     }
 
-    @Basic
-    @Column(name = "Duration")
     public Integer getDuration() {
         return duration;
     }
@@ -163,8 +149,6 @@ public class Flights implements Serializable {
         this.duration = duration;
     }
 
-    @Basic
-    @Column(name = "DurationSecondLeg")
     public Integer getDurationSecondLeg() {
         return durationSecondLeg;
     }
@@ -172,30 +156,24 @@ public class Flights implements Serializable {
         this.durationSecondLeg = durationSecondLeg;
     }
 
-    @Basic
-    @Column(name = "DurationThirdLeg")
-    public Integer getDurationThirdLeg() {
-        return durationThirdLeg;
+    public Date getArrivalTimeStopOver() {
+        return arrivalTimeStopOver;
     }
-    public void setDurationThirdLeg(Integer durationThirdLeg) {
-        this.durationThirdLeg = durationThirdLeg;
+    public void setArrivalTimeStopOver(Date arrivalTimeStopOver) {
+        this.arrivalTimeStopOver = arrivalTimeStopOver;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "StopOverCode1")
-    public Destination getStopOverCode1() {
-        return stopOverCode1;
+    public Date getDepartureTimeStopOver() {
+        return departureTimeStopOver;
     }
-    public void setStopOverCode1(Destination stopOverCode1) {
-        this.stopOverCode1 = stopOverCode1;
+    public void setDepartureTimeStopOver(Date departureTimeStopOver) {
+        this.departureTimeStopOver = departureTimeStopOver;
     }
 
-    @Basic
-    @Column(name = "StopOverCode2")
-    public String getStopOverCode2() {
-        return stopOverCode2;
+    public String getStopOverCode() {
+        return stopOverCode;
     }
-    public void setStopOverCode2(String stopOverCode2) {
-        this.stopOverCode2 = stopOverCode2;
+    public void setStopOverCode(String stopOverCode) {
+        this.stopOverCode = stopOverCode;
     }
 }

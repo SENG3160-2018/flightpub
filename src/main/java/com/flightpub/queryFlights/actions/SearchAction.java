@@ -31,8 +31,7 @@ public class SearchAction extends ActionSupport implements SessionAware {
     private String dstCode;
     private String tcktClass;
     private String tcktType;
-    private Date dptTime;
-    private Date dstTime;
+    private Date date;
     private boolean directFlightsOnly;
     private boolean arriveDayBefore;
     private boolean includeReturn;
@@ -44,9 +43,18 @@ public class SearchAction extends ActionSupport implements SessionAware {
     private int passengers;
     private boolean sameFlight;
     private boolean groupDiscount;
+    private String carrier;
 
     public SearchAction() {
-        this.stopOvers = -1;
+        if (getUserType().equals("business")) {
+            this.stopOvers = -1;
+            this.passengers = 1;
+        } else if (getUserType().equals("couple")) {
+            this.passengers = 2;
+        } else if (getUserType().equals("group")) {
+
+        }
+
     }
 
     public String display() {
@@ -81,43 +89,97 @@ public class SearchAction extends ActionSupport implements SessionAware {
         userType = userSession.get("USER_TYPE").toString();
 
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put("departureCode", dptCode);
-        params.put("arrivalCode", dstCode);
         if (directFlightsOnly) {
             params.put("directFlightsOnly", "true");
         }
         if (arriveDayBefore) {
             params.put("arriveDayBefore", "true");
         }
-        if (stopOvers >= 0) {
-            params.put("stopOvers", Integer.toString(stopOvers));
+
+        if (!carrier.isEmpty()) {
+            params.put("carrier", carrier);
         }
 
         HashMap<String, Date> dates = new HashMap<String, Date>();
-        if (dptTime != null) {
-            dates.put("departureTime", dptTime);
-        }
-        if (dstTime != null) {
-            dates.put("arrivalTime", dstTime);
+        if (date != null) {
+            dates.put("date", date);
         }
 
+        // For 0 stopovers, simply get flights
         FlightsDAO flightsDAO = new FlightsDAOImpl(sessionFactory);
-        flights = flightsDAO.getFlights(params, dates);
+        if (stopOvers == 0 || directFlightsOnly) {
+            params.put("departureCode", dptCode);
+            params.put("arrivalCode", dstCode);
+            flights = flightsDAO.getFlights(params, dates);
+        } else {
+            // Get combinations of flights
+            // Start by getting all flights matching departure location
+            params.put("departureCode", dptCode);
 
+            List<Flights> initialLeg = flightsDAO.getFlights(params, dates);
+
+            // Iterate flights
+            for (Flights f : initialLeg) {
+                if (f.getDestination().equals(dstCode)) {
+                    flights.add(f);
+                } else {
+                    // Get all flights departing from f.destination and arriving in dstCode
+                    HashMap<String, String> params2 = new HashMap<String, String>();
+                    params2.put("departureCode", f.getDestination());
+                    params2.put("arrivalCode", dstCode);
+
+                    HashMap<String, Date> dates2 = new HashMap<String, Date>();
+                    dates2.put("date", f.getArrivalTime());
+
+                    List<Flights> secondLeg = flightsDAO.getFlights(params2, dates2);
+                    // Iterate secondLeg and create combinations
+                    for (Flights f2 : secondLeg) {
+                        Flights newFlight = f;
+                        newFlight.setConnectingFlight(f2);
+
+                        flights.add(newFlight);
+                    }
+                }
+            }
+        }
+
+
+        // Iterate flights and add pricing and availability
         PriceDAO priceDAO = new PriceDAOImpl(sessionFactory);
+        AvailabilityDAO availabilityDAO = new AvailabilityDAOImpl();
         List<Flights> toRemove = new ArrayList<Flights>();
         for (Flights f : flights) {
             Price price = priceDAO.getPrice(f.getAirlineCode(), tcktClass, tcktType, f.getFlightNumber());
-
-            if (minPrice > 0 && price.getPrice() < minPrice) {
-                toRemove.add(f);
-            }
-
-            if (maxPrice > 0 && price.getPrice() > maxPrice) {
-                toRemove.add(f);
-            }
-
             f.setPrice(price);
+
+            double total = price.getPrice();
+
+            if (f.hasConnectingFlight()) {
+                Price connectingPrice = priceDAO.getPrice(f.getConnectingFlight().getAirlineCode(), tcktClass, tcktType, f.getConnectingFlight().getFlightNumber());
+                f.getConnectingFlight().setPrice(connectingPrice);
+                total += connectingPrice.getPrice();
+            }
+
+            if (minPrice > 0 && total < minPrice) {
+                toRemove.add(f);
+            }
+            if (maxPrice > 0 && total > maxPrice) {
+                toRemove.add(f);
+            }
+
+            // Get availability.  If not enough seats remove flight from results.  Else add availability to flight
+            Availability availability = availabilityDAO.getAvailability(f.getAirlineCode(), f.getFlightNumber(), f.getDepartureTime(), tcktClass, tcktType);
+            if (passengers > availability.getSeatsLeg1() || (availability.getSeatsLeg2() > 0 && passengers > availability.getSeatsLeg2())) {
+                toRemove.add(f);
+            } else {
+                Availability connectingAvailability = availabilityDAO.getAvailability(f.getConnectingFlight().getAirlineCode(), f.getConnectingFlight().getFlightNumber(), f.getConnectingFlight().getDepartureTime(), tcktClass, tcktType);
+                if (passengers > connectingAvailability.getSeatsLeg1() || (connectingAvailability.getSeatsLeg2() > 0 && passengers > connectingAvailability.getSeatsLeg2())) {
+                    toRemove.add(f);
+                } else {
+                    f.setAvailability(availability);
+                    f.getConnectingFlight().setAvailability(connectingAvailability);
+                }
+            }
         }
 
         for (Flights f : toRemove) {
@@ -224,20 +286,12 @@ public class SearchAction extends ActionSupport implements SessionAware {
         this.tcktType = tcktType;
     }
 
-    public Date getDptTime() {
-        return dptTime;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDptTime(Date dptTime) {
-        this.dptTime = dptTime;
-    }
-
-    public Date getDstTime() {
-        return dstTime;
-    }
-
-    public void setDstTime(Date dstTime) {
-        this.dstTime = dstTime;
+    public void setDate(Date dptTime) {
+        this.date = date;
     }
 
     public boolean isDirectFlightsOnly() {
@@ -326,5 +380,13 @@ public class SearchAction extends ActionSupport implements SessionAware {
 
     public void setGroupDiscount(boolean groupDiscount) {
         this.groupDiscount = groupDiscount;
+    }
+
+    public String getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(String carrier) {
+        this.carrier = carrier;
     }
 }

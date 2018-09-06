@@ -98,9 +98,9 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label for="departureTime">Depart After</label>
+                    <label for="departureTime">Departure Date</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input name="dptTime" type="text" class="form-control datetimepicker-input" id="departureTime" data-toggle="datetimepicker" data-target="#departureTime"/>
+                        <input name="date" type="text" class="form-control datetimepicker-input" id="departureTime" data-toggle="datetimepicker" data-target="#departureTime"/>
                         <span class="input-group-addon">
                             <span class="fas fa-calendar-alt"></span>
                         </span>
@@ -119,50 +119,54 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="form-group">
-                    <div class="form-check form-check-inline float-right">
-                        <s:checkbox name="includeReturn" fieldValue="true" theme="simple" />
-                        <label class="form-check-label">
-                            Include return fares
-                        </label>
+                <%--
+                <div class="col">
+                    <div class="form-group">
+                        <div class="form-check form-check-inline float-right">
+                            <s:checkbox name="includeReturn" fieldValue="true" theme="simple" />
+                            <label class="form-check-label">
+                                Include return fares
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <div class="form-check form-check-inline float-right">
-                        <s:checkbox name="includeNearby" fieldValue="true" theme="simple" />
-                        <label class="form-check-label">
-                            Include nearby airports
-                        </label>
+                <div class="col">
+                    <div class="form-group">
+                        <div class="form-check form-check-inline float-right">
+                            <s:checkbox name="includeNearby" fieldValue="true" theme="simple" />
+                            <label class="form-check-label">
+                                Include nearby airports
+                            </label>
+                        </div>
                     </div>
                 </div>
+                --%>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <div class="form-check form-check-inline float-right">
-                        <s:checkbox name="multiCity" fieldValue="true" theme="simple" />
-                        <label class="form-check-label">
-                            Multi city
-                        </label>
+            <%--
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <div class="form-check form-check-inline float-right">
+                            <s:checkbox name="multiCity" fieldValue="true" theme="simple" />
+                            <label class="form-check-label">
+                                Multi city
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <div class="form-check form-check-inline float-right">
-                        <s:checkbox name="surroundingDays" fieldValue="true" theme="simple" />
-                        <label class="form-check-label">
-                            Display surrounding days
-                        </label>
+                <div class="col">
+                    <div class="form-group">
+                        <div class="form-check form-check-inline float-right">
+                            <s:checkbox name="surroundingDays" fieldValue="true" theme="simple" />
+                            <label class="form-check-label">
+                                Display surrounding days
+                            </label>
+                        </div>
                     </div>
                 </div>
+                <div class="col"></div>
             </div>
-            <div class="col"></div>
-        </div>
+            --%>
         <div class="row">
             <div class="col">
                 <div class="form-group">
@@ -178,7 +182,7 @@
             <div class="col">
                 <div class="form-group">
                     <label for="carrier">Carrier</label>
-                    <select class="form-control" id="carrier">
+                    <select name="carrier" class="form-control" id="carrier">
                         <option disabled selected value>-</option>
                         <s:iterator value="airlines">
                             <option value="<s:property value="airlineCode"/>"><s:property value="airlineName"/></option>

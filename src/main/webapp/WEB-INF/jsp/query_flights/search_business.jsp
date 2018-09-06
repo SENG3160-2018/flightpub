@@ -70,20 +70,9 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label for="departureTime">Depart After</label>
+                    <label for="departureTime">Travel Date</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input name="dptTime" type="text" class="form-control datetimepicker-input" id="departureTime" data-toggle="datetimepicker" data-target="#departureTime"/>
-                        <span class="input-group-addon">
-                            <span class="fas fa-calendar-alt"></span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="arrivalTime">Arrive Before</label>
-                    <div class="input-group date" data-target-input="nearest">
-                        <input name="dstTime" type="text" class="form-control datetimepicker-input" id="arrivalTime" data-toggle="datetimepicker" data-target="#arrivalTime"/>
+                        <input name="date" type="text" class="form-control datetimepicker-input" id="departureTime" data-toggle="datetimepicker" data-target="#departureTime"/>
                         <span class="input-group-addon">
                             <span class="fas fa-calendar-alt"></span>
                         </span>
