@@ -53,5 +53,9 @@
                 class="com.flightpub.checkoutPayment.actions.ConfirmationAction">
             <result>/WEB-INF/jsp/checkout_payment/confirmation.jsp</result>
         </action>
+        <action name="receipt"
+                class="com.flightpub.checkoutPayment.actions.ReceiptAction">
+            <result>/WEB-INF/jsp/checkout_payment/receipt.jsp</result>
+        </action>
     </package>
 </struts>

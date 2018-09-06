@@ -77,6 +77,7 @@ public class SearchAction extends ActionSupport implements SessionAware {
         userType = userSession.get("USER_TYPE").toString();
 
         HashMap<String, String> params = new HashMap<String, String>();
+
         if (directFlightsOnly) {
             params.put("directFlightsOnly", "true");
         }

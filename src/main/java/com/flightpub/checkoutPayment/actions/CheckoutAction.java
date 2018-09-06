@@ -50,7 +50,7 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
         Price price = priceDAO.getPrice(flight, tcktClass, tcktType);
 
         flight.setPrice(price);
-
+        
         cart.add(flight);
         userSession.put("CART", cart);
 
