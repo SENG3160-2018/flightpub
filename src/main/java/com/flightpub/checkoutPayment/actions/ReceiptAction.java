@@ -1,7 +1,10 @@
 package com.flightpub.checkoutPayment.actions;
 
+import com.flightpub.base.hibernate.dao.PriceDAO;
+import com.flightpub.base.hibernate.dao.PriceDAOImpl;
 import com.flightpub.base.hibernate.listener.HibernateListener;
 import com.flightpub.base.model.Flights;
+import com.flightpub.base.model.Price;
 import com.opensymphony.xwork2.ActionSupport;
 import com.sun.mail.smtp.SMTPTransport;
 import org.apache.struts2.ServletActionContext;
@@ -18,19 +21,18 @@ import java.util.*;
 public class ReceiptAction extends ActionSupport implements SessionAware {
 
     /* GMail account (I think this only works with Gmail at the moment) */
-    private static String USER_NAME = "flightpubreceipt";
-    private static String PASSWORD = "flight2018!";
     /* Make sure that the account is on Google has IMAP access */
+    private static String PASSWORD = "flight2018!";
+    private static String USER_NAME = "flightpubreceipt";
 
-
+    /* Variables from the form */
     private String name;
     private String email;
+
     private List<Flights> cart;
     private Map<String, Object> userSession;
 
     public String execute() {
-        System.out.println("Sending the receipt");
-
         SessionFactory sessionFactory =
                 (SessionFactory) ServletActionContext.getServletContext()
                         .getAttribute(HibernateListener.KEY_NAME);
@@ -41,22 +43,44 @@ public class ReceiptAction extends ActionSupport implements SessionAware {
             cart = new ArrayList<Flights>();
         }
 
-//        /* Access all the flights. (How to access flights in the cart) */
-//        for (Flights f : cart) {
-//            System.out.println(f.getDepartureTime());
-//            System.out.println(f.getAirlineCode());
-//        }
-
+        /* Send the email */
         String from = USER_NAME;
         String pass = PASSWORD;
-        String subject = "JavaMail";
-        String to = "xolopx@gmail.com";
-        String body = "Hello tom! this is being sent from Nathan's Java Program!";
+        String subject = "Receipt";
 
-        /* Send the email */
-//        sendFromGMail(from, pass, toEmails, subject, body);
+        /* Generate message content */
+        StringBuilder sb = new StringBuilder();
+        sb.append("Thank you for your purchase ").append(name).append("!\n\n");
+        sb.append("Your flights: \n");
+
+        /* Initialize variables for loop */
+        int i = 1;
+        double total = 0.0;
+
+        for (Flights f : cart) {
+            sb.append(i++).append(".");
+            sb.append("Date: ").append(f.getDepartureTime()).append("\n");
+            sb.append("Flight number: ").append(f.getFlightNumber()).append("\n");
+            sb.append("Departure: ").append(f.getDepartureTime()).append(" ").append(f.getDeparture()).append("\n");
+            if (f.getArrivalTimeStopOver1()!=null) {
+                sb.append("Stopover time: ").append(f.getArrivalTimeStopOver1()).append(" ").append(f.getStopOverCode1()).append("\n");
+            }
+            if (f.getArrivalTimeStopOver2()!=null) {
+                sb.append("Stopover time: ").append(f.getArrivalTimeStopOver1()).append(" ").append(f.getStopOverCode2()).append("\n");
+            }
+            sb.append("Arrival: ").append(f.getArrivalTime()).append(" ").append(f.getDestination()).append("\n");
+            sb.append("Price: $").append(f.getPrice().getPrice()).append("\n\n"); // You have to getPrice twice to access the actual price
+            total += f.getPrice().getPrice();
+        }
+
+        sb.append("Total: $").append(String.format("%.2f", total)).append("\n"); // Displaying total with 2 decimal places
+
+        String body = sb.toString();
+
+//        System.out.println(body);
+
         try {
-            Send(from, pass, to, "", subject, body);
+            Send(from, pass, email , "", subject, body);
         } catch (MessagingException e) {
             e.printStackTrace();
         }

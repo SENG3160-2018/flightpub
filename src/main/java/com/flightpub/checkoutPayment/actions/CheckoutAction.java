@@ -55,6 +55,8 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
 
         flight.setPrice(price);
 
+        System.out.println(price);
+
         cart.add(flight);
         userSession.put("CART", cart);
 
