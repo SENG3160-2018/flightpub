@@ -58,7 +58,7 @@ public class ReceiptAction extends ActionSupport implements SessionAware {
         double total = 0.0;
 
         for (Flights f : cart) {
-            sb.append(i++).append(".");
+            sb.append(i++).append(".\n");
             sb.append("Date: ").append(f.getDepartureTime()).append("\n");
             sb.append("Flight number: ").append(f.getFlightNumber()).append("\n");
             sb.append("Departure: ").append(f.getDepartureTime()).append(" ").append(f.getDeparture()).append("\n");
