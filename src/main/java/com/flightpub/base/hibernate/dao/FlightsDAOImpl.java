@@ -7,7 +7,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -19,6 +22,7 @@ import java.util.*;
  */
 public class FlightsDAOImpl implements FlightsDAO {
     static EntityManager EM = Persistence.createEntityManagerFactory("FlightPub").createEntityManager();
+    final List<Predicate> predicates = new ArrayList<Predicate>();
 
     @Override
     public Flights getFlight(int id) {
@@ -39,42 +43,33 @@ public class FlightsDAOImpl implements FlightsDAO {
         Root<Flights> root = criteria.from(Flights.class);
         criteria.select(root);
 
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Iterator it = params.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
+            Map.Entry pair = (Map.Entry) it.next();
 
             if (pair.getKey().equals("directFlightsOnly")) {
-                criteria.where(builder.isNull(root.get(Flights_.stopOverCode)));
+                predicates.add(builder.isNull(root.get(Flights_.stopOverCode)));
             } else if (pair.getKey().equals("departureCode")) {
-                criteria.where(builder.equal(root.get(Flights_.departure), pair.getValue()));
+                predicates.add(builder.equal(root.get(Flights_.departure), pair.getValue()));
             } else if (pair.getKey().equals("arrivalCode")) {
-                criteria.where(builder.equal(root.get(Flights_.destination), pair.getValue()));
+                predicates.add(builder.equal(root.get(Flights_.destination), pair.getValue()));
             } else if (pair.getKey().equals("carrier")) {
-                criteria.where(builder.equal(root.get(Flights_.airlineCode), pair.getValue()));
+                predicates.add(builder.equal(root.get(Flights_.airlineCode), pair.getValue()));
             } else if (pair.getKey().equals("date")) {
                 try {
-                    Date date = df.parse(pair.getValue().toString());
+                    String start = pair.getValue().toString();
+                    Calendar endDate = Calendar.getInstance();
+                    endDate.setTime(df.parse(start));
+                    endDate.add(Calendar.DAY_OF_MONTH, 1);
 
-                    Calendar start = Calendar.getInstance();
-                    start.setTime(date);
-                    start.set(Calendar.HOUR_OF_DAY, 0);
-                    start.set(Calendar.MINUTE, 0);
-
-                    Calendar end = Calendar.getInstance();
-                    end.setTime(date);
-                    end.set(Calendar.HOUR_OF_DAY, 23);
-                    end.set(Calendar.MINUTE, 59);
-
-                    criteria.where(builder.between(root.get(Flights_.departureTime), start.getTime(), end.getTime()));
+                    predicates.add(builder.between(root.get(Flights_.departureTime), df.parse(start), endDate.getTime()));
                 } catch (ParseException e) {
-                    System.out.println(e.toString());
+                    e.printStackTrace();
                 }
             }
-
-            it.remove(); // avoids a ConcurrentModificationException
         }
 
-        return EM.createQuery(criteria).getResultList();
+        return EM.createQuery(criteria.where(predicates.toArray(new Predicate[predicates.size()]))).getResultList();
     }
 }

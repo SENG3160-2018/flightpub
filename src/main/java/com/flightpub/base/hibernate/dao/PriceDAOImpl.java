@@ -8,7 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +21,7 @@ import java.util.List;
  */
 public class PriceDAOImpl implements PriceDAO {
     static EntityManager EM = Persistence.createEntityManagerFactory("FlightPub").createEntityManager();
+    final List<Predicate> predicates = new ArrayList<Predicate>();
 
     @Override
     public List<Price> getPrices() {
@@ -37,13 +40,13 @@ public class PriceDAOImpl implements PriceDAO {
         Root<Price> root = criteria.from(Price.class);
         criteria.select(root);
 
-        criteria.where(builder.equal(root.get(Price_.airlineCode), flight.getAirlineCode()));
-        criteria.where(builder.equal(root.get(Price_.classCode), classCode));
-        criteria.where(builder.equal(root.get(Price_.ticketCode), ticketCode));
-        criteria.where(builder.equal(root.get(Price_.flightNumber), flight.getFlightNumber()));
-        criteria.where(builder.lessThanOrEqualTo(root.get(Price_.startDate), flight.getDepartureTime()));
-        criteria.where(builder.greaterThanOrEqualTo(root.get(Price_.endDate), flight.getDepartureTime()));
+        predicates.add(builder.equal(root.get(Price_.airlineCode), flight.getAirlineCode()));
+        predicates.add(builder.equal(root.get(Price_.classCode), classCode));
+        predicates.add(builder.equal(root.get(Price_.ticketCode), ticketCode));
+        predicates.add(builder.equal(root.get(Price_.flightNumber), flight.getFlightNumber()));
+        predicates.add(builder.lessThanOrEqualTo(root.get(Price_.startDate), flight.getDepartureTime()));
+        predicates.add(builder.greaterThanOrEqualTo(root.get(Price_.endDate), flight.getDepartureTime()));
 
-        return EM.createQuery(criteria).setMaxResults(1).getSingleResult();
+        return EM.createQuery(criteria.where(predicates.toArray(new Predicate[predicates.size()]))).setMaxResults(1).getSingleResult();
     }
 }
