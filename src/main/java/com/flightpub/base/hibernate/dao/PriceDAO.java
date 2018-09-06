@@ -1,5 +1,6 @@
 package com.flightpub.base.hibernate.dao;
 
+import com.flightpub.base.model.Flights;
 import com.flightpub.base.model.Price;
 
 import java.util.List;
@@ -12,5 +13,5 @@ import java.util.List;
 public interface PriceDAO {
 
     List<Price> getPrices();
-    Price getPrice(String airlineCode, String classCode, String ticketCode, String flightNumber);
+    Price getPrice(Flights flight, String classCode, String ticketCode);
 }

@@ -7,8 +7,11 @@
 --%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
 
 <%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
+
+<sx:head />
 
 <div class="container">
     <div id="progress" class="container p-5" style="background-image: url('../../assets/clouds.jpeg')">
@@ -70,12 +73,9 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label for="departureTime">Travel Date</label>
+                    <label>Travel Date</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input name="date" type="text" class="form-control datetimepicker-input" id="departureTime" data-toggle="datetimepicker" data-target="#departureTime"/>
-                        <span class="input-group-addon">
-                            <span class="fas fa-calendar-alt"></span>
-                        </span>
+                        <sx:datetimepicker name="date" displayFormat="dd/MM/yyyy" />
                     </div>
                 </div>
             </div>
@@ -83,9 +83,9 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <div class="form-check form-check-inline" style="margin-left: 20px;">
+                    <div class="form-check" style="margin-left: 20px;">
                         <s:checkbox name="directFlightsOnly" fieldValue="true" theme="simple" />
-                        <label class="form-check-label">
+                        <label class="form-check-label pl-3">
                             Direct flights
                         </label>
                     </div>
@@ -93,9 +93,9 @@
             </div>
             <div class="col">
                 <div class="form-group">
-                    <div class="form-check form-check-inline float-right">
+                    <div class="form-check float-right">
                         <s:checkbox name="arriveDayBefore" fieldValue="true" theme="simple" />
-                        <label class="form-check-label">
+                        <label class="form-check-label pl-3">
                             Arriving day before meeting
                         </label>
                     </div>

@@ -113,7 +113,7 @@
                 <div class="form-group">
                     <div class="form-check form-check-inline" style="margin-left: 20px;">
                         <s:checkbox name="directFlightsOnly" fieldValue="true" theme="simple" />
-                        <label class="form-check-label">
+                        <label class="form-check-label pl-3">
                             Direct flights
                         </label>
                     </div>

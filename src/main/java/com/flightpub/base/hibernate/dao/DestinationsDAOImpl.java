@@ -36,7 +36,7 @@ public class DestinationsDAOImpl implements DestinationsDAO {
 
         criteria.where(builder.equal(root.get(Destination_.destinationCode), code));
 
-        Destination destination = EM.createQuery(criteria).getSingleResult();
+        Destination destination = EM.createQuery(criteria).setMaxResults(1).getSingleResult();
 
         return destination;
     }

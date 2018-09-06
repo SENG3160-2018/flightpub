@@ -42,7 +42,7 @@ public class AvailabilityDAOImpl implements AvailabilityDAO {
         criteria.where(builder.equal(root.get(Availability_.ticketClass), classCode));
         criteria.where(builder.equal(root.get(Availability_.ticketType), ticketType));
 
-        Availability availability = EM.createQuery(criteria).getSingleResult();
+        Availability availability = EM.createQuery(criteria).setMaxResults(1).getSingleResult();
 
         return availability;
     }

@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface FlightsDAO {
     Flights getFlight(int id);
-    List<Flights> getFlights(HashMap params, HashMap dates);
+    List<Flights> getFlights(HashMap params);
 }

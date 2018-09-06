@@ -5,6 +5,8 @@ import com.flightpub.base.model.*;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.interceptor.SessionAware;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -44,7 +46,6 @@ public class SearchAction extends ActionSupport implements SessionAware {
 
     public SearchAction() {
 
-
     }
 
     public String display() {
@@ -65,10 +66,14 @@ public class SearchAction extends ActionSupport implements SessionAware {
         AirlinesDAO airlinesDAO = new AirlinesDAOImpl();
         this.airlines = airlinesDAO.getAirlines();
 
+        setDate(new Date());
+
         return SUCCESS;
     }
 
     public String execute() {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
         userType = userSession.get("USER_TYPE").toString();
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -79,13 +84,12 @@ public class SearchAction extends ActionSupport implements SessionAware {
             params.put("arriveDayBefore", "true");
         }
 
-        if (!carrier.isEmpty()) {
+        if (carrier != null && !carrier.isEmpty()) {
             params.put("carrier", carrier);
         }
 
-        HashMap<String, Date> dates = new HashMap<String, Date>();
         if (date != null) {
-            dates.put("date", date);
+            params.put("date", df.format(date));
         }
 
         // For 0 stopovers, simply get flights
@@ -93,13 +97,13 @@ public class SearchAction extends ActionSupport implements SessionAware {
         if (stopOvers == 0 || directFlightsOnly) {
             params.put("departureCode", dptCode);
             params.put("arrivalCode", dstCode);
-            flights = flightsDAO.getFlights(params, dates);
+            flights = flightsDAO.getFlights(params);
         } else {
             // Get combinations of flights
             // Start by getting all flights matching departure location
             params.put("departureCode", dptCode);
 
-            List<Flights> initialLeg = flightsDAO.getFlights(params, dates);
+            List<Flights> initialLeg = flightsDAO.getFlights(params);
 
             // Iterate flights
             for (Flights f : initialLeg) {
@@ -110,11 +114,9 @@ public class SearchAction extends ActionSupport implements SessionAware {
                     HashMap<String, String> params2 = new HashMap<String, String>();
                     params2.put("departureCode", f.getDestination());
                     params2.put("arrivalCode", dstCode);
+                    params2.put("date", df.format(f.getArrivalTime()));
 
-                    HashMap<String, Date> dates2 = new HashMap<String, Date>();
-                    dates2.put("date", f.getArrivalTime());
-
-                    List<Flights> secondLeg = flightsDAO.getFlights(params2, dates2);
+                    List<Flights> secondLeg = flightsDAO.getFlights(params2);
                     // Iterate secondLeg and create combinations
                     for (Flights f2 : secondLeg) {
                         Flights newFlight = f;
@@ -131,13 +133,13 @@ public class SearchAction extends ActionSupport implements SessionAware {
         AvailabilityDAO availabilityDAO = new AvailabilityDAOImpl();
         List<Flights> toRemove = new ArrayList<Flights>();
         for (Flights f : flights) {
-            Price price = priceDAO.getPrice(f.getAirlineCode(), tcktClass, tcktType, f.getFlightNumber());
+            Price price = priceDAO.getPrice(f, tcktClass, tcktType);
             f.setPrice(price);
 
             double total = price.getPrice();
 
             if (f.hasConnectingFlight()) {
-                Price connectingPrice = priceDAO.getPrice(f.getConnectingFlight().getAirlineCode(), tcktClass, tcktType, f.getConnectingFlight().getFlightNumber());
+                Price connectingPrice = priceDAO.getPrice(f.getConnectingFlight(), tcktClass, tcktType);
                 f.getConnectingFlight().setPrice(connectingPrice);
                 total += connectingPrice.getPrice();
             }
@@ -154,12 +156,16 @@ public class SearchAction extends ActionSupport implements SessionAware {
             if (passengers > availability.getSeatsLeg1() || (availability.getSeatsLeg2() > 0 && passengers > availability.getSeatsLeg2())) {
                 toRemove.add(f);
             } else {
-                Availability connectingAvailability = availabilityDAO.getAvailability(f.getConnectingFlight().getAirlineCode(), f.getConnectingFlight().getFlightNumber(), f.getConnectingFlight().getDepartureTime(), tcktClass, tcktType);
-                if (passengers > connectingAvailability.getSeatsLeg1() || (connectingAvailability.getSeatsLeg2() > 0 && passengers > connectingAvailability.getSeatsLeg2())) {
-                    toRemove.add(f);
+                if (f.hasConnectingFlight()) {
+                    Availability connectingAvailability = availabilityDAO.getAvailability(f.getConnectingFlight().getAirlineCode(), f.getConnectingFlight().getFlightNumber(), f.getConnectingFlight().getDepartureTime(), tcktClass, tcktType);
+                    if (passengers > connectingAvailability.getSeatsLeg1() || (connectingAvailability.getSeatsLeg2() > 0 && passengers > connectingAvailability.getSeatsLeg2())) {
+                        toRemove.add(f);
+                    } else {
+                        f.setAvailability(availability);
+                        f.getConnectingFlight().setAvailability(connectingAvailability);
+                    }
                 } else {
                     f.setAvailability(availability);
-                    f.getConnectingFlight().setAvailability(connectingAvailability);
                 }
             }
         }
@@ -272,7 +278,7 @@ public class SearchAction extends ActionSupport implements SessionAware {
         return date;
     }
 
-    public void setDate(Date dptTime) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

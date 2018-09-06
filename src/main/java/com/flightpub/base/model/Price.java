@@ -2,6 +2,7 @@ package com.flightpub.base.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Price
@@ -11,14 +12,34 @@ import java.io.Serializable;
 @Entity
 @Table(name = "Price")
 public class Price implements Serializable {
-    private String flightNumber;
-    private double price;
-    private String classCode;
-    private String ticketCode;
-    private String airlineCode;
-
     @Id
     @Column(name = "FlightNumber")
+    private String flightNumber;
+
+    @Basic
+    @Column(name = "Price")
+    private double price;
+
+    @Id
+    @Column(name = "ClassCode")
+    private String classCode;
+
+    @Id
+    @Column(name = "TicketCode")
+    private String ticketCode;
+
+    @Id
+    @Column(name = "AirlineCode")
+    private String airlineCode;
+
+    @Column(name = "StartDate")
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
+
+    @Column(name = "EndDate")
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
+
     public String getFlightNumber() {
         return flightNumber;
     }
@@ -26,8 +47,6 @@ public class Price implements Serializable {
         this.flightNumber = flightNumber;
     }
 
-    @Basic
-    @Column(name = "Price")
     public double getPrice() {
         return price;
     }
@@ -35,8 +54,6 @@ public class Price implements Serializable {
         this.price = price;
     }
 
-    @Id
-    @Column(name = "ClassCode")
     public String getClassCode() {
         return classCode;
     }
@@ -44,8 +61,6 @@ public class Price implements Serializable {
         this.classCode = classCode;
     }
 
-    @Id
-    @Column(name = "TicketCode")
     public String getTicketCode() {
         return ticketCode;
     }
@@ -53,8 +68,6 @@ public class Price implements Serializable {
         this.ticketCode = ticketCode;
     }
 
-    @Id
-    @Column(name = "AirlineCode")
     public String getAirlineCode() {
         return airlineCode;
     }
@@ -62,5 +75,17 @@ public class Price implements Serializable {
         this.airlineCode = airlineCode;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
+    public Date getEndDate() {
+        return endDate;
+    }
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 }

@@ -9,7 +9,7 @@
 <%@ include file="/WEB-INF/jsp/user_reviews/popup.jsp" %>
 
 <!-- Footer -->
-<footer class="navbar bg-primary fixed-bottom">
+<footer class="navbar bg-dark fixed-bottom">
     <div class="container">
         <div class="footer-copyright text-center py-3">&copy; 2018 Copyright:
             <a href="/"> FlightPub</a>

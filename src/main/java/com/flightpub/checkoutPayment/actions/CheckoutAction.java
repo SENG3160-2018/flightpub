@@ -47,7 +47,7 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
         Flights flight = flightsDAO.getFlight(flightId);
 
         PriceDAO priceDAO = new PriceDAOImpl();
-        Price price = priceDAO.getPrice(airline, tcktClass, tcktType, flightNumber);
+        Price price = priceDAO.getPrice(flight, tcktClass, tcktType);
 
         flight.setPrice(price);
 

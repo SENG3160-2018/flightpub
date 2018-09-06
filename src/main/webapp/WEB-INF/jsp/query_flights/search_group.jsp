@@ -135,7 +135,7 @@
                 <div class="form-group">
                     <div class="form-check form-check-inline float-right">
                         <s:checkbox name="includeReturn" fieldValue="true" theme="simple" />
-                        <label class="form-check-label">
+                        <label class="form-check-label pl-3">
                             Include return fares
                         </label>
                     </div>
@@ -145,7 +145,7 @@
                 <div class="form-group">
                     <div class="form-check form-check-inline float-right">
                         <s:checkbox name="multiCity" fieldValue="true" theme="simple" />
-                        <label class="form-check-label">
+                        <label class="form-check-label pl-3">
                             Multi city
                         </label>
                     </div>
@@ -157,7 +157,7 @@
                 <div class="form-group">
                     <div class="form-check form-check-inline" style="margin-left: 20px;">
                         <s:checkbox name="groupDiscount" fieldValue="true" theme="simple" />
-                        <label class="form-check-label">
+                        <label class="form-check-label pl-3">
                             Group Discount
                         </label>
                     </div>

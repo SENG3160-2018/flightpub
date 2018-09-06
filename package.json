@@ -21,7 +21,7 @@
     "less-loader": "^4.1.0"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0-alpha.6",
+    "bootstrap": "^4.*",
     "datatables.net": "^1.10.19",
     "datatables.net-bs4": "^1.10.19",
     "datatables.net-dt": "^1.10.19",
