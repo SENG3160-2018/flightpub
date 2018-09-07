@@ -1,5 +1,9 @@
 # Flight Pub
 
+## Important
+
+This project is too large to submit via Turnitin, so to review and download repository please visit [https://github.com/SENG3160-2018/flightpub](https://github.com/SENG3160-2018/flightpub)
+
 This package is running Struts2 based on Java.
 
 Hibernate ORM is used.
