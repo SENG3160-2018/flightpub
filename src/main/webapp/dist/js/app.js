@@ -29377,7 +29377,7 @@ __webpack_require__(134);
 })();
 
 $(document).ready(function () {
-    $('#results .table').DataTable();
+    $('#results .table.datatable').DataTable();
 });
 
 /***/ }),

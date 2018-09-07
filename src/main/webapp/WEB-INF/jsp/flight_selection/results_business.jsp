@@ -20,46 +20,55 @@
     </div>
 </div>
 <div id="results" class="container mt-5">
-    <table class="table table-hover table-striped">
-        <thead>
-        <tr>
-            <th scope="col">Departure Time</th>
-            <th scope="col">Arrival Time</th>
-            <th scope="col">Departure City</th>
-            <th scope="col">Arrival City</th>
-            <th scope="col">Cabin Class</th>
-            <th scope="col">Price</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <s:iterator value="flights" var="flight">
-            <tr>
-                <td>
-                    <fmt:formatDate value="${departureTime}" pattern="dd/MM/YY HH:mm" />
-                </td>
-                <td>
-                    <fmt:formatDate value="${arrivalTime}" pattern="dd/MM/YY HH:mm" />
-                </td>
-                <td>${flight.departure}</td>
-                <td>${flight.destination}</td>
-                <td>${price.classCode}</td>
-                <td>
-                    <fmt:formatNumber value="${price.price}" type="currency" currencySymbol="$"/>
-                </td>
-                <td class="text-white">
-                    <a href="<s:url action="addToCart">
+    <div class="row">
+        <div class="col">
+            <p class="h4">Results.</p>
+            <p class="h5">Date: <fmt:formatDate value="${date}" pattern="dd/MM/YY" /></p>
+
+            <table class="table table-hover table-striped datatable">
+                <thead>
+                <tr>
+                    <th scope="col">Departure Time</th>
+                    <th scope="col">Arrival Time</th>
+                    <th scope="col">Departure City</th>
+                    <th scope="col">Flights</th>
+                    <th scope="col">Arrival City</th>
+                    <th scope="col">Cabin Class</th>
+                    <th scope="col">Price</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <s:iterator value="flights" var="flight">
+                    <tr>
+                        <td>
+                            <fmt:formatDate value="${departureTime}" pattern="HH:mm" />
+                        </td>
+                        <td>
+                            <fmt:formatDate value="${arrivalTime}" pattern="HH:mm" />
+                        </td>
+                        <td>${flight.departure}</td>
+                        <td>${totalLegs}</td>
+                        <td>${dstCode}</td>
+                        <td>${price.classCode}</td>
+                        <td>
+                            <fmt:formatNumber value="${totalPrice}" type="currency" currencySymbol="$"/>
+                        </td>
+                        <td class="text-white">
+                            <a href="<s:url action="addToCart">
                                 <s:param name="flightId" value="%{id}" />
                                 <s:param name="airline" value="%{price.airlineCode}" />
                                 <s:param name="tcktClass" value="%{price.classCode}" />
                                 <s:param name="tcktType" value="%{price.ticketCode}" />
                                 <s:param name="flightNumber" value="%{flightNumber}" />
                             </s:url>" role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
-                </td>
-            </tr>
-        </s:iterator>
-        </tbody>
-    </table>
+                        </td>
+                    </tr>
+                </s:iterator>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <a role="button" class="btn btn-secondary" href="<s:url action='search' >
                         <s:param name='userType' value='userType' />
                     </s:url>">Back to Search</a>

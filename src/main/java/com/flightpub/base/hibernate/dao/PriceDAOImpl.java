@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class PriceDAOImpl implements PriceDAO {
     static EntityManager EM = Persistence.createEntityManagerFactory("FlightPub").createEntityManager();
-    final List<Predicate> predicates = new ArrayList<Predicate>();
+    private List<Predicate> predicates;
 
     @Override
     public List<Price> getPrices() {
@@ -35,6 +35,8 @@ public class PriceDAOImpl implements PriceDAO {
 
     @Override
     public Price getPrice(Flights flight, String classCode, String ticketCode) {
+        this.predicates = new ArrayList<Predicate>();
+
         CriteriaBuilder builder = EM.getCriteriaBuilder();
         CriteriaQuery<Price> criteria = builder.createQuery(Price.class);
         Root<Price> root = criteria.from(Price.class);

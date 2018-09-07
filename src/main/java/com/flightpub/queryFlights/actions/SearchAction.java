@@ -45,7 +45,7 @@ public class SearchAction extends ActionSupport implements SessionAware {
     private String carrier;
 
     public SearchAction() {
-
+        this.stopOvers = -1;
     }
 
     public String display() {
@@ -134,22 +134,10 @@ public class SearchAction extends ActionSupport implements SessionAware {
         AvailabilityDAO availabilityDAO = new AvailabilityDAOImpl();
         List<Flights> toRemove = new ArrayList<Flights>();
         for (Flights f : flights) {
-            Price price = priceDAO.getPrice(f, tcktClass, tcktType);
-            f.setPrice(price);
-
-            double total = price.getPrice();
+            f.setPrice(priceDAO.getPrice(f, tcktClass, tcktType));
 
             if (f.hasConnectingFlight()) {
-                Price connectingPrice = priceDAO.getPrice(f.getConnectingFlight(), tcktClass, tcktType);
-                f.getConnectingFlight().setPrice(connectingPrice);
-                total += connectingPrice.getPrice();
-            }
-
-            if (minPrice > 0 && total < minPrice) {
-                toRemove.add(f);
-            }
-            if (maxPrice > 0 && total > maxPrice) {
-                toRemove.add(f);
+                f.getConnectingFlight().setPrice(priceDAO.getPrice(f.getConnectingFlight(), tcktClass, tcktType));
             }
 
             // Get availability.  If not enough seats remove flight from results.  Else add availability to flight
@@ -168,6 +156,43 @@ public class SearchAction extends ActionSupport implements SessionAware {
                 } else {
                     f.setAvailability(availability);
                 }
+            }
+
+            // Calculate number of legs and price
+            if (f.getStopOverCode().equals(dstCode)) {
+                f.setTotalLegs(1);
+                f.setTotalPrice(f.getPrice().getPrice1());
+            } else if (f.getDestination().equals(dstCode)) {
+                if (!f.getStopOverCode().equals("")) {
+                    f.setTotalLegs(2);
+                } else {
+                    f.setTotalLegs(1);
+                }
+                f.setTotalPrice(f.getPrice().getPrice());
+            } else if (f.hasConnectingFlight() && f.getConnectingFlight().getStopOverCode().equals(dstCode)) {
+                if (!f.getStopOverCode().equals("")) {
+                    f.setTotalLegs(3);
+                } else {
+                    f.setTotalLegs(2);
+                }
+
+                f.setTotalPrice(f.getPrice().getPrice() + f.getConnectingFlight().getPrice().getPrice1());
+            } else {
+                if (!f.getStopOverCode().equals("") && !f.getConnectingFlight().getStopOverCode().equals("")) {
+                    f.setTotalLegs(4);
+                } else if (!f.getStopOverCode().equals("") || !f.getConnectingFlight().getStopOverCode().equals("")) {
+                    f.setTotalLegs(3);
+                } else {
+                    f.setTotalLegs(2);
+                }
+                f.setTotalPrice(f.getPrice().getPrice() + f.getConnectingFlight().getPrice().getPrice());
+            }
+
+            if (minPrice > 0 && f.getTotalPrice() < minPrice) {
+                toRemove.add(f);
+            }
+            if (maxPrice > 0 && f.getTotalPrice() > maxPrice) {
+                toRemove.add(f);
             }
         }
 

@@ -25,5 +25,5 @@ require('../../lib/bootstrap-4-master/build/js/tempusdominus-bootstrap-4.min');
 })();
 
 $(document).ready(function() {
-    $('#results .table').DataTable();
+    $('#results .table.datatable').DataTable();
 });

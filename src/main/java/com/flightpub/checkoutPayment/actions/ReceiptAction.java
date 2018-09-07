@@ -62,11 +62,8 @@ public class ReceiptAction extends ActionSupport implements SessionAware {
             sb.append("Date: ").append(f.getDepartureTime()).append("\n");
             sb.append("Flight number: ").append(f.getFlightNumber()).append("\n");
             sb.append("Departure: ").append(f.getDepartureTime()).append(" ").append(f.getDeparture()).append("\n");
-            if (f.getArrivalTimeStopOver1()!=null) {
-                sb.append("Stopover time: ").append(f.getArrivalTimeStopOver1()).append(" ").append(f.getStopOverCode1()).append("\n");
-            }
-            if (f.getArrivalTimeStopOver2()!=null) {
-                sb.append("Stopover time: ").append(f.getArrivalTimeStopOver1()).append(" ").append(f.getStopOverCode2()).append("\n");
+            if (f.getArrivalTimeStopOver()!=null) {
+                sb.append("Stopover time: ").append(f.getArrivalTimeStopOver()).append(" ").append(f.getStopOverCode()).append("\n");
             }
             sb.append("Arrival: ").append(f.getArrivalTime()).append(" ").append(f.getDestination()).append("\n");
             sb.append("Price: $").append(f.getPrice().getPrice()).append("\n\n"); // You have to getPrice twice to access the actual price

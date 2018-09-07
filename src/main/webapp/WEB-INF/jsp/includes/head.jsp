@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
 
 <!doctype html>
 <html lang="en">
@@ -21,6 +22,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" />
     <link rel="stylesheet" type="text/css" href="../dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../dist/css/styles.css">
+    <sx:head />
 </head>
 <body>
 

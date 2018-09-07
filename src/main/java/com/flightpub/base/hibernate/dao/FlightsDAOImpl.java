@@ -9,7 +9,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,7 +21,7 @@ import java.util.*;
  */
 public class FlightsDAOImpl implements FlightsDAO {
     static EntityManager EM = Persistence.createEntityManagerFactory("FlightPub").createEntityManager();
-    final List<Predicate> predicates = new ArrayList<Predicate>();
+    private List<Predicate> predicates;
 
     @Override
     public Flights getFlight(int id) {
@@ -45,6 +44,7 @@ public class FlightsDAOImpl implements FlightsDAO {
 
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Iterator it = params.entrySet().iterator();
+        predicates = new ArrayList<Predicate>();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
 
@@ -54,10 +54,7 @@ public class FlightsDAOImpl implements FlightsDAO {
                 predicates.add(builder.equal(root.get(Flights_.departure), pair.getValue()));
             } else if (pair.getKey().equals("arrivalCode")) {
                 // Query flights where stopover OR destination is equal to param
-                predicates.add(builder.or(
-                        builder.equal(root.get(Flights_.destination), pair.getValue()),
-                        builder.equal(root.get(Flights_.stopOverCode), pair.getValue())
-                ));
+                predicates.add(builder.equal(root.get(Flights_.stopOverCode), pair.getValue()));
             } else if (pair.getKey().equals("carrier")) {
                 predicates.add(builder.equal(root.get(Flights_.airlineCode), pair.getValue()));
             } else if (pair.getKey().equals("date")) {

@@ -7,6 +7,7 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
 
 <%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
 
@@ -110,12 +111,9 @@
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label>Departure Date</label>
+                    <label>Travel Date</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input name="date" type="text" class="form-control datetimepicker-input" id="departureTime" data-toggle="datetimepicker" data-target="#departureTime"/>
-                        <span class="input-group-addon">
-                            <span class="fas fa-calendar-alt"></span>
-                        </span>
+                        <sx:datetimepicker name="date" displayFormat="dd/MM/yyyy" cssClass="form-control datetimepicker-input" />
                     </div>
                 </div>
             </div>
@@ -125,7 +123,7 @@
                 <div class="form-group">
                     <div class="form-check form-check-inline" style="margin-left: 20px;">
                         <s:checkbox name="sameFlight" fieldValue="true" theme="simple" />
-                        <label class="form-check-label">
+                        <label class="form-check-label pl-3">
                             Same flight
                         </label>
                     </div>
@@ -137,16 +135,6 @@
                         <s:checkbox name="includeReturn" fieldValue="true" theme="simple" />
                         <label class="form-check-label pl-3">
                             Include return fares
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <div class="form-check form-check-inline float-right">
-                        <s:checkbox name="multiCity" fieldValue="true" theme="simple" />
-                        <label class="form-check-label pl-3">
-                            Multi city
                         </label>
                     </div>
                 </div>
@@ -163,8 +151,16 @@
                     </div>
                 </div>
             </div>
-            <div class="col"></div>
-            <div class="col"></div>
+            <div class="col">
+                <div class="form-group">
+                    <div class="form-check form-check-inline float-right">
+                        <s:checkbox name="multiCity" fieldValue="true" theme="simple" />
+                        <label class="form-check-label pl-3">
+                            Multi city
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col">

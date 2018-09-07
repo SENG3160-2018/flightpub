@@ -20,9 +20,11 @@
 </div>
 <div id="results" class="container mt-5">
     <div class="row">
-        <div class="col-8">
+        <div class="col">
             <p class="h4">Results.</p>
-            <table class="table table-hover">
+            <p class="h5">Date: <fmt:formatDate value="${date}" pattern="dd/MM/YY" /></p>
+
+            <table class="table table-hover table-striped datatable">
                 <thead>
                 <tr>
                     <th scope="col">Price</th>
@@ -36,7 +38,7 @@
                     <s:iterator value="flights" var="flight">
                         <tr>
                             <td scope="row">
-                                <fmt:formatNumber value="${price.price}" type="currency" currencySymbol="$"/>
+                                <fmt:formatNumber value="${totalPrice}" type="currency" currencySymbol="$"/>
                             </td>
                             <td>${flight.departure}</td>
                             <td>${flight.destination}</td>
@@ -54,14 +56,16 @@
                     </s:iterator>
                 </tbody>
             </table>
-            <a role="button" class="btn btn-secondary" href="<s:url action='search' >
-                        <s:param name='userType' value='userType' />
-                    </s:url>">Back to Search</a>
         </div>
-        <div class="col-4">
+    </div>
+    <div class="row mt-5">
+        <div class="col">
             <%@ include file="/WEB-INF/jsp/recommendations/friends.jsp" %>
         </div>
     </div>
+    <a role="button" class="btn btn-secondary" href="<s:url action='search' >
+                        <s:param name='userType' value='userType' />
+                    </s:url>">Back to Search</a>
 </div>
 
 <%@ include file="/WEB-INF/jsp/includes/foot.jsp" %>

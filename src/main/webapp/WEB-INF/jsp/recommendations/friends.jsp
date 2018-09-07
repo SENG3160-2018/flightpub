@@ -13,6 +13,8 @@
         <thead>
         <tr>
             <th>Airport transport.</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -29,6 +31,8 @@
         <thead>
         <tr>
             <th>Accomodation.</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>

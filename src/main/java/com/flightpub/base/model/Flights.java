@@ -61,6 +61,11 @@ public class Flights implements Serializable {
     @Transient
     private Flights connectingFlight;
 
+    @Transient
+    private int totalLegs;
+
+    @Transient
+    private double totalPrice;
 
     public Price getPrice() {
         return price;
@@ -175,5 +180,21 @@ public class Flights implements Serializable {
     }
     public void setStopOverCode(String stopOverCode) {
         this.stopOverCode = stopOverCode;
+    }
+
+    public int getTotalLegs() {
+        return totalLegs;
+    }
+
+    public void setTotalLegs(int totalLegs) {
+        this.totalLegs = totalLegs;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

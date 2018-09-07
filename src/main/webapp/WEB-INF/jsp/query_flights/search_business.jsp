@@ -11,8 +11,6 @@
 
 <%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
 
-<sx:head />
-
 <div class="container">
     <div id="progress" class="container p-5" style="background-image: url('../../assets/clouds.jpeg')">
         <p class="h5 text-white">You're almost there...</p>
@@ -75,28 +73,17 @@
                 <div class="form-group">
                     <label>Travel Date</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <sx:datetimepicker name="date" displayFormat="dd/MM/yyyy" />
+                        <sx:datetimepicker name="date" displayFormat="dd/MM/yyyy" cssClass="form-control datetimepicker-input" />
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
             <div class="col">
                 <div class="form-group">
+                    <label></label>
                     <div class="form-check" style="margin-left: 20px;">
                         <s:checkbox name="directFlightsOnly" fieldValue="true" theme="simple" />
                         <label class="form-check-label pl-3">
                             Direct flights
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <div class="form-check float-right">
-                        <s:checkbox name="arriveDayBefore" fieldValue="true" theme="simple" />
-                        <label class="form-check-label pl-3">
-                            Arriving day before meeting
                         </label>
                     </div>
                 </div>

@@ -22,8 +22,8 @@
 <div id="checkout" class="container mt-5">
     <s:form action="confirmation" method="POST" theme="simple">
         <div class="container">
-            <div class="row">
-                <div class="col-8">
+            <div class="row justify-content-center">
+                <div class="col-12">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -53,7 +53,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-4">
+                <div class="col-6 mt-5">
                     <h1>Payment Details</h1>
                     <div class="form-group">
                         <label for="card_number">Card Number</label>

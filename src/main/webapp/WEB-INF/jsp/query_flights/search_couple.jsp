@@ -7,6 +7,7 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
 
 <%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
 
@@ -98,12 +99,9 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label for="departureTime">Departure Date</label>
+                    <label>Travel Date</label>
                     <div class="input-group date" data-target-input="nearest">
-                        <input name="date" type="text" class="form-control datetimepicker-input" id="departureTime" data-toggle="datetimepicker" data-target="#departureTime"/>
-                        <span class="input-group-addon">
-                            <span class="fas fa-calendar-alt"></span>
-                        </span>
+                        <sx:datetimepicker name="date" displayFormat="dd/MM/yyyy" cssClass="form-control datetimepicker-input" />
                     </div>
                 </div>
             </div>
