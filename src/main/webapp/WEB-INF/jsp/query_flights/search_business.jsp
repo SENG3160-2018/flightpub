@@ -91,6 +91,8 @@
         </div>
         <div class="row">
             <div class="col pull-right">
+                <s:hidden name="stopOvers" value="-1" />
+                <s:hidden name="passengers" value="1" />
                 <button type="submit" class="btn btn-primary float-right">Search</button>
             </div>
         </div>

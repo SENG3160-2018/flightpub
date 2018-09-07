@@ -57,5 +57,44 @@
                 class="com.flightpub.checkoutPayment.actions.ReceiptAction">
             <result>/WEB-INF/jsp/checkout_payment/receipt.jsp</result>
         </action>
+
+        <action name="addToGroup"
+                method="addToGroup"
+                class="com.flightpub.checkoutPayment.actions.CheckoutAction">
+            <result name="success">/WEB-INF/jsp/flight_selection/results_${userType}.jsp</result>
+            <result name="error">/WEB-INF/jsp/flight_selection/results_${userType}.jsp</result>
+        </action>
+        <action name="groupCheckout"
+                method="groupCheckout"
+                class="com.flightpub.checkoutPayment.actions.CheckoutAction">
+            <result name="success">/WEB-INF/jsp/checkout_payment/checkout.jsp</result>
+            <result name="error">/WEB-INF/jsp/flight_selection/results_${userType}.jsp</result>
+        </action>
+        <action name="share"
+                method="share"
+                class="com.flightpub.checkoutPayment.actions.CheckoutAction">
+            <result>/WEB-INF/jsp/checkout_payment/checkout.jsp</result>
+        </action>
+        <action name="undo"
+                method="undo"
+                class="com.flightpub.checkoutPayment.actions.CheckoutAction">
+            <result>/WEB-INF/jsp/checkout_payment/checkout.jsp</result>
+        </action>
+        <action name="removeCartSearch"
+                method="removeCart"
+                class="com.flightpub.checkoutPayment.actions.CheckoutAction">
+            <result>/WEB-INF/jsp/flight_selection/results_${userType}.jsp</result>
+        </action>
+        <action name="removeCartCO"
+                method="removeCartCO"
+                class="com.flightpub.checkoutPayment.actions.CheckoutAction">
+            <result name="error">/WEB-INF/jsp/flight_selection/results_${userType}.jsp</result>
+            <result name="success">/WEB-INF/jsp/checkout_payment/checkout.jsp</result>
+        </action>
+        <action name="emailFriend"
+                method="emailFriend"
+                class="com.flightpub.checkoutPayment.actions.ConfirmationAction">
+            <result>/WEB-INF/jsp/checkout_payment/checkout.jsp</result>
+        </action>
     </package>
 </struts>

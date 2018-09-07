@@ -4,13 +4,10 @@ import com.flightpub.base.hibernate.dao.FlightsDAO;
 import com.flightpub.base.hibernate.dao.FlightsDAOImpl;
 import com.flightpub.base.hibernate.dao.PriceDAO;
 import com.flightpub.base.hibernate.dao.PriceDAOImpl;
-import com.flightpub.base.hibernate.listener.HibernateListener;
 import com.flightpub.base.model.Flights;
 import com.flightpub.base.model.Price;
 import com.opensymphony.xwork2.ActionSupport;
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
-import org.hibernate.SessionFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +25,16 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
     private String tcktType;
     private String flightNumber;
 
+    private List<Flights> flights;
+
     private List<Flights> cart;
+    private List<Flights> share;
     private Map<String, Object> userSession;
+    private String userType;
+    private int passengers;
+
+    private int flightCt;
+    private int flightCt2;
 
     public String execute() {
 
@@ -50,11 +55,130 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
         Price price = priceDAO.getPrice(flight, tcktClass, tcktType);
 
         flight.setPrice(price);
-        
-        cart.add(flight);
+
+        int p = Integer.parseInt(userSession.get("PASSENGERS").toString());
+        for (int i = 0; i < p; i++) {
+            cart.add(flight);
+        }
+
         userSession.put("CART", cart);
 
         return SUCCESS;
+    }
+
+    public String addToGroup() {
+        userType = userSession.get("USER_TYPE").toString();
+        String p = userSession.get("PASSENGERS").toString();
+        passengers = Integer.parseInt(p);
+
+        if (userSession.containsKey("CART")) {
+            cart = (ArrayList<Flights>) userSession.get("CART");
+            if (cart.size() - 1 == passengers){
+                flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
+                return ERROR;
+            }
+        } else {
+            cart = new ArrayList<Flights>();
+        }
+        // Get flight
+        FlightsDAO flightsDAO = new FlightsDAOImpl();
+        Flights flight = flightsDAO.getFlight(flightId);
+
+        PriceDAO priceDAO = new PriceDAOImpl();
+        Price price = priceDAO.getPrice(flight, tcktClass, tcktType);
+
+        flight.setPrice(price);
+
+        cart.add(flight);
+        userSession.put("CART", cart);
+
+        flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
+        return SUCCESS;
+    }
+
+    public String groupCheckout() {
+        userType = userSession.get("USER_TYPE").toString();
+        String p = userSession.get("PASSENGERS").toString();
+        passengers = Integer.parseInt(p);
+
+        if (userSession.containsKey("CART")) {
+            cart = (ArrayList<Flights>) userSession.get("CART");
+            if (cart.size()==passengers){
+                userSession.get("CART");
+                return SUCCESS;
+            } else {
+                flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
+                return ERROR;
+            }
+
+        } else {
+            flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
+            return ERROR;
+        }
+    }
+
+    public String removeCart() {
+        userType = userSession.get("USER_TYPE").toString();
+        cart = (ArrayList<Flights>) userSession.get("CART");
+        cart.remove(flightCt-1);
+        userSession.put("CART", cart);
+        flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
+        return SUCCESS;
+    }
+
+    public String removeCartCO() {
+        cart = (ArrayList<Flights>) userSession.get("CART");
+        if (cart.size()==0){
+            userType = userSession.get("USER_TYPE").toString();
+            flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
+            return ERROR;
+        } else {
+            cart.remove(flightCt2-1);
+            if (cart.size()==0){
+                userType = userSession.get("USER_TYPE").toString();
+                if (userSession.containsKey("SHARE")) {
+                    userSession.remove("SHARE");
+                }
+                flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
+                return ERROR;
+            } else {
+                userSession.put("CART", cart);
+                return SUCCESS;
+            }
+        }
+    }
+
+    public String undo() {
+        share = (ArrayList<Flights>) userSession.get("SHARE");
+        userSession.put("CART", share);
+        userSession.remove("SHARE");
+        return SUCCESS;
+    }
+
+    public String share() {
+        cart = (ArrayList<Flights>) userSession.get("CART");
+        if (userSession.containsKey("SHARE")) {
+            share = (ArrayList<Flights>) userSession.get("SHARE");
+        } else {
+            share = new ArrayList<Flights>();}
+
+        if (cart.size() == 1) {
+            if (share.size() == 0) {
+                userSession.put("SHARE", cart);
+                return SUCCESS;
+            } else if (share.size() == cart.size()) {
+                userSession.put("SHARE", cart);
+                return SUCCESS;
+            }
+        } else {
+            if (cart.size()>1) {
+                userSession.put("SHARE", cart.get(flightCt2-1));
+                cart.remove(flightCt2-1);
+                return SUCCESS;
+            }
+        }
+        return SUCCESS;
+
     }
 
     @Override
@@ -100,5 +224,69 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
 
     public void setFlightId(int flightId) {
         this.flightId = flightId;
+    }
+
+    public List<Flights> getFlights() {
+        return flights;
+    }
+
+    public void setFlights(List<Flights> flights) {
+        this.flights = flights;
+    }
+
+    public List<Flights> getCart() {
+        return cart;
+    }
+
+    public void setCart(List<Flights> cart) {
+        this.cart = cart;
+    }
+
+    public List<Flights> getShare() {
+        return share;
+    }
+
+    public void setShare(List<Flights> share) {
+        this.share = share;
+    }
+
+    public Map<String, Object> getUserSession() {
+        return userSession;
+    }
+
+    public void setUserSession(Map<String, Object> userSession) {
+        this.userSession = userSession;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public int getPassengers() {
+        return passengers;
+    }
+
+    public void setPassengers(int passengers) {
+        this.passengers = passengers;
+    }
+
+    public int getFlightCt() {
+        return flightCt;
+    }
+
+    public void setFlightCt(int flightCt) {
+        this.flightCt = flightCt;
+    }
+
+    public int getFlightCt2() {
+        return flightCt2;
+    }
+
+    public void setFlightCt2(int flightCt2) {
+        this.flightCt2 = flightCt2;
     }
 }

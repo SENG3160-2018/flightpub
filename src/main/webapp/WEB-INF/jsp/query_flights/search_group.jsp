@@ -100,7 +100,7 @@
             <div class="col">
                 <div class="form-group">
                     <label for="passengers">Number of passengers</label>
-                    <select name="passengers" class="form-control" id="passengers">
+                    <select name="passengers" class="form-control" id="passengers" required>
                         <option disabled selected value>-</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -164,6 +164,7 @@
         </div>
         <div class="row">
             <div class="col">
+                <s:hidden name="stopOvers" value="-1" />
                 <button type="submit" class="btn btn-primary float-right">Search</button>
             </div>
         </div>

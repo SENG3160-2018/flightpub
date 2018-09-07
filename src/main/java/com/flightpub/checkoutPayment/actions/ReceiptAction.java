@@ -1,15 +1,9 @@
 package com.flightpub.checkoutPayment.actions;
 
-import com.flightpub.base.hibernate.dao.PriceDAO;
-import com.flightpub.base.hibernate.dao.PriceDAOImpl;
-import com.flightpub.base.hibernate.listener.HibernateListener;
 import com.flightpub.base.model.Flights;
-import com.flightpub.base.model.Price;
 import com.opensymphony.xwork2.ActionSupport;
 import com.sun.mail.smtp.SMTPTransport;
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
-import org.hibernate.SessionFactory;
 
 import javax.mail.*;
 import javax.mail.internet.AddressException;
@@ -33,10 +27,6 @@ public class ReceiptAction extends ActionSupport implements SessionAware {
     private Map<String, Object> userSession;
 
     public String execute() {
-        SessionFactory sessionFactory =
-                (SessionFactory) ServletActionContext.getServletContext()
-                        .getAttribute(HibernateListener.KEY_NAME);
-
         if (userSession.containsKey("CART")) {
             cart = (ArrayList<Flights>) userSession.get("CART");
         } else {
@@ -66,8 +56,8 @@ public class ReceiptAction extends ActionSupport implements SessionAware {
                 sb.append("Stopover time: ").append(f.getArrivalTimeStopOver()).append(" ").append(f.getStopOverCode()).append("\n");
             }
             sb.append("Arrival: ").append(f.getArrivalTime()).append(" ").append(f.getDestination()).append("\n");
-            sb.append("Price: $").append(f.getPrice().getPrice()).append("\n\n"); // You have to getPrice twice to access the actual price
-            total += f.getPrice().getPrice();
+            sb.append("Price: $").append(f.getTotalPrice()).append("\n\n"); // You have to getPrice twice to access the actual price
+            total += f.getTotalPrice();
         }
 
         sb.append("Total: $").append(String.format("%.2f", total)).append("\n"); // Displaying total with 2 decimal places
@@ -78,6 +68,7 @@ public class ReceiptAction extends ActionSupport implements SessionAware {
 
         try {
             Send(from, pass, email , "", subject, body);
+            userSession.remove("CART");
         } catch (MessagingException e) {
             e.printStackTrace();
         }

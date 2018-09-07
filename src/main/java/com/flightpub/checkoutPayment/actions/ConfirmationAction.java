@@ -21,11 +21,12 @@ public class ConfirmationAction extends ActionSupport implements SessionAware {
     private Map<String, Object> userSession;
 
     public String execute() {
+        userSession.remove("CART");
+        return SUCCESS;
+    }
 
-        SessionFactory sessionFactory =
-                (SessionFactory) ServletActionContext.getServletContext()
-                        .getAttribute(HibernateListener.KEY_NAME);
-
+    public String emailFriend() {
+        userSession.remove("SHARE");
         return SUCCESS;
     }
 

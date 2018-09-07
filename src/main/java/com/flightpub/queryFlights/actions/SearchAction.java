@@ -44,10 +44,6 @@ public class SearchAction extends ActionSupport implements SessionAware {
     private boolean groupDiscount;
     private String carrier;
 
-    public SearchAction() {
-        this.stopOvers = -1;
-    }
-
     public String display() {
         userSession.put("USER_TYPE", userType);
 
@@ -73,6 +69,12 @@ public class SearchAction extends ActionSupport implements SessionAware {
 
     public String execute() {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+        userSession.put("PASSENGERS", passengers);
+
+        if (userSession.containsKey("FLIGHTS")) {
+            userSession.remove("FLIGHTS");
+        }
 
         userType = userSession.get("USER_TYPE").toString();
 
@@ -143,12 +145,16 @@ public class SearchAction extends ActionSupport implements SessionAware {
             // Get availability.  If not enough seats remove flight from results.  Else add availability to flight
             Availability availability = availabilityDAO.getAvailability(f.getAirlineCode(), f.getFlightNumber(), f.getDepartureTime(), tcktClass, tcktType);
             if (passengers > availability.getSeatsLeg1() || (availability.getSeatsLeg2() > 0 && passengers > availability.getSeatsLeg2())) {
-                toRemove.add(f);
+                if (!userType.equals("group")) {
+                    toRemove.add(f);
+                }
             } else {
                 if (f.hasConnectingFlight()) {
                     Availability connectingAvailability = availabilityDAO.getAvailability(f.getConnectingFlight().getAirlineCode(), f.getConnectingFlight().getFlightNumber(), f.getConnectingFlight().getDepartureTime(), tcktClass, tcktType);
                     if (passengers > connectingAvailability.getSeatsLeg1() || (connectingAvailability.getSeatsLeg2() > 0 && passengers > connectingAvailability.getSeatsLeg2())) {
-                        toRemove.add(f);
+                        if (!userType.equals("group")) {
+                            toRemove.add(f);
+                        }
                     } else {
                         f.setAvailability(availability);
                         f.getConnectingFlight().setAvailability(connectingAvailability);
@@ -199,6 +205,8 @@ public class SearchAction extends ActionSupport implements SessionAware {
         for (Flights f : toRemove) {
             flights.remove(f);
         }
+
+        userSession.put("FLIGHTS", flights);
 
         return SUCCESS;
     }

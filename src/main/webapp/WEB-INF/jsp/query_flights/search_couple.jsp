@@ -171,6 +171,7 @@
                     <label for="stopovers">Number of stopovers</label>
                     <select name="stopOvers" class="form-control" id="stopovers">
                         <option disabled selected value>-</option>
+                        <option value="-1" selected>Any</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -191,6 +192,7 @@
         </div>
         <div class="row">
             <div class="col">
+                <s:hidden name="passengers" value="2" />
                 <button type="submit" class="btn btn-primary float-right">Search</button>
             </div>
         </div>
