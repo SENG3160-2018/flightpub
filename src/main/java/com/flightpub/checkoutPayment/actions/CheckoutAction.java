@@ -35,6 +35,7 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
 
     private int flightCt;
     private int flightCt2;
+    private int flightCt3;
 
     public String execute() {
 
@@ -150,9 +151,24 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
 
     public String undo() {
         share = (ArrayList<Flights>) userSession.get("SHARE");
-        userSession.put("CART", share);
-        userSession.remove("SHARE");
-        return SUCCESS;
+        cart = (ArrayList<Flights>) userSession.get("CART");
+        String p = userSession.get("PASSENGERS").toString();
+        passengers = Integer.parseInt(p);
+        if (passengers == 1) {
+            userSession.remove("SHARE");
+            return SUCCESS;
+        } else {
+            cart.add(share.get(flightCt3 - 1));
+            userSession.put("CART", cart);
+            if (share.size() > 1) {
+                share.remove(flightCt3 - 1);
+                userSession.put("SHARE", share);
+                return SUCCESS;
+            } else {
+                userSession.remove("SHARE");
+                return SUCCESS;
+            }
+        }
     }
 
     public String share() {
@@ -161,24 +177,25 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
             share = (ArrayList<Flights>) userSession.get("SHARE");
         } else {
             share = new ArrayList<Flights>();}
-
-        if (cart.size() == 1) {
+        if (cart.size()>1) {
+            share.add(cart.get(flightCt2-1));
+            userSession.put("SHARE", share);
+            cart.remove(flightCt2-1);
+            userSession.put("CART", cart);
+            return SUCCESS;
+        } else if (cart.size()==1) {
             if (share.size() == 0) {
-                userSession.put("SHARE", cart);
+                share.add(cart.get(flightCt2-1));
+                userSession.put("SHARE", share);
                 return SUCCESS;
             } else if (share.size() == cart.size()) {
+                share.remove(0);
+                share.add(cart.get(flightCt2-1));
                 userSession.put("SHARE", cart);
-                return SUCCESS;
-            }
-        } else {
-            if (cart.size()>1) {
-                userSession.put("SHARE", cart.get(flightCt2-1));
-                cart.remove(flightCt2-1);
                 return SUCCESS;
             }
         }
         return SUCCESS;
-
     }
 
     @Override
@@ -288,5 +305,13 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
 
     public void setFlightCt2(int flightCt2) {
         this.flightCt2 = flightCt2;
+    }
+
+    public int getFlightCt3() {
+        return flightCt3;
+    }
+
+    public void setFlightCt3(int flightCt3) {
+        this.flightCt3 = flightCt3;
     }
 }
