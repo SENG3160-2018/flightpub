@@ -23,6 +23,27 @@
     <link rel="stylesheet" type="text/css" href="../dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../dist/css/styles.css">
     <sx:head />
+
+    <%-- Styling for Message boxes --%>
+    <style type="text/css">
+        .message {
+            background-color:#DDFFDD;
+            border:1px solid #009900;
+            width:200px;
+        }
+        .message li{
+            list-style: none;
+        }
+        .errors {
+            background-color:#FFCCCC;
+            border:1px solid #CC0000;
+            width:400px;
+            margin-bottom:8px;
+        }
+        .errors li{
+            list-style: none;
+        }
+    </style>
 </head>
 <body>
 

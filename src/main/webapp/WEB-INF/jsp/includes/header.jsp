@@ -51,3 +51,14 @@
         </nav>
     </div>
 </header>
+
+<s:if test="hasActionMessages()">
+    <div class="message">
+        <s:actionmessage/>
+    </div>
+</s:if>
+<s:if test="hasActionErrors()">
+    <div class="errors">
+        <s:actionerror/>
+    </div>
+</s:if>

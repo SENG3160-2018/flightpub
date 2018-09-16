@@ -63,6 +63,7 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
         }
 
         userSession.put("CART", cart);
+        addActionMessage("Flight/s added to cart!");
 
         return SUCCESS;
     }
@@ -94,6 +95,7 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
         userSession.put("CART", cart);
 
         flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
+        addActionMessage("Flight added to cart!");
         return SUCCESS;
     }
 
@@ -106,14 +108,17 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
             cart = (ArrayList<Flights>) userSession.get("CART");
             if (cart.size()==passengers){
                 userSession.get("CART");
+                addActionMessage("Not purchasing on behalf of the group? Click the Share Flight button!");
                 return SUCCESS;
             } else {
                 flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
+                addActionError("You haven't added flights for every member travelling!");
                 return ERROR;
             }
 
         } else {
             flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
+            addActionError("You haven't added any flights yet!");
             return ERROR;
         }
     }
@@ -124,6 +129,7 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
         cart.remove(flightCt-1);
         userSession.put("CART", cart);
         flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
+        addActionMessage("Flight removed from cart!");
         return SUCCESS;
     }
 
@@ -132,6 +138,7 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
         if (cart.size()==0){
             userType = userSession.get("USER_TYPE").toString();
             flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
+            addActionError("No more flights in cart!");
             return ERROR;
         } else {
             cart.remove(flightCt2-1);
@@ -141,9 +148,11 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
                     userSession.remove("SHARE");
                 }
                 flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
+                addActionError("No more flights in cart!");
                 return ERROR;
             } else {
                 userSession.put("CART", cart);
+                addActionMessage("Flight removed from cart!");
                 return SUCCESS;
             }
         }
