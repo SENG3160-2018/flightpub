@@ -52,8 +52,13 @@
             <artifactId>mail</artifactId>
             <version>1.4</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-junit-plugin</artifactId>
+            <version>2.3.1.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-
 
     <packaging>war</packaging>
     <build>
