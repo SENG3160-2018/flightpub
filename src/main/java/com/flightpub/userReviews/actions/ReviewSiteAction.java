@@ -2,17 +2,12 @@ package com.flightpub.userReviews.actions;
 
 import com.flightpub.base.hibernate.dao.ReviewsDAO;
 import com.flightpub.base.hibernate.dao.ReviewsDAOImpl;
-import com.flightpub.base.hibernate.listener.HibernateListener;
 import com.flightpub.base.model.Review;
 import com.opensymphony.xwork2.ActionSupport;
-import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.interceptor.SessionAware;
-import org.hibernate.SessionFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * ReviewSiteAction

@@ -7,7 +7,7 @@
 <struts>
     <constant name="struts.devMode" value="true"/>
 
-    <package name = "default" extends = "struts-default" namespace="/">
+    <package name = "default" extends = "struts-default">
         <action name="home" class="com.flightpub.base.actions.HomeAction">
             <result>/WEB-INF/jsp/index.jsp</result>
         </action>
