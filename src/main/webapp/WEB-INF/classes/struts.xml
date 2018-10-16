@@ -15,7 +15,8 @@
         <action name="search"
                 method="display"
                 class="com.flightpub.queryFlights.actions.SearchAction">
-            <result>/WEB-INF/jsp/query_flights/search_${userType}.jsp</result>
+            <result name="success">/WEB-INF/jsp/query_flights/search_${userType}.jsp</result>
+            <result name="error" type="redirectAction">home</result>
         </action>
         <action name="results"
                 method="execute"

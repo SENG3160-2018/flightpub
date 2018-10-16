@@ -45,6 +45,11 @@ public class SearchAction extends ActionSupport implements SessionAware {
     private String carrier;
 
     public String display() {
+        // Redirect home if no userType
+        if (userType == null) {
+            return ERROR;
+        }
+
         userSession.put("USER_TYPE", userType);
 
         // Get destinations
