@@ -15,8 +15,6 @@ public class HomeActionTest extends StrutsTestCase {
     }
 
     public void testGetActionProxy() throws Exception {
-        super.setUp();
-
         ActionProxy proxy = getActionProxy("/home.action");
         assertNotNull(proxy);
 
