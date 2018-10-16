@@ -2,7 +2,6 @@ package QueryFlights;
 
 import com.flightpub.queryFlights.actions.SearchAction;
 import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionProxy;
 import org.apache.struts2.StrutsTestCase;
 import org.apache.struts2.dispatcher.mapper.ActionMapping;
@@ -50,5 +49,9 @@ public class SearchActionTest extends StrutsTestCase {
         assertTrue("Ticket Types is empty.", !action.getTicketTypes().isEmpty());
         assertTrue("Ticket Classes is empty.", !action.getTicketClasses().isEmpty());
         assertTrue("Airlines is empty.", !action.getAirlines().isEmpty());
+    }
+
+    public void testSearchExecute() {
+
     }
 }
