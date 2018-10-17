@@ -21,7 +21,10 @@ public class ConfirmationAction extends ActionSupport implements SessionAware {
     private Map<String, Object> userSession;
 
     public String execute() {
-        userSession.remove("CART");
+        // If business user then do not yet delete the cart as it is used to generate the email/receipt.
+        if (!userSession.get("USER_TYPE").toString().equals("business")) {
+            userSession.remove("CART");
+        }
         return SUCCESS;
     }
 
