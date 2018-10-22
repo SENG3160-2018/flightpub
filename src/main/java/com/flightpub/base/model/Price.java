@@ -1,5 +1,8 @@
 package com.flightpub.base.model;
 
+import com.sun.istack.internal.Nullable;
+import javafx.beans.DefaultProperty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -19,11 +22,11 @@ public class Price implements Serializable {
     @Column(name = "Price")
     private double price;
 
-    @Column(name = "PriceLeg1")
-    private double price1;
+    @Column(name = "PriceLeg1", nullable = true)
+    private Double price1;
 
-    @Column(name = "PriceLeg2")
-    private double price2;
+    @Column(name = "PriceLeg2", nullable = true)
+    private Double price2;
 
     @Id
     @Column(name = "ClassCode")
@@ -94,19 +97,27 @@ public class Price implements Serializable {
         this.endDate = endDate;
     }
 
-    public double getPrice1() {
+    public Double getPrice1() {
         return price1;
     }
 
-    public void setPrice1(double price1) {
-        this.price1 = price1;
+    public void setPrice1(Double price1) {
+        if (Double.valueOf(price1) != null) {
+            this.price1 = price1;
+        } else {
+            this.price1 = 0.0;
+        }
     }
 
-    public double getPrice2() {
+    public Double getPrice2() {
         return price2;
     }
 
-    public void setPrice2(double price2) {
-        this.price2 = price2;
+    public void setPrice2(Double price2) {
+        if (Double.valueOf(price2) != null) {
+            this.price2 = price2;
+        } else {
+            this.price2 = 0.0;
+        }
     }
 }

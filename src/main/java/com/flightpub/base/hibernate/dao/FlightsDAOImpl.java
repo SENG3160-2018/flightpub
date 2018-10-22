@@ -20,7 +20,7 @@ import java.util.*;
  * DB query mappings for Flights table
  */
 public class FlightsDAOImpl implements FlightsDAO {
-    static EntityManager EM = Persistence.createEntityManagerFactory("FlightPub").createEntityManager();
+    private EntityManager EM = Persistence.createEntityManagerFactory("FlightPub").createEntityManager();
     private List<Predicate> predicates;
 
     @Override
@@ -44,17 +44,32 @@ public class FlightsDAOImpl implements FlightsDAO {
 
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Iterator it = params.entrySet().iterator();
+
+        // Iterate to first find destination code
+        String destination = "";
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            if (pair.getKey().equals("arrivalCode")) {
+                destination = pair.getValue().toString();
+            }
+        }
+
+        it = params.entrySet().iterator();
         predicates = new ArrayList<Predicate>();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
 
             if (pair.getKey().equals("directFlightsOnly")) {
-                predicates.add(builder.isNull(root.get(Flights_.stopOverCode)));
+                Predicate stopOverIsDestination = builder.equal(root.get(Flights_.stopOverCode), destination);
+                Predicate stopOverIsNull = builder.isNull(root.get(Flights_.stopOverCode));
+                predicates.add(builder.or(stopOverIsDestination, stopOverIsNull));
             } else if (pair.getKey().equals("departureCode")) {
                 predicates.add(builder.equal(root.get(Flights_.departure), pair.getValue()));
             } else if (pair.getKey().equals("arrivalCode")) {
                 // Query flights where stopover OR destination is equal to param
-                predicates.add(builder.equal(root.get(Flights_.stopOverCode), pair.getValue()));
+                Predicate stopOver = builder.equal(root.get(Flights_.stopOverCode), pair.getValue());
+                Predicate destinationPred = builder.equal(root.get(Flights_.destination), pair.getValue());
+                predicates.add(builder.or(stopOver, destinationPred));
             } else if (pair.getKey().equals("carrier")) {
                 predicates.add(builder.equal(root.get(Flights_.airlineCode), pair.getValue()));
             } else if (pair.getKey().equals("date")) {
@@ -64,7 +79,11 @@ public class FlightsDAOImpl implements FlightsDAO {
                     endDate.setTime(df.parse(start));
                     endDate.add(Calendar.DAY_OF_MONTH, 1);
 
-                    predicates.add(builder.between(root.get(Flights_.departureTime), df.parse(start), endDate.getTime()));
+                    Predicate before = builder.greaterThanOrEqualTo(root.get(Flights_.departureTime), df.parse(start));
+                    Predicate after = builder.lessThanOrEqualTo(root.get(Flights_.departureTime), endDate.getTime());
+
+                    predicates.add(before);
+                    predicates.add(after);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
