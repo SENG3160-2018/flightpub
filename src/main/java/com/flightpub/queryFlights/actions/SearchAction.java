@@ -73,6 +73,9 @@ public class SearchAction extends ActionSupport implements SessionAware {
     }
 
     public String execute() {
+        // Clear all existing flights for new search
+        flights.clear();
+
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
         if (userSession.get("USER_TYPE") == null && userType == null) {
@@ -120,6 +123,10 @@ public class SearchAction extends ActionSupport implements SessionAware {
             // Iterate flights
             for (Flights f : initialLeg) {
                 if (f.getDestination().equals(dstCode)) {
+                    // Destination == first destination
+                    flights.add(f);
+                } else if (f.getStopOverCode() != null && f.getStopOverCode().equals(dstCode)) {
+                    // Destination == first stopover
                     flights.add(f);
                 } else {
                     // Get all flights departing from f.destination and arriving in dstCode
@@ -135,6 +142,23 @@ public class SearchAction extends ActionSupport implements SessionAware {
                         newFlight.setConnectingFlight(f2);
 
                         flights.add(newFlight);
+                    }
+
+                    // Now fet all flights departing from first stopover and arriving in dstCode
+                    if (f.getStopOverCode() != null) {
+                        params2 = new HashMap<String, String>();
+                        params2.put("departureCode", f.getStopOverCode());
+                        params2.put("arrivalCode", dstCode);
+                        params2.put("date", df.format(f.getArrivalTime()));
+
+                        secondLeg = flightsDAO.getFlights(params2);
+                        // Iterate secondLeg and create combinations
+                        for (Flights f2 : secondLeg) {
+                            Flights newFlight = f;
+                            newFlight.setConnectingFlight(f2);
+
+                            flights.add(newFlight);
+                        }
                     }
                 }
             }
@@ -174,33 +198,46 @@ public class SearchAction extends ActionSupport implements SessionAware {
             }
 
             // Calculate number of legs and price
-            if (f.getStopOverCode() != null && f.getStopOverCode().equals(dstCode)) {
-                f.setTotalLegs(1);
-                f.setTotalPrice(f.getPrice().getPrice1());
-            } else if (f.getDestination().equals(dstCode)) {
-                if (f.getStopOverCode() != null) {
-                    f.setTotalLegs(2);
-                } else {
+            try {
+                if (f.getStopOverCode() != null && f.getStopOverCode().equals(dstCode)) {
+                    // Case 1: Destination == first stopover
                     f.setTotalLegs(1);
-                }
-                f.setTotalPrice(f.getPrice().getPrice());
-            } else if (f.hasConnectingFlight() && f.getConnectingFlight().getStopOverCode().equals(dstCode)) {
-                if (f.getStopOverCode() != null) {
-                    f.setTotalLegs(3);
+                    f.setTotalPrice(f.getPrice().getPrice1());
+                } else if (f.getDestination().equals(dstCode)) {
+                    if (f.getStopOverCode() != null) {
+                        // Case 2: Destination == first destination but flight has stopover
+                        f.setTotalLegs(2);
+                    } else {
+                        // Case 3: Destination == first destination with no stopover
+                        f.setTotalLegs(1);
+                    }
+                    f.setTotalPrice(f.getPrice().getPrice());
+                } else if (f.hasConnectingFlight() && f.getConnectingFlight().getStopOverCode() != null && f.getConnectingFlight().getStopOverCode().equals(dstCode)) {
+                    if (f.getStopOverCode() != null) {
+                        // Case 4: Destination == second flights stopover, and first flight has a stopover
+                        f.setTotalLegs(3);
+                    } else {
+                        // Case 5: Destination == second flight stopover, and first flight has no stopover
+                        f.setTotalLegs(2);
+                    }
+                    f.setTotalPrice(f.getPrice().getPrice() + f.getConnectingFlight().getPrice().getPrice1());
                 } else {
-                    f.setTotalLegs(2);
+                    if (f.getStopOverCode() != null && f.getConnectingFlight().getStopOverCode() != null) {
+                        // Case 6: Destination == second flight destination and both flights have stopovers
+                        f.setTotalLegs(4);
+                    } else if (f.getStopOverCode() != null || f.getConnectingFlight().getStopOverCode() != null) {
+                        // Case 7: Destination == second flight destination and only 1 of the flights has a stopover
+                        f.setTotalLegs(3);
+                    } else {
+                        // Case 8: Destination == second flight destination and no flights have stopovers
+                        f.setTotalLegs(2);
+                    }
+                    f.setTotalPrice(f.getPrice().getPrice() + f.getConnectingFlight().getPrice().getPrice());
                 }
-
-                f.setTotalPrice(f.getPrice().getPrice() + f.getConnectingFlight().getPrice().getPrice1());
-            } else {
-                if (!f.getStopOverCode().equals("") && !f.getConnectingFlight().getStopOverCode().equals("")) {
-                    f.setTotalLegs(4);
-                } else if (!f.getStopOverCode().equals("") || !f.getConnectingFlight().getStopOverCode().equals("")) {
-                    f.setTotalLegs(3);
-                } else {
-                    f.setTotalLegs(2);
-                }
-                f.setTotalPrice(f.getPrice().getPrice() + f.getConnectingFlight().getPrice().getPrice());
+            } catch (NullPointerException e) {
+                // Error in this flight - remove it from results
+                toRemove.add(f);
+                continue;
             }
 
             if (minPrice > 0 && f.getTotalPrice() < minPrice) {
