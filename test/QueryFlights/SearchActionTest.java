@@ -1,13 +1,16 @@
 package QueryFlights;
 
+import com.flightpub.base.model.Flights;
 import com.flightpub.queryFlights.actions.SearchAction;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionProxy;
 import org.apache.struts2.StrutsTestCase;
 import org.apache.struts2.dispatcher.mapper.ActionMapping;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpSession;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class SearchActionTest extends StrutsTestCase {
     public void testGetActionMapping() {
@@ -51,7 +54,36 @@ public class SearchActionTest extends StrutsTestCase {
         assertTrue("Airlines is empty.", !action.getAirlines().isEmpty());
     }
 
+    // Case 1. Business flight - no connecting
     public void testSearchExecute() {
+        ActionProxy proxy = getActionProxy("/search.action");
+        SearchAction action = (SearchAction) proxy.getAction();
+        Map session = new HashMap();
+        action.setSession(session);
 
+        action.setUserType("business");
+        action.setDptCode("MEL");
+        action.setDstCode("SYD");
+        action.setTcktClass("ECO");
+        action.setTcktType("F");
+        try {
+            action.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("23/09/2017"));
+        } catch (ParseException e) {
+            // Invalid date
+        }
+        action.setDirectFlightsOnly(true);
+        action.setStopOvers(-1);
+        action.setPassengers(-1);
+
+        String result = action.execute();
+        assertTrue("Available flights are empty when some should be shown.", !action.getFlights().isEmpty());
     }
+
+    // Case 2. Business flight - with connecting
+
+    // Case 3. Business flight - no results
+
+    // Case 4. Couple flight
+
+    // Case 5. Group flight
 }

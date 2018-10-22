@@ -75,13 +75,17 @@ public class SearchAction extends ActionSupport implements SessionAware {
     public String execute() {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
+        if (userSession.get("USER_TYPE") == null && userType == null) {
+            return ERROR;
+        } else if (userType == null && userSession.get("USER_TYPE") != null) {
+            userType = userSession.get("USER_TYPE").toString();
+        }
+
         userSession.put("PASSENGERS", passengers);
 
         if (userSession.containsKey("FLIGHTS")) {
             userSession.remove("FLIGHTS");
         }
-
-        userType = userSession.get("USER_TYPE").toString();
 
         HashMap<String, String> params = new HashMap<String, String>();
 
@@ -170,18 +174,18 @@ public class SearchAction extends ActionSupport implements SessionAware {
             }
 
             // Calculate number of legs and price
-            if (f.getStopOverCode().equals(dstCode)) {
+            if (f.getStopOverCode() != null && f.getStopOverCode().equals(dstCode)) {
                 f.setTotalLegs(1);
                 f.setTotalPrice(f.getPrice().getPrice1());
             } else if (f.getDestination().equals(dstCode)) {
-                if (!f.getStopOverCode().equals("")) {
+                if (f.getStopOverCode() != null) {
                     f.setTotalLegs(2);
                 } else {
                     f.setTotalLegs(1);
                 }
                 f.setTotalPrice(f.getPrice().getPrice());
             } else if (f.hasConnectingFlight() && f.getConnectingFlight().getStopOverCode().equals(dstCode)) {
-                if (!f.getStopOverCode().equals("")) {
+                if (f.getStopOverCode() != null) {
                     f.setTotalLegs(3);
                 } else {
                     f.setTotalLegs(2);
