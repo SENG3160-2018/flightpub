@@ -11,34 +11,34 @@
 
 <%@ include file="/WEB-INF/jsp/includes/head.jsp" %>
 
-<script>
-    $(document).ready(function() {
-        var max_fields      = 3;
-        var wrapper         = $(".addEmail");
-        var add_button      = $(".add_form_field");
+<%--<script>--%>
+    <%--$(document).ready(function() {--%>
+        <%--var max_fields      = 3;--%>
+        <%--var wrapper         = $(".addEmail");--%>
+        <%--var add_button      = $(".add_form_field");--%>
 
-        var x = 1;
-        $(add_button).click(function(e){
-            e.preventDefault();
-            if(x < max_fields){
-                x++;
-                $(wrapper).append('<td><input name="email'+ x +'" placeholder="Enter Friend\'s email"/>' +
-                    '\n' +
-                    '                <a href="#" class="delete">Remove</a></div>'); //add input box
+        <%--var x = 1;--%>
+        <%--$(add_button).click(function(e){--%>
+            <%--e.preventDefault();--%>
+            <%--if(x < max_fields){--%>
+                <%--x++;--%>
+                <%--$(wrapper).append('<td><input name="email'+ x +'" placeholder="Enter Friend\'s email"/>' +--%>
+                    <%--'\n' +--%>
+                    <%--'                <a href="#" class="delete">Remove</a></div>'); //add input box--%>
 
-            }
-            else
-            {
-                alert('Maximum number of Friends!')
-            }
-        });
+            <%--}--%>
+            <%--else--%>
+            <%--{--%>
+                <%--alert('Maximum number of Friends!')--%>
+            <%--}--%>
+        <%--});--%>
 
-        $(wrapper).on("click",".delete", function(e){
-            e.preventDefault(); $(this).parent('div').remove(); x--;
-        })
+        <%--$(wrapper).on("click",".delete", function(e){--%>
+            <%--e.preventDefault(); $(this).parent('div').remove(); x--;--%>
+        <%--})--%>
 
-    });
-</script>
+    <%--});--%>
+<%--</script>--%>
 
 <div class="container">
     <div id="progress" class="container p-5"  style="background-image: url('../../assets/clouds.jpeg')">
@@ -64,7 +64,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <s:iterator value="%{#session.CART}" var="flight">
+                            <s:iterator value="%{#session.CART}" var="flight" status="itStatus">
                                 <tr>
                                     <td scope="row">
                                         <fmt:formatDate value="${departureTime}" pattern="dd/MM/YY HH:mm" />
@@ -77,41 +77,62 @@
                                     <td>
                                         <fmt:formatNumber value="${totalPrice}" type="currency" currencySymbol="$"/>
                                     </td>
+                                    <td>
+                                        <a href="<s:url action="removeCartCO">
+                                        <s:param name="flightCt2">${itStatus.count}</s:param>
+                                        </s:url>">Remove from Cart</a>
+                                    </td>
+                                    <c:if test="${userType.equals('group')}">
+                                        <td>
+                                            <a href="<s:url action="share">
+                                            <s:param name="flightCt2">${itStatus.count}</s:param>
+                                            </s:url>">Share with a Friend</a>
+                                        </td>
+                                    </c:if>
                                 </tr>
                             </s:iterator>
-                            <c:if test="${userType.equals('group')}">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12"><c:if test="${session.SHARE!=null}"><h2>Share Flights</h2></c:if>
+                    <table class="table table-hover">
+                        <thead><c:if test="${session.SHARE!=null}">
+                            <tr>
+                                <th scope="col">Departure Time</th>
+                                <th scope="col">Arrival Time</th>
+                                <th scope="col">Departure City</th>
+                                <th scope="col">Cabin Class</th>
+                                <th scope="col">Price</th>
+                            </tr></c:if>
+                        </thead>
+                        <tbody>
+                            <s:iterator value="%{#session.SHARE}" var="flight" status="itStatus">
                                 <tr>
-                                    <h2>Not booking for everyone, but still want your friends to know about this flight? Click the Share with a friend button!</h2>
+                                    <td scope="row">
+                                        <fmt:formatDate value="${departureTime}" pattern="dd/MM/YY HH:mm" />
+                                    </td>
+                                    <td>${flight.departure}</td>
+                                    <td>
+                                        <fmt:formatDate value="${arrivalTime}" pattern="dd/MM/YY HH:mm" />
+                                    </td>
+                                    <td>${price.classCode}</td>
+                                    <td>
+                                        <fmt:formatNumber value="${totalPrice}" type="currency" currencySymbol="$"/>
+                                    </td>
+                                    <div class="addEmail">
+                                        <td>
+                                            <input name="email1" placeholder="Enter Friend's email"/>
+                                        </td>
+                                    </div>
+                                    <%--<td><button class="add_form_field">Add another email&nbsp; <span style="font-size:16px; font-weight:bold;">+ </span></button></td>--%>
+                                    <td>
+                                        <a href="<s:url action="emailFriend"><s:param name="flightCt3">${itStatus.count}</s:param></s:url>">Email Friends</a>
+                                    </td>
+                                    <td>
+                                        <a href="<s:url action="undo"></s:url>">Undo</a>
+                                    </td>
                                 </tr>
-                                <s:iterator value="%{#session.SHARE}" var="flight" status="itStatus">
-                                    <tr>
-                                        <td scope="row">
-                                            <fmt:formatDate value="${departureTime}" pattern="dd/MM/YY HH:mm" />
-                                        </td>
-                                        <td>${flight.departure}</td>
-                                        <td>
-                                            <fmt:formatDate value="${arrivalTime}" pattern="dd/MM/YY HH:mm" />
-                                        </td>
-                                        <td>${flight.destination}</td>
-                                        <td>${price.classCode}</td>
-                                        <td>
-                                            <fmt:formatNumber value="${totalPrice}" type="currency" currencySymbol="$"/>
-                                        </td>
-                                        <div class="addEmail">
-                                            <td>
-                                                <input name="email1" placeholder="Enter Friend's email"/>
-                                            </td>
-                                        </div>
-                                        <td><button class="add_form_field">Add another email&nbsp; <span style="font-size:16px; font-weight:bold;">+ </span></button></td>
-                                        <td>
-                                            <a href="<s:url action="emailFriend"><s:param name="flightCt3">${itStatus.count}</s:param></s:url>">Email Friends</a>
-                                        </td>
-                                        <td>
-                                            <a href="<s:url action="undo"></s:url>">Undo</a>
-                                        </td>
-                                    </tr>
-                                </s:iterator>
-                            </c:if>
+                            </s:iterator>
                         </tbody>
                     </table>
                 </div>

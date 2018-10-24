@@ -49,6 +49,12 @@ public class SearchAction extends ActionSupport implements SessionAware {
         if (userType == null) {
             return ERROR;
         }
+        if (userSession.containsKey("USER_TYPE")){
+            userSession.remove("USER_TYPE");
+        }
+        if (userSession.containsKey("CART")){
+            userSession.remove("CART");
+        }
 
         userSession.put("USER_TYPE", userType);
 

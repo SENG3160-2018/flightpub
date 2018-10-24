@@ -29,7 +29,13 @@
         .message {
             background-color:#DDFFDD;
             border:1px solid #009900;
-            width:200px;
+            display: flex;
+            justify-content: center;;
+            width:400px;
+            margin-left: auto;
+            margin-right: auto;
+            -webkit-animation-duration: 10s;animation-duration: 10s;
+            -webkit-animation-fill-mode: both;animation-fill-mode: both
         }
         .message li{
             list-style: none;
@@ -37,11 +43,31 @@
         .errors {
             background-color:#FFCCCC;
             border:1px solid #CC0000;
+            display: flex;
+            justify-content: center;
             width:400px;
             margin-bottom:8px;
+            margin-left: auto;
+            margin-right: auto;
+            -webkit-animation-duration: 10s;animation-duration: 10s;
+            -webkit-animation-fill-mode: both;animation-fill-mode: both
         }
         .errors li{
             list-style: none;
+        }
+        @-webkit-keyframes fadeOut {
+            0% {opacity: 1;}
+            100% {opacity: 0;}
+        }
+
+        @keyframes fadeOut {
+            0% {opacity: 1;}
+            100% {opacity: 0;}
+        }
+
+        .fadeOut {
+            -webkit-animation-name: fadeOut;
+            animation-name: fadeOut;
         }
     </style>
 </head>

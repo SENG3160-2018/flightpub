@@ -26,7 +26,6 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
     private String flightNumber;
 
     private List<Flights> flights;
-
     private List<Flights> cart;
     private List<Flights> share;
     private Map<String, Object> userSession;
@@ -63,7 +62,6 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
         }
 
         userSession.put("CART", cart);
-        addActionMessage("Flight/s added to cart!");
 
         return SUCCESS;
     }
@@ -75,8 +73,9 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
 
         if (userSession.containsKey("CART")) {
             cart = (ArrayList<Flights>) userSession.get("CART");
-            if (cart.size() - 1 == passengers){
+            if (cart.size() == passengers){
                 flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
+                addActionError("You can not add more flights than there are passengers travelling. Remove flights from cart or proceed to checkout.");
                 return ERROR;
             }
         } else {
@@ -95,7 +94,7 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
         userSession.put("CART", cart);
 
         flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
-        addActionMessage("Flight added to cart!");
+        addActionMessage("Flight added to cart! "+(passengers-cart.size())+" remaining.");
         return SUCCESS;
     }
 
@@ -112,13 +111,13 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
                 return SUCCESS;
             } else {
                 flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
-                addActionError("You haven't added flights for every member travelling!");
+                addActionError("You haven't added flights for every member travelling! "+(passengers-cart.size())+" remaining.");
                 return ERROR;
             }
 
         } else {
             flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
-            addActionError("You haven't added any flights yet!");
+            addActionError("You haven't added any flights yet! "+(passengers-cart.size())+" remaining.");
             return ERROR;
         }
     }
@@ -161,16 +160,17 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
     public String undo() {
         share = (ArrayList<Flights>) userSession.get("SHARE");
         cart = (ArrayList<Flights>) userSession.get("CART");
+        userType = userSession.get("USER_TYPE").toString();
         String p = userSession.get("PASSENGERS").toString();
         passengers = Integer.parseInt(p);
         if (passengers == 1) {
             userSession.remove("SHARE");
             return SUCCESS;
         } else {
-            cart.add(share.get(flightCt3 - 1));
+            cart.add(share.get(flightCt3));
             userSession.put("CART", cart);
             if (share.size() > 1) {
-                share.remove(flightCt3 - 1);
+                share.remove(flightCt3);
                 userSession.put("SHARE", share);
                 return SUCCESS;
             } else {
@@ -182,6 +182,7 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
 
     public String share() {
         cart = (ArrayList<Flights>) userSession.get("CART");
+        userType = userSession.get("USER_TYPE").toString();
         if (userSession.containsKey("SHARE")) {
             share = (ArrayList<Flights>) userSession.get("SHARE");
         } else {
