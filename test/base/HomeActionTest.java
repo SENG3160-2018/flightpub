@@ -10,7 +10,7 @@ public class HomeActionTest extends StrutsTestCase {
     public void testGetActionMapping() {
         ActionMapping mapping = getActionMapping("/home.action");
         assertNotNull(mapping);
-        assertEquals("/home", mapping.getNamespace());
+        assertEquals("/", mapping.getNamespace());
         assertEquals("home", mapping.getName());
     }
 
