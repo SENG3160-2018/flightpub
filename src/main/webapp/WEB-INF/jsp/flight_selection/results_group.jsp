@@ -19,7 +19,20 @@
         </div>
     </div>
 </div>
+<div><br /></div>
+<s:if test="hasActionMessages()">
+    <div class="message fadeOut">
+        <s:actionmessage/>
+    </div>
+</s:if>
+<s:if test="hasActionErrors()">
+    <div class="errors fadeOut">
+        <s:actionerror/>
+    </div>
+</s:if>
+
 <div id="results" class="container mt-5">
+    <c:if test="${not passengers.equals(cart.size())}">
     <div class="row">
         <div class="col">
             <p class="h4">Results.</p>
@@ -63,38 +76,11 @@
                             </td>
                         </tr>
                     </s:iterator>
-                    <tr>
-                        <td>Your Friend's flight:</td>
-                    </tr>
-                    <s:iterator value="flights" var="flight">
-                        <tr>
-                            <td scope="row">
-                                <fmt:formatDate value="${departureTime}" pattern="HH:mm" />
-                            </td scope="row">
-                            <td scope="row">${flight.departure}</td>
-                            <td scope="row">
-                                <fmt:formatDate value="${arrivalTime}" pattern="HH:mm" />
-                            </td>
-                            <td scope="row">${flight.destination}</td>
-                            <td scope="row">${price.classCode}</td>
-                            <td scope="row">
-                                <fmt:formatNumber value="${totalPrice}" type="currency" currencySymbol="$"/>
-                            </td>
-                            <td class="text-white">
-                                <a href="<s:url action="addToGroup">
-                                <s:param name="flightId" value="%{id}" />
-                                <s:param name="airline" value="%{price.airlineCode}" />
-                                <s:param name="tcktClass" value="%{price.classCode}" />
-                                <s:param name="tcktType" value="%{price.ticketCode}" />
-                                <s:param name="flightNumber" value="%{flightNumber}" />
-                            </s:url>" role="button" class="btn btn-primary btn-sm float-right">Add to Cart</a>
-                            </td>
-                        </tr>
-                    </s:iterator>
                 </tbody>
             </table>
         </div>
     </div>
+</c:if>
     <div class="row mt-5">
         <div class="col">
             <%@ include file="/WEB-INF/jsp/recommendations/friends.jsp" %>

@@ -18,6 +18,17 @@
         </div>
     </div>
 </div>
+<div><br /></div>
+<s:if test="hasActionMessages()">
+    <div class="message fadeOut">
+        <s:actionmessage/>
+    </div>
+</s:if>
+<s:if test="hasActionErrors()">
+    <div class="errors fadeOut">
+        <s:actionerror/>
+    </div>
+</s:if>
 <div id="results" class="container mt-5">
     <div class="row">
         <div class="col">
