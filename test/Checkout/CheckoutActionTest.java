@@ -79,4 +79,39 @@ public class CheckoutActionTest extends StrutsTestCase {
         assertTrue("Flight was added to cart when it should not have been.", action.getCart().size()==1);
     }
 
+    public void testGroupCheckout() {
+//        Case 2 - Checking that enough flights have been selected for the group travelling
+        ActionProxy proxy = getActionProxy("/checkout.action");
+        CheckoutAction action = (CheckoutAction) proxy.getAction();
+
+        Map session = new HashMap();
+        session.put("USER_TYPE", "group");
+        session.put("PASSENGERS", 2);
+        action.setSession(session);
+
+//        Selecting no flights
+        String result = action.groupCheckout();
+        assertEquals(Action.ERROR, result);
+
+//        Selecting less flights than the number of passengers
+        action.setFlightId(1);
+        action.setTcktClass("ECO");
+        action.setTcktType("D");
+        action.addToGroup();
+
+        result = action.groupCheckout();
+        assertEquals(Action.ERROR, result);
+
+//        Selecting the enough flights to meet the number of passengers
+        action.setFlightId(1);
+        action.setTcktClass("ECO");
+        action.setTcktType("D");
+        action.addToGroup();
+
+        result = action.groupCheckout();
+        assertEquals(Action.SUCCESS, result);
+    }
+
+
+
 }

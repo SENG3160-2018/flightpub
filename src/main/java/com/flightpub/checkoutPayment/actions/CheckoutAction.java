@@ -117,7 +117,7 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
 
         } else {
             flights = (ArrayList<Flights>) userSession.get("FLIGHTS");
-            addActionError("You haven't added any flights yet! "+(passengers-cart.size())+" remaining.");
+            addActionError("You haven't added any flights yet! "+passengers+" remaining.");
             return ERROR;
         }
     }
