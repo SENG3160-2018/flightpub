@@ -49,4 +49,34 @@ public class CheckoutActionTest extends StrutsTestCase {
         assertEquals(Action.SUCCESS, result);
         assertTrue("Cart is empty.", !action.getCart().isEmpty());
     }
+
+    public void testAddToGroup() {
+        //Case 1
+        // Test params that should be added to cart
+        ActionProxy proxy = getActionProxy("/checkout.action");
+        CheckoutAction action = (CheckoutAction) proxy.getAction();
+
+        Map session = new HashMap();
+        session.put("USER_TYPE", "group");
+        session.put("PASSENGERS", 1);
+        action.setSession(session);
+
+        action.setFlightId(1);
+        action.setTcktClass("ECO");
+        action.setTcktType("D");
+
+        String result = action.addToGroup();
+        assertEquals(Action.SUCCESS, result);
+        assertTrue("Cart is empty.", !action.getCart().isEmpty());
+
+        //Ensure user can not add more flights to cart than there is passengers flying
+        action.setFlightId(1);
+        action.setTcktClass("ECO");
+        action.setTcktType("D");
+
+        result = action.addToGroup();
+        assertEquals(Action.ERROR, result);
+        assertTrue("Flight was added to cart when it should not have been.", action.getCart().size()==1);
+    }
+
 }
