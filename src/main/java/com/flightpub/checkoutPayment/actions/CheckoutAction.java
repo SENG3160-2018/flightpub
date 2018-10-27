@@ -148,6 +148,7 @@ public class CheckoutAction extends ActionSupport implements SessionAware {
                 return ERROR;
             } else {
                 userSession.put("CART", cart);
+                userType = userSession.get("USER_TYPE").toString();
                 addActionMessage("Flight removed from cart!");
                 return SUCCESS;
             }
