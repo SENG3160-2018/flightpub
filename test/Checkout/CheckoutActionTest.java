@@ -160,7 +160,19 @@ public class CheckoutActionTest extends StrutsTestCase {
         assertEquals(Action.SUCCESS, result);
         assertTrue("Flight was not added to share table when it should have.", action.getShare().size()==1&action.getCart().size()==1);
 
+//        One flight in cart shared
+        action.setFlightCt3(0);
+        action.undo();
+        action.removeCartCO();
+        action.setFlightCt2(1);
+        result = action.share();
+        assertEquals(Action.SUCCESS, result);
+        assertTrue("Flight was not added to share flight when it should have.", action.getShare().size()==1&action.getCart().size()==1);
 
+//        Prevent user from sharing unlimited flights
+        result = action.share();
+        assertEquals(Action.SUCCESS, result);
+        assertTrue("Previous shared flight should have been removed and flight in cart should have been added.", action.getShare().size()==1&action.getCart().size()==1);
     }
 
     public void testUndo(){
@@ -190,8 +202,16 @@ public class CheckoutActionTest extends StrutsTestCase {
         action.setFlightCt3(0);
         String result = action.undo();
         assertEquals(Action.SUCCESS, result);
-        assertTrue("Flight added back to cart", action.getCart().size()==2);
-//        &action.getShare().isEmpty()
+        assertTrue("Flight should have been removed from 'Share' and back to 'Cart'", action.getCart().size()==2&!session.containsKey("SHARE"));
+
+//        One passenger, removing 'share' cart
+        session.put("PASSENGERS", 1);
+        action.removeCartCO();
+        action.setFlightCt2(1);
+        action.share();
+        result = action.undo();
+        assertEquals(Action.SUCCESS, result);
+        assertTrue("There should only be one flight in cart and none in share", action.getCart().size()==1&!session.containsKey("SHARE"));
     }
 
     public void testRemoveCartCO() {
@@ -228,20 +248,20 @@ public class CheckoutActionTest extends StrutsTestCase {
         assertTrue("Flight was not removed from cart when it should have been", action.getCart().isEmpty());
 
 //        Empty cart after clicking share flight
-//        action.setFlightId(1);
-//        action.setTcktClass("ECO");
-//        action.setTcktType("D");
-//        action.addToGroup();
-//        action.setFlightId(2);
-//        action.setTcktClass("BUS");
-//        action.setTcktType("D");
-//        action.addToGroup();
-//        action.groupCheckout();
-//        action.setFlightCt2(1);
-//        action.share();
-//        result = action.removeCartCO();
-//        assertEquals(Action.ERROR, result);
-//        assertTrue("Flight was not removed from cart when it should have been", action.getCart().isEmpty()&action.getShare().isEmpty());
+        action.setFlightId(1);
+        action.setTcktClass("ECO");
+        action.setTcktType("D");
+        action.addToGroup();
+        action.setFlightId(2);
+        action.setTcktClass("BUS");
+        action.setTcktType("D");
+        action.addToGroup();
+        action.groupCheckout();
+        action.setFlightCt2(1);
+        action.share();
+        result = action.removeCartCO();
+        assertEquals(Action.ERROR, result);
+        assertTrue("Flight was not removed from cart when it should have been", action.getCart().isEmpty()&!session.containsKey("SHARE"));
     }
 
 }
