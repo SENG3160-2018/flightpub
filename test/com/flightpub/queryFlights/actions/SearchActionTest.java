@@ -1,6 +1,6 @@
-package QueryFlights;
+package com.flightpub.queryFlights.actions;
 
-import com.flightpub.queryFlights.actions.SearchAction;
+import com.flightpub.base.model.*;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionProxy;
 import org.apache.struts2.StrutsTestCase;
@@ -11,6 +11,14 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class SearchActionTest extends StrutsTestCase {
+    private SearchAction searchAction;
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        searchAction = new SearchAction();
+    }
+
     public void testGetActionMapping() {
         ActionMapping mapping = getActionMapping("/search.action");
         assertNotNull(mapping);
@@ -43,7 +51,7 @@ public class SearchActionTest extends StrutsTestCase {
 
         String result = action.display();
         assertEquals(Action.SUCCESS, result);
-        assertTrue("Destinations is empty.", !action.getAirlines().isEmpty());
+        assertTrue("Destinations is empty.", !action.getDestinations().isEmpty());
         assertTrue("Ticket Types is empty.", !action.getTicketTypes().isEmpty());
         assertTrue("Ticket Classes is empty.", !action.getTicketClasses().isEmpty());
         assertTrue("Airlines is empty.", !action.getAirlines().isEmpty());
@@ -316,5 +324,143 @@ public class SearchActionTest extends StrutsTestCase {
         result = action.execute();
         assertTrue("Available flights are not when they should be available.", !action.getFlights().isEmpty());
         assertEquals(Action.SUCCESS, result);
+    }
+
+    public void testSetSession() {
+        Map<String, Object> session = new HashMap<String, Object>();
+        searchAction.setSession(session);
+        assertEquals(session, searchAction.getUserSession());
+    }
+
+    public void testGetUserType() {
+        searchAction.setUserType("business");
+        assertEquals("business", searchAction.getUserType());
+    }
+
+    public void testGetDestinations() {
+        List<Destination> destinations = new ArrayList<Destination>();
+        destinations.add(new Destination());
+        searchAction.setDestinations(destinations);
+        assertEquals(1, searchAction.getDestinations().size());
+    }
+
+    public void testGetTicketClasses() {
+        List<TicketClass> ticketClasses = new ArrayList<TicketClass>();
+        ticketClasses.add(new TicketClass());
+        searchAction.setTicketClasses(ticketClasses);
+        assertEquals(1, searchAction.getTicketClasses().size());
+    }
+
+    public void testGetTicketTypes() {
+        List<TicketType> ticketTypes = new ArrayList<TicketType>();
+        ticketTypes.add(new TicketType());
+        searchAction.setTicketTypes(ticketTypes);
+        assertEquals(1, searchAction.getTicketTypes().size());
+    }
+
+    public void testGetAirlines() {
+        List<Airlines> airlines = new ArrayList<Airlines>();
+        airlines.add(new Airlines());
+        searchAction.setAirlines(airlines);
+        assertEquals(1, searchAction.getAirlines().size());
+    }
+
+    public void testGetFlights() {
+        List<Flights> flights = new ArrayList<Flights>();
+        flights.add(new Flights());
+        searchAction.setFlights(flights);
+        assertEquals(1, searchAction.getFlights().size());
+    }
+
+    public void testGetDptCode() {
+        searchAction.setDptCode("SYD");
+        assertEquals("SYD", searchAction.getDptCode());
+    }
+
+    public void testGetUserSession() {
+        Map<String, Object> session = new HashMap<String, Object>();
+        searchAction.setUserSession(session);
+        assertEquals(session, searchAction.getUserSession());
+    }
+
+    public void testGetDstCode() {
+        searchAction.setDstCode("SYD");
+        assertEquals("SYD", searchAction.getDstCode());
+    }
+
+    public void testGetTcktClass() {
+        searchAction.setTcktClass("BUS");
+        assertEquals("BUS", searchAction.getTcktClass());
+    }
+
+    public void testGetTcktType() {
+        searchAction.setTcktType("A");
+        assertEquals("A", searchAction.getTcktType());
+    }
+
+    public void testGetDate() {
+        Date date = new Date();
+        searchAction.setDate(date);
+        assertEquals(date, searchAction.getDate());
+    }
+
+    public void testIsDirectFlightsOnly() {
+        searchAction.setDirectFlightsOnly(true);
+        assertTrue(searchAction.isDirectFlightsOnly());
+    }
+
+    public void testIsArriveDayBefore() {
+        searchAction.setArriveDayBefore(true);
+        assertTrue(searchAction.isArriveDayBefore());
+    }
+
+    public void testIsIncludeReturn() {
+        searchAction.setIncludeReturn(true);
+        assertTrue(searchAction.isIncludeReturn());
+    }
+
+    public void testIsMultiCity() {
+        searchAction.setMultiCity(true);
+        assertTrue(searchAction.isMultiCity());
+    }
+
+    public void testIsSurroundingDays() {
+        searchAction.setSurroundingDays(true);
+        assertTrue(searchAction.isSurroundingDays());
+    }
+
+    public void testGetMinPrice() {
+        searchAction.setMinPrice(100);
+        assertEquals(100, searchAction.getMinPrice());
+    }
+
+    public void testGetMaxPrice() {
+        searchAction.setMaxPrice(2000);
+        assertEquals(2000, searchAction.getMaxPrice());
+    }
+
+    public void testGetStopOvers() {
+        searchAction.setStopOvers(1);
+        assertEquals(1, searchAction.getStopOvers());
+    }
+
+    public void testGetPassengers() {
+        searchAction.setPassengers(3);
+        assertEquals(3, searchAction.getPassengers());
+    }
+
+    public void testIsSameFlight() {
+        searchAction.setSameFlight(true);
+        assertTrue(searchAction.isSameFlight());
+    }
+
+    public void testIsGroupDiscount() {
+        searchAction.setGroupDiscount(true);
+        assertTrue(searchAction.isGroupDiscount());
+    }
+
+    public void testGetCarrier() {
+        searchAction.setCarrier("QTN");
+        assertEquals("QTN", searchAction.getCarrier());
     }
 }

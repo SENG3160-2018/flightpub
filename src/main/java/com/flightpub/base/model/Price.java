@@ -1,8 +1,5 @@
 package com.flightpub.base.model;
 
-import com.sun.istack.internal.Nullable;
-import javafx.beans.DefaultProperty;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -20,7 +17,7 @@ public class Price implements Serializable {
     private String flightNumber;
 
     @Column(name = "Price")
-    private double price;
+    private Double price;
 
     @Column(name = "PriceLeg1", nullable = true)
     private Double price1;
@@ -55,10 +52,10 @@ public class Price implements Serializable {
         this.flightNumber = flightNumber;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

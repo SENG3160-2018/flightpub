@@ -1,6 +1,5 @@
-package base;
+package com.flightpub.base.actions;
 
-import com.flightpub.base.actions.HomeAction;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionProxy;
 import org.apache.struts2.StrutsTestCase;
