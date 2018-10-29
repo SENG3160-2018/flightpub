@@ -20,16 +20,6 @@ public class AvailabilityDAOImpl implements AvailabilityDAO {
     static EntityManager EM = Persistence.createEntityManagerFactory("FlightPub").createEntityManager();
 
     @Override
-    public List<Availability> getAvailabilities() {
-        CriteriaBuilder builder = EM.getCriteriaBuilder();
-        CriteriaQuery<Availability> criteria = builder.createQuery(Availability.class);
-        Root<Availability> root = criteria.from(Availability.class);
-        criteria.select(root);
-
-        return EM.createQuery(criteria).getResultList();
-    }
-
-    @Override
     public Availability getAvailability(String airlineCode, String flightNumber, Date departureTime, String classCode, String ticketType) {
         CriteriaBuilder builder = EM.getCriteriaBuilder();
         CriteriaQuery<Availability> criteria = builder.createQuery(Availability.class);

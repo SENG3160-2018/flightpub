@@ -12,7 +12,5 @@ import java.util.List;
  * Consumed be FlightsDAOImpl
  */
 public interface AvailabilityDAO {
-
-    List<Availability> getAvailabilities();
     Availability getAvailability(String airlineCode, String flightNumber, Date departureTime, String classCode, String ticketType);
 }
