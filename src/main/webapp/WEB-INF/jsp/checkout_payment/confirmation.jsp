@@ -47,11 +47,17 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-6">
-                    <button type="submit" class="btn btn-primary float-right">Send</button>
+                    <button id="sendButton" onclick="changeText()" type="submit" class="btn btn-primary float-right">Send</button>
                 </div>
             </div>
         </div>
     </s:form>
 </div>
+
+<script>
+    function changeText() {
+        document.getElementById("sendButton").innerHTML = "Sending Email...";
+    }
+</script>
 
 <%@ include file="/WEB-INF/jsp/includes/foot.jsp" %>
