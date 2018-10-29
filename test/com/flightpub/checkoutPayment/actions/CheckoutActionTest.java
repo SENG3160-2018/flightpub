@@ -1,6 +1,5 @@
-package Checkout;
+package com.flightpub.checkoutPayment.actions;
 
-import com.flightpub.checkoutPayment.actions.CheckoutAction;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionProxy;
 import org.apache.struts2.StrutsTestCase;
