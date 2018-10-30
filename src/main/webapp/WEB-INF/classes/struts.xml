@@ -41,10 +41,6 @@
             <result>/WEB-INF/jsp/user_reviews/confirmation.jsp</result>
         </action>
 
-        <action name="surprise"
-                class="com.flightpub.recommendations.actions.SurpriseMeAction">
-            <result>/WEB-INF/jsp/recommendations/surprise_me.jsp</result>
-        </action>
         <action name="checkout"
                 method="execute"
                 class="com.flightpub.checkoutPayment.actions.CheckoutAction">

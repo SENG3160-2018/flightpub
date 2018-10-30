@@ -326,6 +326,11 @@ public class SearchActionTest extends StrutsTestCase {
         assertEquals(Action.SUCCESS, result);
     }
 
+    public void testGetTodayDate() {
+        Date date = searchAction.getTodayDate();
+        assertEquals(new Date().getDay(), date.getDay());
+    }
+
     public void testSetSession() {
         Map<String, Object> session = new HashMap<String, Object>();
         searchAction.setSession(session);
