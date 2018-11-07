@@ -40,7 +40,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="email">Recipient Email</label>
-                        <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                        <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required="">
                         <small id="emailHelp" class="form-text text-muted">The email address of the person receiving this receipt.</small>
                     </div>
                 </div>
