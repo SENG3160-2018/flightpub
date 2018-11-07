@@ -20,7 +20,14 @@
 
 <div id="receipt" class="container mt-5">
     <div class="container">
-        <p class="h4">Email Sent.</p>
+        <s:form action="search">
+            <div class="container">
+                <p class="h4">Email sent.</p>
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary float-right">Search again?</button>
+                </div>
+            </div>
+        </s:form>
     </div>
 
 </div>
